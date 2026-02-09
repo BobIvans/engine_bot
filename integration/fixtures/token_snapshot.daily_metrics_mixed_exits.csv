@@ -1,0 +1,4 @@
+mint,ts_snapshot,liquidity_usd,volume_24h_usd,spread_bps
+MINT_TP,,100000,100000,10
+MINT_SL,,100000,100000,10
+MINT_TIME,,100000,100000,10

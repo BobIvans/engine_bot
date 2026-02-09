@@ -1,0 +1,9 @@
+{
+    "baseline_hazard": 0.1,
+    "time_decay_factor": 0.001,
+    "weights": {
+        "smart_money_exit_count": 0.5,
+        "volatility_z_score": 0.2,
+        "volume_delta_pct": 0.1
+    }
+}

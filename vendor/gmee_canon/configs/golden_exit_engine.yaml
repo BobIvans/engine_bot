@@ -1,0 +1,64 @@
+# configs/golden_exit_engine.yaml — Minimal GMEE config (P0, canonical)
+# Variant A: queries/04_glue_select.sql is fully parameterized.
+
+engine:
+  model_version: "gmee-v0.4"
+
+# Numeric truth for storage retention (validated against schemas/clickhouse.sql)
+# NOTE: trades_ttl_days=0 means "keep long" and DDL must NOT set TTL for trades.
+retention:
+  signals_raw_ttl_days: 180
+  trade_attempts_ttl_days: 90
+  rpc_events_ttl_days: 90
+  microticks_ttl_days: 60
+  forensics_ttl_days: 180
+  trades_ttl_days: 0
+
+# Chain-specific defaults (P0: solana first; EVM can be added later with same keys)
+chain_defaults:
+  solana:
+    # Mode is selected by wallet avg_hold_sec (<= thresholds)
+    mode_thresholds_sec:
+      U: 35
+      S: 130
+      M: 220
+      # L = otherwise
+
+    # Contract mapping (asserted in CI against SQL implementation)
+    base_quantile_by_mode:
+      U: q10_hold_sec
+      S: q25_hold_sec
+      M: q40_hold_sec
+      L: median_hold_sec
+
+    planned_hold:
+      margin_mult_default: 1.00
+      clamp_sec:
+        min_hold_sec: 5
+        max_hold_sec: 900
+
+    epsilon:
+      pad_ms_default: 150
+      hard_bounds_ms:
+        min: 10
+        max: 2000
+
+    # Aggression triggers (price "ran away fast")
+    # pct is fraction: 0.03 = +3%
+    aggr_triggers:
+      U: { window_s: 12, pct: 0.03 }
+      S: { window_s: 30, pct: 0.06 }
+      M: { window_s: 60, pct: 0.10 }
+      L: { window_s: 90, pct: 0.15 }
+
+    # Microticks storage (MVP): 1s snapshots only post-entry window
+    microticks:
+      window_sec: 120
+
+tier1_capture:
+  enabled: false
+  fields:
+    - tx_size_bytes
+    - dex_route
+    - broadcast_spread_ms
+    - mempool_size_at_send

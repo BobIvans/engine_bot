@@ -1,0 +1,4 @@
+wallet_addr,roi_30d,winrate_30d,trades_30d,median_hold_sec,avg_size_usd,preferred_dex,memecoin_ratio
+W1,0.42,0.75,142,120,2500,Raydium,0.85
+W2,0.38,0.72,98,180,1890,Jupiter,0.80
+W3,0.55,0.85,45,90,3200,Orca,0.75

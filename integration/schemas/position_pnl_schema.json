@@ -1,0 +1,17 @@
+{
+  "schema_version": "position_pnl_v1",
+  "required": ["open_ts", "mint", "entry_price", "exit_price"],
+  "fields": {
+    "schema_version": {"type": "string", "optional": true, "allowed": ["position_pnl_v1"]},
+    "position_id": {"type": "string", "optional": true},
+    "signal_id": {"type": "string", "optional": true},
+    "open_ts": {"type": "string"},
+    "close_ts": {"type": "string", "optional": true},
+    "mint": {"type": "string", "min_length": 3},
+    "entry_price": {"type": "number", "constraints": {"gt": 0}},
+    "exit_price": {"type": "number", "constraints": {"gt": 0}},
+    "pnl_pct": {"type": "number", "optional": true},
+    "pnl_usd": {"type": "number", "optional": true},
+    "exit_reason": {"type": "string", "optional": true}
+  }
+}

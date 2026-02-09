@@ -1,0 +1,30 @@
+# integration/fixtures/tuning/sweep_config.yaml
+# Configuration for parameter sweep optimization
+#
+# PR-V.2
+
+# Parameter ranges to sweep
+# Each parameter is a list of values to try
+parameters:
+  min_hold_seconds:
+    - 0
+    - 60
+    - 120
+  max_hold_seconds:
+    - 300
+    - 600
+    - 900
+  min_pnl_pct:
+    - -10.0
+    - -5.0
+    - 0.0
+
+# Simulation settings
+simulation:
+  default_amount_sol: 0.1
+  slippage_bps: 50
+
+# Output settings
+output:
+  top_n: 10
+  file: leaderboard.v1.json

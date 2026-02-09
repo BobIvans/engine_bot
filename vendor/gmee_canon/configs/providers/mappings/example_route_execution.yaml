@@ -1,0 +1,21 @@
+# Example mapping: route/execution telemetry (non-wallet).
+# Can represent DEX routes, RPC arms, MEV-risk feeds, etc.
+provider_id: example_route_execution
+vars:
+  - var_name: route_mev_risk_score
+    entity_type: route
+    entity_id: $.response.route_id
+    ts: $.observed_ts
+    value: $.response.mev_risk_score
+    unit: score
+    confidence: $.response.confidence
+    value_type: float
+
+  - var_name: rpc_arm_pending_tx_count
+    entity_type: provider_arm
+    entity_id: $.response.arm_id
+    ts: $.observed_ts
+    value: $.response.pending_tx_count
+    unit: count
+    confidence: 1.0
+    value_type: int

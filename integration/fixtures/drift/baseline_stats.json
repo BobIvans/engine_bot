@@ -1,0 +1,24 @@
+{
+    "monitored_features": [
+        "feature_A"
+    ],
+    "buckets": {
+        "feature_A": {
+            "edges": [
+                0,
+                2,
+                4,
+                6,
+                8,
+                10
+            ],
+            "expected_counts": [
+                100,
+                100,
+                100,
+                100,
+                100
+            ]
+        }
+    }
+}

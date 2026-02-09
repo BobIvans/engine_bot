@@ -1,0 +1,200 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Feature Vector Schema",
+    "description": "Schema for ML feature vectors with wallet behavior extensions (PR-ML.3)",
+    "type": "object",
+    "properties": {
+        "wallet_addr": {
+            "type": "string",
+            "description": "Wallet address"
+        },
+        "token_mint": {
+            "type": "string",
+            "description": "Token mint address"
+        },
+        "ts": {
+            "type": "integer",
+            "description": "Feature computation timestamp"
+        },
+        "smart_money_score": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Smart money detection score"
+        },
+        "roi_30d_pct": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "description": "30-day ROI percentage"
+        },
+        "winrate_30d": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "30-day win rate"
+        },
+        "trades_30d": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "minimum": 0,
+            "description": "Number of trades in 30 days"
+        },
+        "tier": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Wallet tier (tier0, tier1, tier2, etc.)"
+        },
+        "cluster_label": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "minimum": 0,
+            "description": "Co-trade cluster label from PR-WD.4"
+        },
+        "leader_score": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Leadership score in co-trade clusters (PR-WD.4)"
+        },
+        "risk_regime": {
+            "type": "number",
+            "minimum": -1.0,
+            "maximum": 1.0,
+            "description": "Polymarket risk regime scalar (-1.0 to +1.0)"
+        },
+        "edge_raw": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "description": "Raw edge before regime adjustment"
+        },
+        "edge_final": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "description": "Final edge after regime adjustment"
+        },
+        "regime_alpha": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 0.5,
+            "description": "Regime adjustment weight for edge calculation"
+        },
+        "n_consecutive_wins": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 20,
+            "description": "PR-ML.3: Number of consecutive winning trades (capped at 20)"
+        },
+        "avg_hold_time_percentile": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 100.0,
+            "description": "PR-ML.3: Percentile of median hold time vs population"
+        },
+        "preferred_dex_concentration": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "PR-ML.3: DEX activity concentration (1.0 = single DEX)"
+        },
+        "co_trade_cluster_leader_score": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "PR-ML.3: Leadership score from co-trade clusters"
+        },
+        "hazard_score_calibrated": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "PR-ML.4: Calibrated hazard score (0.0 = safe, 1.0 = crash)"
+        },
+        "is_emergency_exit": {
+            "type": [
+                "boolean",
+                "null"
+            ],
+            "description": "PR-ML.4: Whether emergency exit was triggered"
+        },
+        "triggering_features": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": "string"
+            },
+            "description": "PR-ML.4: Features that triggered emergency exit"
+        },
+        "hazard_model_version": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "PR-ML.4: Hazard model version identifier"
+        },
+        "position_pct_raw": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "PR-RM.1: Base position percentage before regime adjustment"
+        },
+        "position_pct_adjusted": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "PR-RM.1: Final position percentage after regime adjustment"
+        },
+        "risk_regime_used": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "minimum": -1.0,
+            "maximum": 1.0,
+            "description": "PR-RM.1: Risk regime value used for position sizing"
+        },
+        "position_sizing_method": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "enum": [
+                "fixed",
+                "risk_aware",
+                "fallback"
+            ],
+            "description": "PR-RM.1: Method used for position sizing"
+        },
+        "schema_version": {
+            "type": "string",
+            "description": "Schema version"
+        }
+    }
+}

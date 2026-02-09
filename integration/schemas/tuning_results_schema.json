@@ -1,0 +1,91 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Tuning Results Schema",
+    "description": "Schema for parameter tuning harness output",
+    "type": "object",
+    "required": [
+        "schema_version",
+        "metadata",
+        "results"
+    ],
+    "properties": {
+        "schema_version": {
+            "type": "string",
+            "pattern": "^tuning_results\\.v\\d+$"
+        },
+        "metadata": {
+            "type": "object",
+            "required": [
+                "method",
+                "samples",
+                "seed"
+            ],
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "enum": [
+                        "grid",
+                        "random"
+                    ]
+                },
+                "samples": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "seed": {
+                    "type": "integer"
+                },
+                "config_path": {
+                    "type": "string"
+                },
+                "ranges_path": {
+                    "type": "string"
+                },
+                "trades_path": {
+                    "type": "string"
+                }
+            }
+        },
+        "results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "params",
+                    "metrics"
+                ],
+                "properties": {
+                    "params": {
+                        "type": "object",
+                        "additionalProperties": true
+                    },
+                    "metrics": {
+                        "type": "object",
+                        "required": [
+                            "roi_total",
+                            "winrate",
+                            "positions_closed"
+                        ],
+                        "properties": {
+                            "roi_total": {
+                                "type": "number"
+                            },
+                            "winrate": {
+                                "type": "number",
+                                "minimum": 0.0,
+                                "maximum": 1.0
+                            },
+                            "positions_closed": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "avg_pnl_usd": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

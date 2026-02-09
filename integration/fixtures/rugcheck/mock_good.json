@@ -1,0 +1,60 @@
+{
+    "mint": "So11111111111111111111111111111111111111112",
+    "timestamp": 1704067200,
+    "result": {
+        "mintAuthority": {
+            "type": "none"
+        },
+        "freezeAuthority": {
+            "type": "none"
+        },
+        "topHolders": [
+            {
+                "address": "Holder1",
+                "amount": 1000000
+            },
+            {
+                "address": "Holder2",
+                "amount": 900000
+            },
+            {
+                "address": "Holder3",
+                "amount": 800000
+            },
+            {
+                "address": "Holder4",
+                "amount": 700000
+            },
+            {
+                "address": "Holder5",
+                "amount": 600000
+            },
+            {
+                "address": "Holder6",
+                "amount": 500000
+            },
+            {
+                "address": "Holder7",
+                "amount": 400000
+            },
+            {
+                "address": "Holder8",
+                "amount": 300000
+            },
+            {
+                "address": "Holder9",
+                "amount": 200000
+            },
+            {
+                "address": "Holder10",
+                "amount": 100000
+            }
+        ],
+        "supply": 10000000,
+        "owner": "Owner123",
+        "creator": "Creator456",
+        "lpBurned": true,
+        "verified": true,
+        "noSpecialMints": true
+    }
+}

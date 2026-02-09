@@ -1,0 +1,24 @@
+[
+    {
+        "pool_address": "71xG9WhirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
+        "mint_x": "So11111111111111111111111111111111111111112",
+        "mint_y": "DeXkVx9f7eVN6FJqzsdMps4xE6K7LxY6TiqTLT4zSZ",
+        "sqrt_price_x64": "18446462598759638720",
+        "tick_current": 25200,
+        "liquidity": "7450",
+        "tick_spacing": 64,
+        "fee_tier_bps": 25,
+        "description": "High liquidity SOL/token pool (~7,450 raw L, ~67 bps slippage for $5K trade)"
+    },
+    {
+        "pool_address": "92yH8WhirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
+        "mint_x": "So11111111111111111111111111111111111111112",
+        "mint_y": "MeMeCo3XHMHc4z2Z9KmQ2a2a4jG6Vz7Lvq4TiqTLT4zSZ",
+        "sqrt_price_x64": "18446462598759638720",
+        "tick_current": 25200,
+        "liquidity": "667",
+        "tick_spacing": 128,
+        "fee_tier_bps": 100,
+        "description": "Low liquidity SOL/memecoin pool (~667 raw L, ~750 bps slippage for $5K trade)"
+    }
+]

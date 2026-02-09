@@ -1,0 +1,6 @@
+{"id": "deep_pool", "description": "$100 trade, $1M liquidity. Expect ~0.5 bps", "size_usd": 100, "liquidity_usd": 1000000, "scalar": 0.5, "expected_slippage": 0.5}
+{"id": "shallow_pool", "description": "$10k trade, $50k liquidity. Expect ~1000 bps", "size_usd": 10000, "liquidity_usd": 50000, "scalar": 0.5, "expected_slippage": 1000}
+{"id": "zero_liquidity", "description": "Zero liquidity. Expect 10000 bps (MAX)", "size_usd": 100, "liquidity_usd": 0, "scalar": 0.5, "expected_slippage": 10000}
+{"id": "negative_liquidity", "description": "Negative liquidity. Expect 10000 bps (MAX)", "size_usd": 100, "liquidity_usd": -100, "scalar": 0.5, "expected_slippage": 10000}
+{"id": "high_scalar", "description": "Using higher scalar (1.0). $100 trade, $1M liquidity", "size_usd": 100, "liquidity_usd": 1000000, "scalar": 1.0, "expected_slippage": 1.0}
+{"id": "small_trade", "description": "$1 trade, $1M liquidity. Expect ~0.005 bps", "size_usd": 1, "liquidity_usd": 1000000, "scalar": 0.5, "expected_slippage": 0.005}

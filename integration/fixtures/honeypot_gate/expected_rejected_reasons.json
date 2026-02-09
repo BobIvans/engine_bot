@@ -1,0 +1,16 @@
+{
+    "honeypot_safe_enabled": {
+        "safe_token": [],
+        "honeypot_token": [
+            "honeypot_detected"
+        ]
+    },
+    "honeypot_safe_disabled": {
+        "safe_token": [
+            "honeypot_check_skipped"
+        ],
+        "honeypot_token": [
+            "honeypot_check_skipped"
+        ]
+    }
+}

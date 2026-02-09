@@ -1,0 +1,32 @@
+[
+    {
+        "market_id": "evt_001_election_2024",
+        "question": "Will Trump win the 2024 US Presidential Election?",
+        "event_date": 1730457600000,
+        "outcome": "YES"
+    },
+    {
+        "market_id": "evt_002_etf_2025",
+        "question": "Will SEC approve a spot Bitcoin ETF by end of 2025?",
+        "event_date": 1764585600000,
+        "outcome": "YES"
+    },
+    {
+        "market_id": "evt_003_regulatory_2025",
+        "question": "Will SEC approve Ethereum spot ETF in Q1 2025?",
+        "event_date": 1743465600000,
+        "outcome": "YES"
+    },
+    {
+        "market_id": "evt_004_fed_2025",
+        "question": "Will FOMC cut interest rates in March 2025?",
+        "event_date": 1740969600000,
+        "outcome": "NO"
+    },
+    {
+        "market_id": "evt_005_macro_2025",
+        "question": "Will US enter recession in 2025?",
+        "event_date": 1767225600000,
+        "outcome": "NO"
+    }
+]

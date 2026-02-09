@@ -1,0 +1,22 @@
+strategy:
+  chain: solana
+
+  # human-friendly schema supported by integration/config_mapper.py
+  mode_thresholds_sec: { U_max: 35, S_max: 130, M_max: 220 }
+
+  planned_hold:
+    margin_mult: 1.0
+    clamp_sec: { min: 5, max: 900 }
+
+  epsilon:
+    pad_ms: 150
+    hard_bounds_ms: { min: 80, max: 400 }
+
+  aggr_triggers:
+    U: { window_sec: 12, up_pct: 0.03 }
+    S: { window_sec: 30, up_pct: 0.06 }
+    M: { window_sec: 60, up_pct: 0.10 }
+    L: { window_sec: 90, up_pct: 0.15 }
+
+  microticks:
+    window_sec: 120

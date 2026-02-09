@@ -1,0 +1,79 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Meteora DLMM Pool Schema",
+    "description": "Schema for Meteora DLMM pool state and slippage estimation",
+    "type": "object",
+    "required": [
+        "pool_address",
+        "mint_x",
+        "mint_y",
+        "current_bin_id",
+        "bin_step_bps",
+        "active_bin_liquidity",
+        "fee_tier_bps",
+        "estimated_slippage_bps",
+        "effective_depth_usd",
+        "schema_version"
+    ],
+    "properties": {
+        "pool_address": {
+            "type": "string",
+            "description": "Meteora DLMM pool address"
+        },
+        "mint_x": {
+            "type": "string",
+            "description": "Mint address of token X (usually SOL)"
+        },
+        "mint_y": {
+            "type": "string",
+            "description": "Mint address of token Y (traded token)"
+        },
+        "current_bin_id": {
+            "type": "integer",
+            "description": "Current active bin ID"
+        },
+        "bin_step_bps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000,
+            "description": "Bin step size in basis points (1 = 0.01%)"
+        },
+        "active_bin_liquidity": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total liquidity in active bins (±3 from current)"
+        },
+        "fee_tier_bps": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000,
+            "description": "Protocol fee in basis points"
+        },
+        "estimated_slippage_bps": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000,
+            "description": "Estimated slippage in basis points for specified trade size"
+        },
+        "effective_depth_usd": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Effective liquidity depth in USD"
+        },
+        "trade_size_usd": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Trade size used for slippage estimation"
+        },
+        "token_price_usd": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Current token price in USD"
+        },
+        "schema_version": {
+            "type": "string",
+            "pattern": "^meteora_pool\\.v\\d+$",
+            "description": "Schema version identifier"
+        }
+    }
+}

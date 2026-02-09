@@ -1,0 +1,104 @@
+{
+    "solana": {
+        "dexTrades": [
+            {
+                "block": {
+                    "timestamp": {
+                        "unixtime": "1700000000"
+                    }
+                },
+                "transaction": {
+                    "signature": "valid_tx_1"
+                },
+                "swaps": [
+                    {
+                        "amountIn": "10.0",
+                        "amountOut": "1.0",
+                        "dex": {
+                            "programId": "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8"
+                        },
+                        "account": {
+                            "owner": {
+                                "address": "WalletA"
+                            }
+                        },
+                        "tokenAccount": {
+                            "mint": {
+                                "address": "MintA"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "block": {
+                    "timestamp": {
+                        "unixtime": "1700000060"
+                    }
+                },
+                "transaction": {
+                    "signature": "valid_tx_2"
+                },
+                "swaps": [
+                    {
+                        "amountIn": "5000.0",
+                        "amountOut": "5.0",
+                        "dex": {
+                            "programId": "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc"
+                        },
+                        "account": {
+                            "owner": {
+                                "address": "WalletB"
+                            }
+                        },
+                        "tokenAccount": {
+                            "mint": {
+                                "address": "MintB"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "block": {
+                    "timestamp": {
+                        "unixtime": "1700000120"
+                    }
+                },
+                "transaction": {
+                    "signature": "bad_price_tx"
+                },
+                "swaps": [
+                    {
+                        "amountIn": "100.0",
+                        "amountOut": "0.0",
+                        "dex": {
+                            "programId": "JUP6LkbZbjS1jKKwapnHNygxzwHrQ32NqwnVERy8ls"
+                        },
+                        "account": {
+                            "owner": {
+                                "address": "WalletC"
+                            }
+                        },
+                        "tokenAccount": {
+                            "mint": {
+                                "address": "MintC"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "block": {
+                    "timestamp": {
+                        "unixtime": "1700000180"
+                    }
+                },
+                "transaction": {
+                    "signature": "bad_schema_tx"
+                },
+                "swaps": []
+            }
+        ]
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "version": "1.0",
+    "description": "Expected hazard scores for features_sample.jsonl",
+    "hazard_threshold": 0.35,
+    "expected_scores": [
+        {
+            "mint": "SOLabc123def456",
+            "expected_hazard_score": 0.2592,
+            "expected_triggered": false
+        },
+        {
+            "mint": "SOLxyz789ghi012",
+            "expected_hazard_score": 0.3917,
+            "expected_triggered": true
+        },
+        {
+            "mint": "SOLmno345jkl678",
+            "expected_hazard_score": 0.2193,
+            "expected_triggered": false
+        },
+        {
+            "mint": "SOLoutofrange901",
+            "expected_hazard_score": 0.5,
+            "expected_triggered": true,
+            "note": "Invalid feature (volume_spike=6.0 > 5.0), returns 0.5"
+        },
+        {
+            "mint": "SOLnegativedrain234",
+            "expected_hazard_score": 0.1970,
+            "expected_triggered": false,
+            "note": "liquidity_drain=-15.0 is within valid range (-50.0 to 10.0), so not rejected"
+        }
+    ],
+    "expected_metrics": {
+        "hazard_score_avg": 0.3134,
+        "hazard_score_max": 0.5,
+        "hazard_triggered_count": 2,
+        "invalid_features_count": 1
+    }
+}

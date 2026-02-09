@@ -1,0 +1,4 @@
+edge_threshold_base: 1.5  # Invalid: > 1.0 (Pydantic le=1.0)
+edge_threshold_riskon: -0.1 # Invalid: < 0.0
+position_pct: "not_a_float"
+max_open_positions: 0 # Invalid: < 1

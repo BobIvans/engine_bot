@@ -1,0 +1,42 @@
+version: 1
+defaults:
+  alpha: 0.6180339887
+  chain: solana
+  env: live
+  rounding: int
+rules:
+- id: epsilon_from_rpc_latency_p90
+  enabled: true
+  description: Set epsilon.pad_ms_default from worst rpc_arm latency_p90, golden-ratio
+    smoothed and clamped to epsilon hard bounds.
+  input:
+    gatherer: rpc_arm_stats
+    field: latency_p90_ms
+    reduce: max
+  target:
+    key_path: chain_defaults.solana.epsilon.pad_ms_default
+    type: int
+    bounds_from: chain_defaults.solana.epsilon.hard_bounds_ms
+  transform:
+    kind: golden_linear
+    factor: 1.0
+    smooth_with_current: true
+- id: margin_mult_from_volatility_p90
+  enabled: true
+  description: Adjust planned_hold.margin_mult_default based on token/pool pct_range_p90
+    (volatility regime). Advisory only.
+  input:
+    gatherer: volatility_regime
+    field: pct_range_p90
+    reduce: p90
+  target:
+    key_path: chain_defaults.solana.planned_hold.margin_mult_default
+    type: float
+    bounds:
+      min: 1.0
+      max: 2.0
+  transform:
+    kind: golden_affine
+    base: 1.0
+    factor: 3.0
+    smooth_with_current: true

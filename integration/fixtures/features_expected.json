@@ -1,0 +1,12 @@
+{
+  "feature_keys": [
+    "f_trade_size_usd",
+    "f_price",
+    "f_side_is_buy",
+    "f_token_liquidity_usd",
+    "f_token_spread_bps",
+    "f_wallet_roi_30d_pct",
+    "f_wallet_winrate_30d",
+    "f_wallet_trades_30d"
+  ]
+}

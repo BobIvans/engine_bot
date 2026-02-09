@@ -1,0 +1,20 @@
+{
+    "7nYAh1wXYZ4sL5YmR8XZ1yZW2Xg6iZw4z3Xp3KZwPNp1": {
+        "wallet": "7nYAh1wXYZ4sL5YmR8XZ1yZW2Xg6iZw4z3Xp3KZwPNp1",
+        "roi_30d_pct": 15.0,
+        "winrate_30d": 0.60,
+        "trades_30d": 50
+    },
+    "8pZBHm5c2k9m0n3p4r5s8t0v9w2x4y6z1a3b5c7d9e": {
+        "wallet": "8pZBHm5c2k9m0n3p4r5s8t0v9w2x4y6z1a3b5c7d9e",
+        "roi_30d_pct": 5.0,
+        "winrate_30d": 0.58,
+        "trades_30d": 45
+    },
+    "9qACIn6d3l0o1n4q5s9t1u0w3x5y7z2b4d6f8h0j2l": {
+        "wallet": "9qACIn6d3l0o1n4q5s9t1u0w3x5y7z2b4d6f8h0j2l",
+        "roi_30d_pct": 12.0,
+        "winrate_30d": 0.56,
+        "trades_30d": 10
+    }
+}

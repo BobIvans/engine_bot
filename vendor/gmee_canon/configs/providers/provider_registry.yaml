@@ -1,0 +1,23 @@
+# Non-canonical registry of external providers used during trial windows.
+# Safe to edit without touching P0 canon. Intended for operational inventory.
+providers:
+  - provider_id: example_wallet_labels
+    kind: onchain_intel
+    access: export/jsonl
+    mapping_yaml: configs/providers/mappings/example_wallet_labels.yaml
+    entities: [wallet]
+    notes: "Template for wallet scoring/labels (e.g. smart money, risk flags)."
+
+  - provider_id: example_pool_metrics
+    kind: market_microstructure
+    access: export/jsonl
+    mapping_yaml: configs/providers/mappings/example_pool_metrics.yaml
+    entities: [pool]
+    notes: "Template for DEX pool liquidity/volume/impact snapshots."
+
+  - provider_id: example_route_execution
+    kind: infra_mev
+    access: export/jsonl
+    mapping_yaml: configs/providers/mappings/example_route_execution.yaml
+    entities: [route, provider_arm]
+    notes: "Template for MEV risk / route / RPC-arm telemetry." 

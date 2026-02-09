@@ -1,0 +1,12 @@
+payoff_mu_win:
+  U: 0.08
+  S: 0.08
+  M: 0.07
+  L: 0.04
+payoff_mu_loss:
+  U: 0.032
+  S: 0.04
+  M: 0.032
+  L: 0.03
+risk_per_trade_bps: 100
+max_position_count: 5

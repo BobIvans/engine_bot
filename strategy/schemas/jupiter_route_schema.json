@@ -1,0 +1,83 @@
+{
+    "type": "object",
+    "properties": {
+        "route_id": {
+            "type": "string",
+            "minLength": 1
+        },
+        "in_mint": {
+            "type": "string",
+            "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
+        },
+        "out_mint": {
+            "type": "string",
+            "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
+        },
+        "in_amount": {
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+        "out_amount": {
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+        "price_impact_pct": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+        },
+        "route_plan": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "swap_info": {
+                        "type": "object",
+                        "properties": {
+                            "amm_key": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "input_mint": {
+                                "type": "string"
+                            },
+                            "output_mint": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "amm_key",
+                            "label",
+                            "input_mint",
+                            "output_mint"
+                        ]
+                    }
+                },
+                "required": [
+                    "swap_info"
+                ]
+            }
+        },
+        "context_slot": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "time_taken_ms": {
+            "type": "integer",
+            "minimum": 0
+        }
+    },
+    "required": [
+        "route_id",
+        "in_mint",
+        "out_mint",
+        "in_amount",
+        "out_amount",
+        "price_impact_pct",
+        "route_plan",
+        "context_slot",
+        "time_taken_ms"
+    ]
+}

@@ -1,0 +1,9 @@
+edge_threshold_base: 0.04
+edge_threshold_riskon: 0.03
+edge_threshold_riskoff: 0.05
+position_pct: 0.015
+max_open_positions: 4
+max_token_exposure: 0.12
+max_daily_loss: 0.04
+kelly_fraction: 0.6
+cooldown_after_losses_sec: 240

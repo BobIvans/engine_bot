@@ -1,0 +1,817 @@
+{
+  "pack": "gmee_strategy_pack_v17_canonical",
+  "version": "v17_canonical_from_v5_plus_gmee_skeleton_v1_6",
+  "created_utc": "2025-12-31T00:21:41Z",
+  "files": [
+    {
+      "path": "EXTRAS/AGGRESSIVE_LAYER_ROCKET_MODE.md",
+      "sha256": "33a5200c99b0be86d7a36f587591707b7f4a74532f5cd7962e49619431580a5b",
+      "size": 5924
+    },
+    {
+      "path": "EXTRAS/ENGINEERING_BLUEPRINT_REPO_AND_MVP_V0.md",
+      "sha256": "3a87ae9627725a62c49349c48a80a260767912570883783990ac379b72afa01b",
+      "size": 11003
+    },
+    {
+      "path": "EXTRAS/FREE_FIRST_MONEY_FILTER_AND_PARALLEL_TRACKS.md",
+      "sha256": "4c0c62addfda8c368a69e9b2dc4a0f7a2bba3fd448f823100598aa461b3db909",
+      "size": 8643
+    },
+    {
+      "path": "EXTRAS/RESOURCES_AND_APPS.md",
+      "sha256": "1f78335ea02c20fc2d5b23cdc04c18fa1fd435836d757b5ad315fbec89ea4e61",
+      "size": 7558
+    },
+    {
+      "path": "EXTRAS/SOLANA_COPY_SCALPING_STRATEGY_KERNEL_v1.md",
+      "sha256": "669a1b0df195d417443544e5fbb4f91f31b44fecce788ae15fee380f56cb6b8e",
+      "size": 14552
+    },
+    {
+      "path": "EXTRAS/UNIFIED_DECISION_FORMULA_ONE_FORMULA.md",
+      "sha256": "e016ea8d139a640403ae01e80427e6f8bca7f8ff63d4d2ae6a49d9729d407778",
+      "size": 6918
+    },
+    {
+      "path": "EXTRAS/index.md",
+      "sha256": "661f55ec3117f563c24ee532dded85b5a372633f35a679e0bd9f58eb0f4fc3ec",
+      "size": 2439
+    },
+    {
+      "path": "GMEE_INTEGRATION_NOTES.md",
+      "sha256": "e3e6c6bf1ea34b0777a6b5a45e8f2feb001ca23efdfa5765678b4cfbe535dd6b",
+      "size": 3257
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/.github/workflows/ci.yml",
+      "sha256": "5b88ab636ac404e80923513baa97f832ea9491fd66b4bfe706425464f6fd335f",
+      "size": 407
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/.gitignore",
+      "sha256": "f2e0eeebf495ed13d62da183793269b5cc8f6d20278827a352746e7099e54f90",
+      "size": 51
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/LICENSE",
+      "sha256": "7c0c040aeab4e1fd0beedd0d07c9e24e79d8567f91d8ad2f8d97e908c45df604",
+      "size": 58
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/README.md",
+      "sha256": "8e0137761c40603127b5c72b862681bb509021296f51b79693d47c33f010d92b",
+      "size": 720
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/adapters/chains/evm/README.md",
+      "sha256": "10d04fa58ca1ad2c9e93463a177817d041ccb5d9354f563946eef1c1123a83d0",
+      "size": 92
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/adapters/chains/solana/README.md",
+      "sha256": "b265a2ff22d4c23ce1cff3b56bcda753ebc47b7f730d387dee6993d18548f9c9",
+      "size": 100
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/adapters/dex/README.md",
+      "sha256": "8b4a413c6373be2cbc35fc3f74a00c436d9c5ab9fedb6f152d2344ed3aa125b9",
+      "size": 114
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/adapters/storage/README.md",
+      "sha256": "f26376b17bc8546fb6ac22714de490e4e36cbe62020aa79a645b8b53e69e4ed7",
+      "size": 87
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/backfill/evm_wallet_lifecycle.sql",
+      "sha256": "3b69fbfd3561f44c73be81572bca48c16008408a98fd590a15fc201f6810439b",
+      "size": 152
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/backfill/solana_wallet_lifecycle.sql",
+      "sha256": "35d7fe59a381e2aa1f72255a010050443a8e2a7febe6964f725de99b8700bac0",
+      "size": 216
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/chains/evm.yaml",
+      "sha256": "1c1ead85f56f593b1d7efcf37677a212204bbeebd557289b40dc5b1ca6080b78",
+      "size": 242
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/chains/solana.yaml",
+      "sha256": "b90367440a657e936dda51d433a7b3afd75b97ddddd9d57816c854853376572f",
+      "size": 176
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/configs/chains/evm.yaml",
+      "sha256": "1c1ead85f56f593b1d7efcf37677a212204bbeebd557289b40dc5b1ca6080b78",
+      "size": 242
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/configs/chains/solana.yaml",
+      "sha256": "b90367440a657e936dda51d433a7b3afd75b97ddddd9d57816c854853376572f",
+      "size": 176
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/configs/golden_mean_exit.yaml",
+      "sha256": "c58691c9ae7a962c7da3c4dd4cb011c79dab987e0eabfb10bbcf11630ee0d6cd",
+      "size": 2671
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/configs/quotas.yaml",
+      "sha256": "265429e30a7921d609e186a122d65509c005d6485ea9e1835cadb21a0f52faf6",
+      "size": 9785
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/configs/sim.yaml",
+      "sha256": "e205f3ecd9421b4858a35a3d6c4491ef6599fac088d8f8347be5213d1d042932",
+      "size": 2594
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/configs/sources.yaml",
+      "sha256": "df606a75bfe960a1f140ccc473fb57b63fab6f471b6742c5d045772c50054d37",
+      "size": 1949
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/00-overview.md",
+      "sha256": "e96c7e6672e056288b7d76ec39b91df3bfb8bfa376d6238afe9c18b5b82c753f",
+      "size": 2799
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/01-data-contracts.md",
+      "sha256": "2129b56f6d8d75c76c1ff2c6901466380890eae16331a4507f7ec0173286f949",
+      "size": 3868
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/02-golden-mean-exit-spec.md",
+      "sha256": "b2671a0709044c2370bb505182160c68ac8edb590777a2710cfceebdac6bee1e",
+      "size": 3017
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/03-sim-spec.md",
+      "sha256": "1f4f57febdf16c43df35d2a7864cb18fdef7eaa757b3402567e62c1fb686ea5d",
+      "size": 1413
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/04-ops-runbook.md",
+      "sha256": "132708e736b54442ca85f63147a1c3da6ed9a24da01b94b5d56932b2edce39d0",
+      "size": 2639
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/05-multichain-notes.md",
+      "sha256": "09a27e58598f98c0b27d17c52223ae56d8d5cd2ca5a1da6657bc3b50b43f5dd6",
+      "size": 2313
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/canonical_field_dictionary.md",
+      "sha256": "d3f52b3002a89d51be89311ca643b525dbe1b49281e80930ce7bc62fc24533a3",
+      "size": 9328
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/gm_alt_min_pipeline_schema.md",
+      "sha256": "872847e4e8dde5e3cfb24da2a1f48958014deafc259ebd5ecfb77a9d9dd3cc24",
+      "size": 5029
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/gm_clickhouse_mvs_min.sql",
+      "sha256": "8f966e6d14d1c2cc8d85763ee7a2735ae08367635696e8e9ceb856eacbf4f66b",
+      "size": 4186
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/gm_indices_partitions_and_mvs.md",
+      "sha256": "47516e01daf1bb21b61e4e09dde5b2789f548672bb40161b9acaa08abca2c5f6",
+      "size": 1537
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/gm_min_data_and_event_schema.md",
+      "sha256": "16b8bf4714702b9f75da3f3a93fed3482520e1c34537ebcc0fea743c62c845c3",
+      "size": 3610
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/gm_read_queries_and_wallet_hold_stats_update.md",
+      "sha256": "ce328c214aa069a1df1139fc0c521758af90d62b7e478c36ec796f688d140dd8",
+      "size": 2338
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/gm_read_queries_min.md",
+      "sha256": "b19f744c763ae35a2169de0a9f64c62e6057ef8f306c76a65b6e79ffd4073ed8",
+      "size": 1570
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/gm_storage_keys_and_indexes.md",
+      "sha256": "439c0efe917cc3574503be9cbceed896d1088306c27f07c37cd1f8edeef828ba",
+      "size": 2366
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/mapping_pack_v11_terms_to_min_schema.md",
+      "sha256": "7f2c0ba6e43b66e4a7ede1c4bcb5b303ccc9083b3818aab519e5360b013568d9",
+      "size": 742
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/strategy_all_in_one_v11_1.md",
+      "sha256": "63c5611f58f3c023b1286024d2c12937259d5cb83d02477bedd30fed05995387",
+      "size": 8147
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/strategy_v0.1.md",
+      "sha256": "bb852b69e499d37d24c684194212fabe2c5d4be06edff522ac5a2134de02f245",
+      "size": 5925
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/v4/GMEE_INTEGRATION_NOTES.md",
+      "sha256": "833475fa24210dbc00cfc85f312d1f5fa6771211e0848e77c156b96fe6b6549d",
+      "size": 2658
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/v4/README.md",
+      "sha256": "04ef9055f34abecb818552fa06bb56248c5a05f6302cfcebbe8dd508891a16f6",
+      "size": 1983
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/v4/RESOURCES_AND_APPS.md",
+      "sha256": "2569bbb6e7d7e2e3f744b7e1ca4a40701e4f0fb834966f63b719ee617556f98b",
+      "size": 1228
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/v4/SOLANA_COPY_SCALPING_SPEC_v0_2.md",
+      "sha256": "3a12b3c21abcb18c8581eebd37febcda35322dd261b940b0c93332d073ca12f5",
+      "size": 8504
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/v4/strategy_manifest.json",
+      "sha256": "ec5996d870911376518684d14f57530391c51d8041757c150edcc3bcb0fafe31",
+      "size": 4585
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/_legacy/wallet_hold_stats_update_rules.md",
+      "sha256": "4e729da3660fe59fb67400b6fe820fd317502243e37330e45b00a824cc00cfe0",
+      "size": 1947
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/docs/canonical-field-dictionary.md",
+      "sha256": "d3f52b3002a89d51be89311ca643b525dbe1b49281e80930ce7bc62fc24533a3",
+      "size": 9328
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/engine/aggr_detector/README.md",
+      "sha256": "e700330256458e00e93df494fa981cdc8f3d6c7efaf310019358ccda922d614b",
+      "size": 286
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/engine/golden_mean_exit_engine/README.md",
+      "sha256": "d8505433cace18e27aa339a8e4ae0488e7ef6a3c1cac85b8af0184b70a021432",
+      "size": 418
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/engine/time_canonicalizer/README.md",
+      "sha256": "6a7fbdf5f99886631cc565668feb910893590d377d2a4c6cd47a694b287e93f4",
+      "size": 227
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/events/microtick.schema.json",
+      "sha256": "a543c71e47455a959297b40236de7f9517af2bb44ef0c693d600a236eb453872",
+      "size": 468
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/events/signal.schema.json",
+      "sha256": "dae9d7d38b37058e2cf63f19f1349072715f36c042bb921b09f939612b4f78bc",
+      "size": 521
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/events/trade_exec.schema.json",
+      "sha256": "ee746d75b4873d776e5c6644c1e93fbe279547b4b4c8c27606e0899a8af72b5f",
+      "size": 1647
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/index.md",
+      "sha256": "17df48672c9af4c0a4255365c7645492c3c4433b81c7ee2ed2a32e6d195e5676",
+      "size": 2284
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/jobs/latency_state_updater/README.md",
+      "sha256": "7dc73189d2c072cfaad3f662d7c71ccd6979f2309d0f1cb047e33681ee9ee578",
+      "size": 303
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/jobs/latency_state_updater/sql/latency_state_updater.sql",
+      "sha256": "5486546c549e96d87dee3cab24cdda4ca2f324d06370b68a62c9d35e35ca36de",
+      "size": 850
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/jobs/microticks_collector/README.md",
+      "sha256": "72ba59cd559a7503998b668e8b03d5b73a208a7f37e7cedc4abe572da4827ea4",
+      "size": 302
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/jobs/quota_cost_watcher/README.md",
+      "sha256": "cf35db06e2cb823893fc5e8484fc0251f674432da46bcaffef038ddf021eadfc",
+      "size": 300
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/jobs/wallet_lifecycle_builder/README.md",
+      "sha256": "5f900ba4e7b7a99fa124d0e48f702592118714bd84a053ddb0ae5c75a55e4620",
+      "size": 306
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/jobs/wallet_profile_agg_30d/README.md",
+      "sha256": "9b3fa3b6b594b4e1082e299f405e13bfe64cb1aba389319f6be446d716fb8af8",
+      "size": 304
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/jobs/wallet_profile_agg_30d/sql/wallet_profile_agg_30d.sql",
+      "sha256": "dca743638e4eb149165d0ac8df3ab1c3f18e436d87b3167da7d80faa1e8616b4",
+      "size": 1330
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/manifest.json",
+      "sha256": "44e8d8faf98dc0b42dbad5c7c47a005b4de685786edceda2de9324126dd7e75f",
+      "size": 1849
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/ops/alerts/alert_rules.md",
+      "sha256": "f0f376b2a6a39a3b979a43881bde23ed2d0248167217f2aecb956576a6996c1c",
+      "size": 246
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/ops/runbooks/LATENCY_DRIFT.md",
+      "sha256": "6bea92c07d318530d9e2d8b40a3aafde4528fe8d653643adfb71a62e406a5c8c",
+      "size": 832
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/ops/runbooks/MEV_SPIKE.md",
+      "sha256": "61d6a120ec7a17c4391688e00180505c756f53836423d1c01cb5b1857126a269",
+      "size": 519
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/ops/runbooks/PROBATION.md",
+      "sha256": "32db74cf4a000d969957eeeed42c74d692bbd0fc01cae31187bf2c289f93b485",
+      "size": 594
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/ops/runbooks/SLIPPAGE_SPIKE.md",
+      "sha256": "d09771cbcbe7f5df07684fcd3c461bc391d18f059e90deea9d04361d1e6e52ba",
+      "size": 520
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/ops/runbooks/STOP_ALL.md",
+      "sha256": "d4ef65fb1a7340246b5761557dcec4b4028a64c01c71522b8f21950694325a8e",
+      "size": 125
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/queries/glue_plan_query.sql",
+      "sha256": "28482bbc1a4f6f0e4f6f7e70b10f775117bf158cebf0c4b9fb64f7559cc72a2b",
+      "size": 1900
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/queries/legacy/extracted_from_legacy_pack_v11_docs.sql",
+      "sha256": "f0450bdea4747333f1670a085f670bfe880b74c21add2dd8ea70ab1ec25c39f3",
+      "size": 1732
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/queries/microticks_window.sql",
+      "sha256": "56eacf9645ad498e307fa3bdf34afc5ee098e9c37336d88477d5d8b822bc0126",
+      "size": 481
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/queries/profile_query.sql",
+      "sha256": "fb41f2bd78f1b705b4cf7827208018862c7ed4e680f64f610ceac091e024a76d",
+      "size": 672
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/queries/routing_query.sql",
+      "sha256": "5b960f5ae68d3dc0381d20bbab651b1196f1bedaba676dee49c910e744423ebe",
+      "size": 753
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/registry/README.md",
+      "sha256": "ebb6bd236e444dbc646802417a6259a0171b4eceee043ee55618d351c1ec6e8c",
+      "size": 207
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/schemas/clickhouse/01_wallet_position_lifecycle.sql",
+      "sha256": "ce506fbdf889b9dbe8a048e135d6187d5b352898260c51f6e849208f41f526f3",
+      "size": 1035
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/schemas/clickhouse/02_wallet_profile_30d.sql",
+      "sha256": "8245ee94636a9944ba795a51962d333e65f63678564aba699cb3b9ce6018460f",
+      "size": 2532
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/schemas/clickhouse/03_trade_exec.sql",
+      "sha256": "6455336ad9c387b0d5502d287fbd246b429160ad5630584078a039aecce3950c",
+      "size": 4276
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/schemas/clickhouse/04_latency_state.sql",
+      "sha256": "b1b8f99750998646a1e288610011882c678b1a5b5a800a4af537f4fd66d37459",
+      "size": 1124
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/schemas/clickhouse/05_microticks_1s.sql",
+      "sha256": "ec975df7f957074626ac13d97bce8a61aac55cb4130c99d977599f782a264542",
+      "size": 1016
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/schemas/clickhouse/10_materialized_views.sql",
+      "sha256": "405ab1ae5707506b899ecef602b0cd45a7594f56888b63fa0d5b31bd837886fc",
+      "size": 4429
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/schemas/postgres/01_registry.sql",
+      "sha256": "e87d75f744990b1976abc6ce81a646371d767b472a1ba5e3983aa77f643d1dee",
+      "size": 791
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/scripts/bootstrap_repo.sh",
+      "sha256": "4df1a4c56e77f871669ccf31d824ea73604119884de1313f029ea9bd55c2fa56",
+      "size": 268
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/scripts/load_sql.sh",
+      "sha256": "1b51ea3b6d02af3ce97fac03f0d825d47a62cf7f88e5b5081c6ba4e7b6fe7376",
+      "size": 626
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/scripts/make_config_hash.sh",
+      "sha256": "2c97e98814002ac75afc0655d0479d319fd0c87516ff114b67bd27a837c7041a",
+      "size": 709
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/sim/fixtures/sample_trades.csv",
+      "sha256": "95c61e250d1bd7ea6cc2f6bb179501002e1518b744f8f4d11d7a8e9bdbedd433",
+      "size": 1481
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/sim/mini_sim_harness/README.md",
+      "sha256": "2799d47ad046d30fce8ecbecfd377944b822e6c12e14c737ab74223bfd92ffb9",
+      "size": 295
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/sim/scenarios/baseline.yaml",
+      "sha256": "7191e0dae468bad703c958e0d30f28c82951bce4ebcf1eda237f4d1428f3a7a8",
+      "size": 163
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/sim/scenarios/latency_jitter.yaml",
+      "sha256": "ff3f61043efdcd4e5220e917cc9394a03208e8e336a3d82b6aa4b362effb4dbd",
+      "size": 169
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/sim/scenarios/mev_flag_injection.yaml",
+      "sha256": "49c3275ad4905d3b48cac0fb0a7c50c3c76e3e5755ad540736fad7197fe1d64c",
+      "size": 173
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/sim/scenarios/slippage_spike.yaml",
+      "sha256": "91ea73ed662fb841411be151ea08048f94c4a15746996d5698649cbbb3465d97",
+      "size": 169
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/templates/experiment_record.yaml",
+      "sha256": "8030a4ffa90d0b58d1e4819697d447f336bc56a092c3caa1116d533c3260de94",
+      "size": 139
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/templates/run_manifest.yaml",
+      "sha256": "550789d0fd2007172b0acfdef2666b2663360dde4d2d46abd597eade7e445e3f",
+      "size": 140
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/tests/data_quality/README.md",
+      "sha256": "daedbff4afea42f9038c8aaf40eb846b16300f9c35ab927e39eae5e2e7b5eb54",
+      "size": 807
+    },
+    {
+      "path": "LEGACY_V17_SOURCE/tests/smoke/README.md",
+      "sha256": "34a4d7622daac816879f834636aed8e9ecf9bb479569356c3b36129d28c2b79b",
+      "size": 271
+    },
+    {
+      "path": "MVP_OFFLINE/INPUT_CONTRACT.md",
+      "sha256": "4cf3b7e6915ddd3c7ec06bcac1794f56b2de872e0457684cd7846602eee9cfa6",
+      "size": 4213
+    },
+    {
+      "path": "MVP_OFFLINE/README.md",
+      "sha256": "dd5985355e25a6fc3df11be05f925c069d45a2e7df9655fafbede0fe10968e61",
+      "size": 1448
+    },
+    {
+      "path": "MVP_OFFLINE/config/datasources_example.yaml",
+      "sha256": "6a5d3e1cd32396be581e3e5825bdc0ccabc280bfea6a309969dfd09e2225eb55",
+      "size": 1392
+    },
+    {
+      "path": "MVP_OFFLINE/config/modes.yaml",
+      "sha256": "15d934e8d1a86e893557902ead0b5f836e488dfdb2131e1c6af64a6dc1676f13",
+      "size": 2233
+    },
+    {
+      "path": "MVP_OFFLINE/config/params_base.yaml",
+      "sha256": "e95844002759806b816feb3ea6ff7b2d61f879b66db4c18b412253ae7b00b2d6",
+      "size": 10790
+    },
+    {
+      "path": "MVP_OFFLINE/config/params_mvp.yaml",
+      "sha256": "e95844002759806b816feb3ea6ff7b2d61f879b66db4c18b412253ae7b00b2d6",
+      "size": 10790
+    },
+    {
+      "path": "MVP_OFFLINE/data/processed/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "MVP_OFFLINE/data/processed/README.md",
+      "sha256": "78ddb55eefbada6b53e2fc97782df370d2e1b216e851de56f299da97286b6ce5",
+      "size": 511
+    },
+    {
+      "path": "MVP_OFFLINE/data/processed/trades_stub.csv",
+      "sha256": "95c61e250d1bd7ea6cc2f6bb179501002e1518b744f8f4d11d7a8e9bdbedd433",
+      "size": 1481
+    },
+    {
+      "path": "MVP_OFFLINE/requirements.txt",
+      "sha256": "1aef84dd9d2d20b030762f4465de829b7a1c6759a3ef440f7c1d310580f65f26",
+      "size": 50
+    },
+    {
+      "path": "MVP_OFFLINE/src/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "MVP_OFFLINE/src/core/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "MVP_OFFLINE/src/core/types.py",
+      "sha256": "5bc2dcd3eab0bcfdd9e36678671d57b44fa9618ccf2364c20aaab2ad4a9f2ed2",
+      "size": 2790
+    },
+    {
+      "path": "MVP_OFFLINE/src/execution/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "MVP_OFFLINE/src/execution/simulator.py",
+      "sha256": "5709d699934429d67e1ff246e1aaebdd8d4622f64e802ff1da012389535290a0",
+      "size": 2730
+    },
+    {
+      "path": "MVP_OFFLINE/src/pipelines/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "MVP_OFFLINE/src/pipelines/backtest_offline.py",
+      "sha256": "107aafc2de3f9992048d32a8ad48f9be99ba3e87f34e4987f93178b3e2922143",
+      "size": 3996
+    },
+    {
+      "path": "MVP_OFFLINE/src/strategy/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "MVP_OFFLINE/src/strategy/exits.py",
+      "sha256": "df73c493f7668c013a230d5dba9300db92ff524d22a091ec3c51cd91bcba1b6e",
+      "size": 1553
+    },
+    {
+      "path": "MVP_OFFLINE/src/strategy/mode_selector.py",
+      "sha256": "d7ae7e40e7f7ae5ec8e01ce47533cbe004a45b99471e7c9c51621ee209f7fa8b",
+      "size": 780
+    },
+    {
+      "path": "MVP_OFFLINE/src/strategy/risk_engine.py",
+      "sha256": "e458b649c46152adefc54a7f4de90923cd424577c6d95aef026fa88d1968bf21",
+      "size": 1164
+    },
+    {
+      "path": "MVP_OFFLINE/src/strategy/signal_engine.py",
+      "sha256": "d487676c3302a4d8f900746582c376eb71b3be831f2d60ac718fa53c187ef8b3",
+      "size": 1751
+    },
+    {
+      "path": "MVP_OFFLINE/src/utils/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "MVP_OFFLINE/src/utils/config.py",
+      "sha256": "a0d9e4034af8cacc5889545001df8587968527ee9399b397becfa008ab50c45f",
+      "size": 7083
+    },
+    {
+      "path": "MVP_OFFLINE/tools/convert_csv_to_parquet.py",
+      "sha256": "f9b20c9f79ec429d58327a3e80024dfe5db73cd10bb9618c81591f53ea2992ac",
+      "size": 820
+    },
+    {
+      "path": "README.md",
+      "sha256": "94869b9e4a5580c2e90215907417a93d979fe6a5a75c34e9862d4242ba5a6470",
+      "size": 4492
+    },
+    {
+      "path": "RESOURCES_AND_APPS.yaml",
+      "sha256": "7c7a0e16c5d420ecfcf9e49dfce74d25044005e28be665962538c5880b536d41",
+      "size": 7884
+    },
+    {
+      "path": "SOLANA_COPY_SCALPING_SPEC_v0_2.md",
+      "sha256": "3097a7d12a3686f0f708f70b59987f2b1aa153f566f2d23f5812e1951ed0eec1",
+      "size": 16436
+    },
+    {
+      "path": "STRATEGY_TO_UV_MAPPING.md",
+      "sha256": "37a5f08aa64aa3c53a1cb8cbe9e0a9545df0b9ad146760045cf2ad195960ad8b",
+      "size": 11206
+    },
+    {
+      "path": "vendor/gmee_canon/README.md",
+      "sha256": "30907db2b7556158d15dcc4748604d823e2b4007a401cc9420bbec7ca099d890",
+      "size": 933
+    },
+    {
+      "path": "vendor/gmee_canon/TODO.md",
+      "sha256": "16869a114f6447d9ea2e1bb652199dff3b438d4e533ab531f40e9a7e032174f2",
+      "size": 3852
+    },
+    {
+      "path": "vendor/gmee_canon/artifacts/README.md",
+      "sha256": "cd32e0dae323566929b1dcc64db06e9e2ea912d1e3684b706d2c55c86d231f74",
+      "size": 204
+    },
+    {
+      "path": "vendor/gmee_canon/configs/engine.default.yaml",
+      "sha256": "b0828d87bade1ca2127c7353ecb9e199fc01df0096350d721b55b10329833839",
+      "size": 1192
+    },
+    {
+      "path": "vendor/gmee_canon/configs/golden_exit_engine.yaml",
+      "sha256": "11e78b954f5cfe8bdde66683973ba19f5e4c907181a859b51d797cbee130cb87",
+      "size": 1277
+    },
+    {
+      "path": "vendor/gmee_canon/configs/queries.yaml",
+      "sha256": "f31f6c6feacd7177305e6169a2f36c1bef5f36f4f4b7c76b9f3b4df5a9c0d2b3",
+      "size": 1266
+    },
+    {
+      "path": "vendor/gmee_canon/docs/00_TZ.md",
+      "sha256": "7654d2e0856ae40b6ab1bcd1a56be0021003eec79618ba6372653d9493c5570a",
+      "size": 427
+    },
+    {
+      "path": "vendor/gmee_canon/docs/03_tuning_workflow.md",
+      "sha256": "1fae5f65c76b0f02c663a5b4b89ad1ac157b52d55d3b2a521b40a2434c8dee16",
+      "size": 805
+    },
+    {
+      "path": "vendor/gmee_canon/docs/CI_SMOKE.md",
+      "sha256": "c61e6317c749586b091e8659df7e2f9f0dac9f14e195ff512bf0c9835165fff5",
+      "size": 1503
+    },
+    {
+      "path": "vendor/gmee_canon/docs/CODEX_P0_WORKPLAN.md",
+      "sha256": "5d0be4fffc7fd1c7009365ab2b1371139a86f132a3cb21c528f35de2d4fc8cec",
+      "size": 5089
+    },
+    {
+      "path": "vendor/gmee_canon/docs/DATA_MODEL.md",
+      "sha256": "98a11427ce5467af7fee380b4386bbddb92935b84e0c7dde04b0fad552ffa29b",
+      "size": 11384
+    },
+    {
+      "path": "vendor/gmee_canon/docs/QA_DAILY.md",
+      "sha256": "8686851a92c9d8b991b863c64c6ab1ddcc35cae9863ae9df216bf4c22c826ab3",
+      "size": 2895
+    },
+    {
+      "path": "vendor/gmee_canon/docs/RUNBOOK.md",
+      "sha256": "2c58bc92a51102e3a0b905b8190d8b1948085a2ce9932d3633d6fa6c67edb057",
+      "size": 1064
+    },
+    {
+      "path": "vendor/gmee_canon/docs/SPEC.md",
+      "sha256": "4e7d3e90c9dd2691b44a17350ef72a7aea45588b5eb8b013ddd73caafd8a4b58",
+      "size": 11331
+    },
+    {
+      "path": "vendor/gmee_canon/docs/governance_legal_ethics.md",
+      "sha256": "af9e56f9fbb6a4e42da709dfe342de82f7fd518d0d2c46b6d8c084a7f0870260",
+      "size": 1162
+    },
+    {
+      "path": "vendor/gmee_canon/docs/idempotency_reorg_circuit_breaker.md",
+      "sha256": "3cee82fbc2b03970aa67ca2abaabfedbb212b34e57e5bfd3899d267316cd3d10",
+      "size": 1635
+    },
+    {
+      "path": "vendor/gmee_canon/ops/runbooks/ARTIFACT_SIGNING.md",
+      "sha256": "76298b956ab67405695b5a8d08ff0f09eba740f7f16d41318c35252a71bac912",
+      "size": 238
+    },
+    {
+      "path": "vendor/gmee_canon/ops/runbooks/CANARY_PROMOTION.md",
+      "sha256": "b0ce3e79a3a7c90588b94ed7d9d7b5970f9afaf6c019b6deec7f21d9342bd2d0",
+      "size": 300
+    },
+    {
+      "path": "vendor/gmee_canon/ops/runbooks/CIRCUIT_BREAKER.md",
+      "sha256": "50c2d1a2c39e5a1c9ae59084a71d9640db3001784c79da42812f4b22865b4741",
+      "size": 194
+    },
+    {
+      "path": "vendor/gmee_canon/ops/runbooks/LATENCY_DRIFT.md",
+      "sha256": "ecb0b10e63ba3ba98d2a10fe351f729b09c4285707c03acee8760af2ec9b1e20",
+      "size": 275
+    },
+    {
+      "path": "vendor/gmee_canon/ops/runbooks/MEV_SPIKE.md",
+      "sha256": "f295124caf05c7f20ab45dc617851a20e052959297ded778df92bf70c6d0b874",
+      "size": 260
+    },
+    {
+      "path": "vendor/gmee_canon/ops/runbooks/PROBATION.md",
+      "sha256": "c42b08e2eac6b12476a51e8aa01f57d8fe4ec0a08f04073f22ca75c8704a7b3a",
+      "size": 312
+    },
+    {
+      "path": "vendor/gmee_canon/ops/runbooks/REORG_HANDLING.md",
+      "sha256": "bd34d5c52b0fa9f79db0c18647b0456e3d9d741fc669a1f1506f18dc8af53afb",
+      "size": 245
+    },
+    {
+      "path": "vendor/gmee_canon/ops/runbooks/STOP_ALL.md",
+      "sha256": "06aa084564782df4eb5aa566cf67c0cd57c352095c8b151ad18764abf112dd44",
+      "size": 339
+    },
+    {
+      "path": "vendor/gmee_canon/queries/01_profile_query.sql",
+      "sha256": "0b0e22c7eb1dd7afa97eb305aec1050fda2ae513e5d61330cd9394a1d3252d82",
+      "size": 430
+    },
+    {
+      "path": "vendor/gmee_canon/queries/02_routing_query.sql",
+      "sha256": "def942b7e35895b8fc18e808184e8c95c3cffa6d9c8371b959ef043dc1653d20",
+      "size": 710
+    },
+    {
+      "path": "vendor/gmee_canon/queries/03_microticks_window.sql",
+      "sha256": "f5aefd683a55a44b0e1a57586f4d1ad5f18da85edbdfdd1fd58180c8165cd890",
+      "size": 383
+    },
+    {
+      "path": "vendor/gmee_canon/queries/04_glue_select.sql",
+      "sha256": "510186cfc3c5dd77cdfc446751c329b0c19788613eff7eba91b6015764b007f6",
+      "size": 2525
+    },
+    {
+      "path": "vendor/gmee_canon/schemas/clickhouse.sql",
+      "sha256": "84995817e514db468a21c7d96c9b65bc27214e507512e04942e0c4462a253960",
+      "size": 12121
+    },
+    {
+      "path": "vendor/gmee_canon/schemas/events.yaml",
+      "sha256": "f53a63ec2d8a0d19ac83a2486a87718c74bf25a34030e77c416b1a28e1bdc5ba",
+      "size": 148
+    },
+    {
+      "path": "vendor/gmee_canon/schemas/field_manifest.yaml",
+      "sha256": "611f5de38f9fb7a4789210539da0a6eaa786fd9877a33beb6240903768be5caa",
+      "size": 2286
+    },
+    {
+      "path": "vendor/gmee_canon/schemas/postgres.sql",
+      "sha256": "7187f1b5efbb19d2557838540ea84096a9ed7b32ae2520371d39c4b0cef0cb4e",
+      "size": 1520
+    },
+    {
+      "path": "vendor/gmee_canon/scripts/ch_smoke.sh",
+      "sha256": "db5c667d2f0514252faaf27ba05b832db1531072036152ed547f38a06258554c",
+      "size": 2454
+    },
+    {
+      "path": "vendor/gmee_canon/tests/data_quality/README.md",
+      "sha256": "36fbeda72a61290d8af0f0d0378d44d57baafa76bda32690dd0089516cfd34a2",
+      "size": 250
+    },
+    {
+      "path": "vendor/gmee_canon/tests/smoke/README.md",
+      "sha256": "e9543ca2b2b2540a0bb6fdb63c5f0ffdde527f64bfaedaa540d7d173d521023c",
+      "size": 261
+    },
+    {
+      "path": "strategy_manifest.json",
+      "sha256": "2b93dafb014cf608c5c3a17542142484acfd0bac3b0d771cc076623bd80901d6",
+      "size": 28270
+    }
+  ]
+}

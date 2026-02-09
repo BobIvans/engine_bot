@@ -1,0 +1,33 @@
+# integration/fixtures/monte_carlo/config.yaml
+# Base configuration for Monte Carlo simulation with randomization flags.
+
+pipeline:
+  # Enable trade shuffling between iterations
+  shuffle_trades: true
+
+  # Parameter perturbation ranges
+  randomization:
+    # Latency jitter range (multiplier)
+    latency_sigma_range: [0.1, 0.5]
+    # Slippage range (percentage)
+    slippage_range: [0.001, 0.01]
+    # Price noise range (percentage)
+    price_noise_range: [0.0, 0.02]
+
+# Simulation parameters
+simulation:
+  # Initial capital in USD
+  initial_capital: 10000.0
+  # Position sizing multiplier
+  position_size_pct: 0.5
+  # Stop loss percentage
+  stop_loss_pct: 0.05
+  # Take profit percentage
+  take_profit_pct: 0.10
+
+# Output configuration
+output:
+  # Percentiles to calculate
+  percentiles: [5, 50, 95]
+  # Confidence level for intervals
+  confidence_level: 0.95

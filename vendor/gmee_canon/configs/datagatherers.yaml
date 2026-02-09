@@ -1,0 +1,47 @@
+# configs/datagatherers.yaml (non-canonical; safe to extend)
+# Defines a database of DataGatherers (what to gather) without schema changes.
+
+gatherers:
+  - type: wallet_profile_30d
+    params: {}
+
+  # New sources beyond wallets:
+  - type: rpc_arm_stats
+    params: {}
+
+  - type: token_pool_regime
+    params:
+      limit_entities: 2000
+
+  - type: signal_source_stats
+    params: {}
+
+  # Universal JSON variable gatherers (extend by adding new keys)
+  - type: json_key_stats
+    params:
+      table: signals_raw
+      json_col: payload_json
+      json_key: kind
+      name: json_payload_kind
+
+  - type: json_key_stats
+    params:
+      table: forensics_events
+      json_col: details_json
+      json_key: reason
+      name: forensics_reason
+
+  # Additional generic mechanism: entity keyspaces (replicable templates)
+  - type: entity_keyspace
+    params:
+      entity_type: token_mint
+      table: trades
+      column: token_mint
+      name: entity_token_mint
+
+  - type: entity_keyspace
+    params:
+      entity_type: pool_id
+      table: trades
+      column: pool_id
+      name: entity_pool_id

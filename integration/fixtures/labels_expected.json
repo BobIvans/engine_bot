@@ -1,0 +1,9 @@
+{
+  "label_keys_v1": [
+    "y_has_future_ticks",
+    "y_horizon_sec",
+    "y_roi_horizon_pct",
+    "y_max_upside_horizon_pct",
+    "y_max_drawdown_horizon_pct"
+  ]
+}

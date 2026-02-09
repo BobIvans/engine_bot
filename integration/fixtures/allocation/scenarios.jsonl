@@ -1,0 +1,6 @@
+{"equity": 1000, "vol": 0.9, "regime": 0.8, "case": "bull_rush"}
+{"equity": 1000, "vol": 0.1, "regime": -0.5, "case": "winter"}
+{"equity": 1000, "vol": 0.5, "regime": 0.0, "case": "normal"}
+{"equity": 5000, "vol": 0.95, "regime": 0.9, "case": "bull_high_vol"}
+{"equity": 5000, "vol": 0.15, "regime": -0.8, "case": "bear_crash"}
+{"equity": 2000, "vol": 0.3, "regime": 0.5, "case": "cautious_bull"}

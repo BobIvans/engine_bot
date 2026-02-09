@@ -1,0 +1,8 @@
+wallet,winrate_7d,roi_7d,trades_7d,winrate_30d,roi_30d,trades_30d,last_active_ts
+candidate_star1,0.78,0.35,40,0.75,0.30,180,2024-01-14T11:00:00Z
+candidate_star2,0.72,0.28,38,0.70,0.25,160,2024-01-14T10:30:00Z
+candidate_good,0.65,0.20,30,0.62,0.18,100,2024-01-14T09:00:00Z
+candidate_marginal,0.58,0.10,25,0.60,0.12,90,2024-01-14T08:30:00Z
+candidate_poor_winrate,0.45,0.05,20,0.50,0.08,70,2024-01-14T08:00:00Z
+candidate_poor_roi,0.60,0.02,22,0.58,0.05,65,2024-01-14T07:30:00Z
+candidate_low_trades,0.70,0.25,10,0.65,0.22,40,2024-01-14T07:00:00Z

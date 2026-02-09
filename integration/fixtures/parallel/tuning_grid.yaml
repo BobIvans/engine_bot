@@ -1,0 +1,3 @@
+# Parameter ranges for Grid Search
+tp_pct: [0.05, 0.10]
+sl_pct: [-0.05, -0.02]

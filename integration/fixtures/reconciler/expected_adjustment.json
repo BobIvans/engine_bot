@@ -1,0 +1,9 @@
+{
+    "timestamp": "2024-01-15T12:00:00",
+    "local_balance_lamports_before": 1000000000,
+    "onchain_balance_lamports": 1030000000,
+    "delta_lamports": 30000000,
+    "reason": "missed_tx",
+    "tx_signatures": [],
+    "adjusted": false
+}

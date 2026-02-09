@@ -1,0 +1,13 @@
+-- One-line summary for a single run_trace_id
+-- Replace {TRACE_ID}
+SELECT
+  '{TRACE_ID}' AS trace_id,
+  countIf(kind = 'run_start') AS run_start,
+  countIf(kind = 'run_end') AS run_end,
+  countIf(kind = 'config_version') AS config_version,
+  countIf(kind = 'trade_reject') AS trade_reject_events,
+  countIf(kind = 'trade_reject' AND JSONExtractString(details_json, 'stage') = 'normalizer') AS rejects_normalizer,
+  countIf(kind = 'trade_reject' AND JSONExtractString(details_json, 'stage') = 'gates') AS rejects_gates,
+  (SELECT count() FROM default.signals_raw sr WHERE sr.trace_id = '{TRACE_ID}') AS signals_raw
+FROM default.forensics_events
+WHERE trace_id = '{TRACE_ID}';

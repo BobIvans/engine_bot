@@ -1,0 +1,14 @@
+{
+    "model_version": "v1_20250201",
+    "calibration_type": "platt",
+    "params": {
+        "a": -1.85,
+        "b": 0.32
+    },
+    "trained_on": "2025-02-01",
+    "metrics": {
+        "brier_score": 0.018,
+        "ece": 0.022,
+        "samples": 12500
+    }
+}

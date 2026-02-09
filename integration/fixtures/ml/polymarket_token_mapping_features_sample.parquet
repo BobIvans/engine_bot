@@ -1,0 +1,35 @@
+{
+  "description": "Token to Polymarket market mappings for feature testing",
+  "mappings": [
+    {
+      "token_mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "token_symbol": "WIF",
+      "mappings": [
+        {
+          "market_id": "bullish_market_001",
+          "relevance_score": 1.0,
+          "mapping_type": "exact_symbol",
+          "matched_keywords": ["solana", "meme"]
+        },
+        {
+          "market_id": "neutral_market_003",
+          "relevance_score": 0.6,
+          "mapping_type": "thematic",
+          "matched_keywords": ["ethereum", "pos"]
+        }
+      ]
+    },
+    {
+      "token_mint": "DezXAZ8z7PnrnRJJk3J5RsWpi5wE5BWmfW8HgvY8jtE1",
+      "token_symbol": "BONK",
+      "mappings": [
+        {
+          "market_id": "bearish_market_002",
+          "relevance_score": 0.8,
+          "mapping_type": "thematic",
+          "matched_keywords": ["bitcoin", "btc"]
+        }
+      ]
+    }
+  ]
+}

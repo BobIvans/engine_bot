@@ -1,0 +1,32 @@
+[
+    {
+        "pool_address": "EbxQq9idL9TpX4YbpYqZU128KzVE8sTY5Lk7g8tEG2Tz",
+        "mint_x": "So11111111111111111111111111111111111111112",
+        "mint_y": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "current_bin_id": 128,
+        "bin_step_bps": 10,
+        "active_bin_liquidity": 500000000,
+        "fee_tier_bps": 25,
+        "description": "USDC-SOL DLMM pool with medium liquidity and 0.1% bin step"
+    },
+    {
+        "pool_address": "F4mxY4K5x4f3U2X2yZ9QqW8Pp6r7S8Tt1U2v3W4x5Y6z",
+        "mint_x": "So11111111111111111111111111111111111111112",
+        "mint_y": "JUPyiwrYJFskUPiHa7hkeR8VUtkqjberbSOWd91pbT2",
+        "current_bin_id": 256,
+        "bin_step_bps": 5,
+        "active_bin_liquidity": 1200000000,
+        "fee_tier_bps": 20,
+        "description": "JUP-SOL DLMM pool with high liquidity and 0.05% bin step"
+    },
+    {
+        "pool_address": "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8S9T0U",
+        "mint_x": "So11111111111111111111111111111111111111112",
+        "mint_y": "MNgH9Yi2BdE4s8vU9J5Hx6X5sK4y2Z7r6T5w4x3y2z",
+        "current_bin_id": 64,
+        "bin_step_bps": 20,
+        "active_bin_liquidity": 80000000,
+        "fee_tier_bps": 40,
+        "description": "Low liquidity meme coin DLMM pool with 0.2% bin step"
+    }
+]

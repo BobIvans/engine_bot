@@ -1,0 +1,26 @@
+[
+    {
+        "id": "trump-wins-2024",
+        "question": "Will $TRUMP win the 2024 presidential election?",
+        "category": "politics",
+        "end_date_unix_ms": 1732060800000
+    },
+    {
+        "id": "dog-meme-season",
+        "question": "Will dog-themed memes dominate the market in 2025?",
+        "category": "memes",
+        "end_date_unix_ms": 1735689600000
+    },
+    {
+        "id": "goat-athlete",
+        "question": "Will LeBron be considered the $GOAT by 2030?",
+        "category": "sports",
+        "end_date_unix_ms": 1893456000000
+    },
+    {
+        "id": "quantum-computing",
+        "question": "Will quantum computing break RSA encryption by 2030?",
+        "category": "technology",
+        "end_date_unix_ms": 1908009600000
+    }
+]

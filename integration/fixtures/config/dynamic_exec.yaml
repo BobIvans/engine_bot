@@ -1,0 +1,19 @@
+# integration/fixtures/config/dynamic_exec.yaml
+# PR-E.3 Dynamic TTL & Slippage Model Configuration
+
+# Dynamic execution settings
+dynamic_execution:
+  enabled: true
+  ttl_vol_factor: 10.0          # TTL reduction factor per unit of volatility
+  min_ttl_ms: 500               # Minimum TTL floor (ms)
+  slippage_slope: 0.01          # Size/Liquidity impact coefficient
+  slippage_vol_mult: 5.0        # Volatility multiplier for slippage
+
+# Standard execution parameters (used when dynamic is disabled)
+execution:
+  base_ttl_ms: 2000             # Base TTL in milliseconds
+  base_slippage_bps: 10         # Base slippage in bps (0.10%)
+  max_slippage_bps: 100         # Maximum allowed slippage (1%)
+
+# Strategy profile
+profile: "dynamic_test"

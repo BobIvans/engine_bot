@@ -1,0 +1,5 @@
+{"wallet": "WalletA", "wallet_tier": "T2", "ts": 1700000000, "mint": "SOL123", "tx_hash": "tx1", "side": "BUY", "price": 100.0, "size_usd": 1000.0}
+{"wallet": "WalletB", "wallet_tier": "T1", "ts": 1700000010, "mint": "SOL123", "tx_hash": "tx2", "side": "BUY", "price": 101.0, "size_usd": 2000.0}
+{"wallet": "WalletC", "wallet_tier": "T0", "ts": 1700000020, "mint": "SOL123", "tx_hash": "tx3", "side": "BUY", "price": 102.0, "size_usd": 3000.0}
+{"wallet": "WalletB", "wallet_tier": "T1", "ts": 1700000030, "mint": "SOL123", "tx_hash": "tx4", "side": "BUY", "price": 103.0, "size_usd": 1500.0}
+{"wallet": "WalletD", "wallet_tier": "T1", "ts": 1700000350, "mint": "SOL123", "tx_hash": "tx5", "side": "BUY", "price": 105.0, "size_usd": 2500.0}

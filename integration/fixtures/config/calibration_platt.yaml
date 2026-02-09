@@ -1,0 +1,8 @@
+# PR-N.1 Probability Calibration Configuration
+# Platt Scaling Parameters
+
+model:
+  calibration:
+    method: "platt"
+    platt_a: -1.5   # scale parameter (Platt A)
+    platt_b: 0.2    # bias parameter (Platt B)

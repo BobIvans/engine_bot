@@ -1,0 +1,114 @@
+{
+  "schema_version": "signal_v1",
+  "required": [
+    "ts",
+    "wallet",
+    "mint",
+    "decision"
+  ],
+  "fields": {
+    "schema_version": {
+      "type": "string",
+      "optional": true,
+      "allowed": [
+        "signal_v1"
+      ]
+    },
+    "signal_id": {
+      "type": "string",
+      "optional": true
+    },
+    "ts": {
+      "type": "string"
+    },
+    "wallet": {
+      "type": "string",
+      "min_length": 3
+    },
+    "mint": {
+      "type": "string",
+      "min_length": 3
+    },
+    "mode": {
+      "type": "string",
+      "optional": true
+    },
+    "decision": {
+      "type": "string",
+      "allowed": [
+        "ENTER",
+        "SKIP"
+      ]
+    },
+    "reject_reason": {
+      "type": "string",
+      "optional": true
+    },
+    "entry_price": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "gt": 0
+      }
+    },
+    "limit_price": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "gt": 0
+      }
+    },
+    "ttl_sec": {
+      "type": "integer",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "max_slippage_bps": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "p_model": {
+      "type": "number",
+      "optional": true
+    },
+    "edge_raw": {
+      "type": "number",
+      "optional": true,
+      "description": "Raw edge before regime adjustment"
+    },
+    "edge_final": {
+      "type": "number",
+      "optional": true,
+      "description": "Edge after regime adjustment (edge_final = edge_raw * (1 + alpha * risk_regime))"
+    },
+    "risk_regime": {
+      "type": "number",
+      "optional": true,
+      "description": "Risk regime from Polymarket [-1.0, +1.0]",
+      "minimum": -1.0,
+      "maximum": 1.0
+    },
+    "regime_alpha": {
+      "type": "number",
+      "optional": true,
+      "description": "Configurable weight for regime adjustment [0.0, 0.5]",
+      "minimum": 0.0,
+      "maximum": 0.5
+    },
+    "is_probe": {
+      "type": "boolean",
+      "optional": true,
+      "description": "True if trade is executed as a probe (small test trade)"
+    },
+    "suggested_size_usd": {
+      "type": "number",
+      "optional": true,
+      "description": "Suggested position size in USD (capped for probe trades)"
+    }
+  }
+}

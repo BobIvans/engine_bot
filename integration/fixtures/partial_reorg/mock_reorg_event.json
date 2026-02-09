@@ -1,0 +1,9 @@
+{
+    "tx_hash": "reorged_tx_001",
+    "signal_id": "sig_reorg_001",
+    "previous_status": "finalized",
+    "detected_at": "2024-01-15T10:05:00Z",
+    "block_height": 150000000,
+    "rollback_amount": 100.0,
+    "reason": "Transaction reorged out of confirmed block"
+}

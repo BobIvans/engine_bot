@@ -1,0 +1,21 @@
+# Example mapping: wallet-centric premium labels (e.g. smart-money scoring)
+# P0-safe template: adjust paths to match your provider export JSON.
+provider_id: example_wallet_labels
+vars:
+  - var_name: wallet_score
+    entity_type: wallet
+    entity_id: $.response.wallet
+    ts: $.observed_ts
+    value: $.response.score
+    unit: score
+    confidence: $.response.confidence
+    value_type: float
+
+  - var_name: wallet_tag
+    entity_type: wallet
+    entity_id: $.response.wallet
+    ts: $.observed_ts
+    value: $.response.tag
+    unit: category
+    confidence: 0.9
+    value_type: str

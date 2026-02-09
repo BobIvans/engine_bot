@@ -1,0 +1,2 @@
+{"ts":"1","wallet":"W1","mint":"MINTA","side":"BUY","price":1.00,"size_usd":10.0,"platform":"raydium","tx_hash":"tx_entry_small","mode":"U"}
+{"ts":"2","wallet":"W2","mint":"MINTB","side":"BUY","price":1.00,"size_usd":10000.0,"platform":"raydium","tx_hash":"tx_entry_big","mode":"U"}

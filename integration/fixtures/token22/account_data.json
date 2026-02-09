@@ -1,0 +1,32 @@
+{
+    "CleanMint111": {
+        "extensions": []
+    },
+    "HookMint222": {
+        "extensions": [
+            {
+                "extension": "transferHook",
+                "state": {
+                    "authority": "HookAuth111",
+                    "programId": "HookProgram111"
+                }
+            }
+        ]
+    },
+    "DelegateMint333": {
+        "extensions": [
+            {
+                "extension": "permanentDelegate",
+                "state": {
+                    "delegate": "AdminWallet111"
+                }
+            },
+            {
+                "extension": "mintCloseAuthority",
+                "state": {
+                    "closeAuthority": "AdminWallet111"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,1 @@
+{"schema_version":"signal_v1","signal_id":"sig_1","ts":"2026-01-10T00:00:05Z","wallet":"WALLET_EXAMPLE_1","mint":"So11111111111111111111111111111111111111112","mode":"S_base","decision":"ENTER","entry_price":100.0,"limit_price":100.8,"ttl_sec":90,"max_slippage_bps":80,"p_model":0.58,"edge_raw":0.08,"edge_final":0.06}

@@ -1,0 +1,1 @@
+{"schema_version":"sim_fill_v1","ts":"2026-01-10T00:00:06Z","signal_id":"sig_1","limit_price":100.8,"ttl_sec":90,"filled":1,"fill_price":101.0,"slippage_bps":80.0,"latency_ms":250,"reason":"FILLED"}

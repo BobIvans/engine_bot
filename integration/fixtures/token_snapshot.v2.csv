@@ -1,0 +1,4 @@
+mint,volatility_30s,price_change_5m_pct,smart_buy_ratio,liquidity_usd,volume_24h_usd,spread_bps
+MINT_A,0.05,2.5,0.4,50000.0,250000.0,15.0
+MINT_B,0.02,-1.2,0.15,120000.0,800000.0,8.0
+MINT_C,0.08,5.0,0.65,25000.0,150000.0,25.0

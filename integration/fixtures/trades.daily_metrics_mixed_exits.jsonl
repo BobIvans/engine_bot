@@ -1,0 +1,5 @@
+{"ts":"1","wallet":"W1","mint":"MINT_TP","side":"BUY","price":1.00,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_tp","mode":"U"}
+{"ts":"2","wallet":"W1","mint":"MINT_TP","side":"SELL","price":1.05,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_tick_tp"}
+{"ts":"1","wallet":"W2","mint":"MINT_SL","side":"BUY","price":1.00,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_sl","mode":"U"}
+{"ts":"2","wallet":"W2","mint":"MINT_SL","side":"SELL","price":0.95,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_tick_sl"}
+{"ts":"1","wallet":"W3","mint":"MINT_TIME","side":"BUY","price":1.00,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_time","mode":"U"}

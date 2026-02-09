@@ -1,0 +1,26 @@
+[
+    {
+        "pool_address": "EpX5PrYUWY7WDyjkJ5o3e3Vf9Uo5J4o9H4VrnLWDmTFF",
+        "mint_x": "85VBFQZC9TZkfaptBWqv14ALD9fJNuk9nz2DPvCGQq4x",
+        "mint_y": "So11111111111111111111111111111111111111112",
+        "reserve_x": "1000000000000",
+        "reserve_y": "50000000000",
+        "lp_supply": "1000000000000",
+        "fee_tier_bps": 25,
+        "decimals_x": 9,
+        "decimals_y": 9,
+        "description": "WIF/SOL pool - 20M WIF, 50 SOL"
+    },
+    {
+        "pool_address": "8G9x2YmZaAXx8yF4kWuzKydzMhSaqwJZwAPV9xfDLauU",
+        "mint_x": "DMz9TW9k2oJ2e4nVA1w4d4m4X6jX8YvZ9Pw5d8hL2mN4k",
+        "mint_y": "So11111111111111111111111111111111111111112",
+        "reserve_x": "50000000000",
+        "reserve_y": "2500000000",
+        "lp_supply": "50000000000",
+        "fee_tier_bps": 25,
+        "decimals_x": 6,
+        "decimals_y": 9,
+        "description": "BONK/SOL pool - 50B BONK, 2.5 SOL"
+    }
+]

@@ -1,0 +1,30 @@
+# Example mapping: pool-centric metrics (non-wallet).
+# Useful for DEX pools / liquidity / volatility snapshots.
+provider_id: example_pool_metrics
+vars:
+  - var_name: pool_liquidity_usd
+    entity_type: pool
+    entity_id: $.response.pool_id
+    ts: $.observed_ts
+    value: $.response.liquidity_usd
+    unit: USD
+    confidence: 1.0
+    value_type: float
+
+  - var_name: pool_volume_1h_usd
+    entity_type: pool
+    entity_id: $.response.pool_id
+    ts: $.observed_ts
+    value: $.response.volume_1h_usd
+    unit: USD
+    confidence: 1.0
+    value_type: float
+
+  - var_name: pool_price_impact_bps
+    entity_type: pool
+    entity_id: $.response.pool_id
+    ts: $.observed_ts
+    value: $.response.price_impact_bps
+    unit: bps
+    confidence: 0.8
+    value_type: float

@@ -1,0 +1,7 @@
+wallet,winrate_7d,roi_7d,trades_7d,winrate_30d,roi_30d,trades_30d,last_active_ts
+wallet_performer1,0.72,0.22,35,0.68,0.25,150,2024-01-14T10:00:00Z
+wallet_performer2,0.68,0.18,28,0.65,0.20,120,2024-01-14T09:30:00Z
+wallet_declining1,0.45,-0.15,12,0.58,0.10,80,2024-01-14T08:00:00Z
+wallet_declining2,0.52,0.02,8,0.55,0.08,60,2024-01-14T07:00:00Z
+wallet_inactive1,0.30,-0.40,2,0.42,-0.12,25,2024-01-10T12:00:00Z
+wallet_marginal,0.58,0.05,15,0.60,0.12,90,2024-01-14T06:00:00Z

@@ -1,0 +1,8 @@
+modes:
+  X:
+    ttl_sec: 60
+    max_slippage_bps: 0
+    tp_pct: 1.0
+    sl_pct: -1.0
+    hold_sec_min: 10
+    hold_sec_max: 9

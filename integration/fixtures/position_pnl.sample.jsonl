@@ -1,0 +1,1 @@
+{"schema_version":"position_pnl_v1","position_id":"pos_1","signal_id":"sig_1","open_ts":"2026-01-10T00:00:06Z","close_ts":"2026-01-10T00:01:10Z","mint":"So11111111111111111111111111111111111111112","entry_price":101.0,"exit_price":106.0,"pnl_pct":0.0495,"pnl_usd":49.5,"exit_reason":"TP"}

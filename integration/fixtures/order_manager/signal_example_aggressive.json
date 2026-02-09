@@ -1,0 +1,11 @@
+{
+    "signal_id": "sig-aggr-001",
+    "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "price": 1.0,
+    "size_usd": 500.0,
+    "ttl_sec": 1800,
+    "tp_pct": 0.10,
+    "sl_pct": -0.05,
+    "wallet": "wallet456",
+    "mode": "U_aggr"
+}

@@ -1,0 +1,49 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "mint": {
+            "type": "string",
+            "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
+        },
+        "is_verified": {
+            "type": "boolean"
+        },
+        "creator_address": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$"
+        },
+        "top_holder_pct": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+        },
+        "holder_count": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "has_mint_authority": {
+            "type": "boolean"
+        },
+        "has_freeze_authority": {
+            "type": "boolean"
+        },
+        "enrichment_ts": {
+            "type": "integer",
+            "minimum": 0
+        }
+    },
+    "required": [
+        "mint",
+        "is_verified",
+        "creator_address",
+        "top_holder_pct",
+        "holder_count",
+        "has_mint_authority",
+        "has_freeze_authority",
+        "enrichment_ts"
+    ]
+}

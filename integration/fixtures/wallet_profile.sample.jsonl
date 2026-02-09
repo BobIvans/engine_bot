@@ -1,0 +1,1 @@
+{"schema_version":"wallet_profile_v1","wallet":"WALLET_EXAMPLE_1","tier":"tier1","cluster_label":"follower","roi_7d_pct":12.3,"roi_30d_pct":28.8,"roi_90d_pct":51.2,"winrate_30d":0.62,"trades_30d":84,"median_hold_sec":75,"avg_size_usd":220.5,"preferred_dex":"jupiter"}

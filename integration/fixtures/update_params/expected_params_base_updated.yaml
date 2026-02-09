@@ -1,0 +1,47 @@
+# strategy/config/params_base_updated.yaml
+# version: "3.0"
+version: "3.0"
+strategy_name: "solana-copy-scalp"
+
+run:
+  timezone: "Europe/Riga"
+  mode: "paper"
+
+wallet_profile:
+  universe:
+    max_wallets_total: 1500
+
+token_profile:
+  gates:
+    min_liquidity_usd: 15000
+
+signals:
+  modes:
+    base_profiles:
+      U: {hold_sec_min: 15, hold_sec_max: 30, tp_pct: 3.0, sl_pct: -2.5, ttl_sec: 30}
+      S: {hold_sec_min: 60, hold_sec_max: 90, tp_pct: 5.0, sl_pct: -4.5, ttl_sec: 90}
+      M: {hold_sec_min: 120, hold_sec_max: 180, tp_pct: 9.0, sl_pct: -7.0, ttl_sec: 180}
+      L: {hold_sec_min: 240, hold_sec_max: 300, tp_pct: 14.0, sl_pct: -10.0, ttl_sec: 300}
+
+# PR-Q.1: Stats Feedback Loop - Auto-update configuration
+auto_update:
+  enabled: true
+  min_days_required: 1
+  ewma_alpha: 0.15
+  bounds:
+    mu_win: [0.01, 0.25]
+    mu_loss: [0.005, 0.15]
+  max_change_per_run: 0.20
+
+# PR-Q.1: Payoff parameters (auto-tuned by stats feedback loop)
+payoff_mu_win:
+  U: 0.0450
+  S: 0.0550
+  M: 0.0800
+  L: 0.1200
+
+payoff_mu_loss:
+  U: 0.0200
+  S: 0.0300
+  M: 0.0400
+  L: 0.0600

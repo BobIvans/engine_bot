@@ -1,0 +1,34 @@
+version: 1
+canon:
+  path: vendor/gmee_canon
+  read_only: true
+strategy_docs:
+  path: strategy/docs
+  overlay_path: strategy/docs/overlay
+code_allowed_paths:
+  - integration
+  - scripts
+  - .github/workflows
+forbidden:
+  # Files that MUST NOT exist outside CANON.
+  globs_outside_canon:
+    - "**/*.sql"
+    - "**/*.ddl"
+    - "**/configs/queries.yaml"
+  # Directories that MUST NOT exist outside CANON (prevents "second canon").
+  dirs_outside_canon:
+    - "schemas"
+    - "queries"
+    - "golden-engine-exit"
+  # Strings that MUST NOT appear in overlay docs (prevents legacy path confusion).
+  strings_in_overlay:
+    - "golden-engine-exit"
+ci_contract:
+  required_scripts:
+    - scripts/overlay_lint.sh
+    - scripts/iteration1.sh
+    - scripts/p1_smoke.sh
+  required_commands:
+    - "./scripts/overlay_lint.sh"
+    - "./scripts/iteration1.sh"
+    - "./scripts/p1_smoke.sh"

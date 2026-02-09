@@ -1,0 +1,19 @@
+{
+    "inputMint": "So11111111111111111111111111111111111111112",
+    "outputMint": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+    "inAmount": "1000000000",
+    "outAmount": "42857142857",
+    "priceImpactPct": "1.25",
+    "routePlan": [
+        {
+            "swapInfo": {
+                "ammKey": "5Q544fKrFoe6tsEbD7s8PrtXkhTfD3MFMu77kNhn3W7r",
+                "label": "Raydium",
+                "inputMint": "So11111111111111111111111111111111111111112",
+                "outputMint": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm"
+            }
+        }
+    ],
+    "contextSlot": 283947561,
+    "timeTaken": 42
+}

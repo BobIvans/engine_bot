@@ -1,0 +1,117 @@
+{
+  "schema_name": "trade_event",
+  "schema_version": "trade_v1",
+  "description": "Canonical JSONL trade record for integration paper/sim pipeline. One line = one JSON object.",
+  "additional_properties": true,
+  "required": [
+    "ts",
+    "wallet",
+    "mint",
+    "side",
+    "price",
+    "size_usd",
+    "tx_hash"
+  ],
+  "fields": {
+    "schema_version": {
+      "optional": true,
+      "allowed": [
+        "trade_v1"
+      ],
+      "description": "If present, must be 'trade_v1'."
+    },
+    "ts": {
+      "required": true,
+      "types": [
+        "string",
+        "number"
+      ],
+      "description": "UTC timestamp: ISO-8601 string OR unix seconds/ms (number).",
+      "constraints": {
+        "not_empty": true
+      }
+    },
+    "wallet": {
+      "required": true,
+      "type": "string",
+      "min_length": 1,
+      "description": "Solana wallet address (base58)."
+    },
+    "mint": {
+      "required": true,
+      "type": "string",
+      "min_length": 1,
+      "description": "Token mint address (base58)."
+    },
+    "side": {
+      "required": true,
+      "allowed": [
+        "BUY",
+        "SELL",
+        "buy",
+        "sell"
+      ],
+      "description": "Input may be buy/sell; normalizer maps to BUY/SELL."
+    },
+    "price": {
+      "required": true,
+      "type": "number",
+      "constraints": {
+        "gt": 0
+      },
+      "description": "USD price, must be > 0."
+    },
+    "size_usd": {
+      "required": true,
+      "type": "number",
+      "constraints": {
+        "gt": 0
+      },
+      "description": "USD notional, must be > 0."
+    },
+    "tx_hash": {
+      "required": true,
+      "type": "string",
+      "min_length": 1,
+      "description": "Transaction signature/hash."
+    },
+    "platform": {
+      "optional": true,
+      "allowed": [
+        "raydium",
+        "jupiter",
+        "pumpfun",
+        "meteora",
+        "raydium_cpmm",
+        "other"
+      ],
+      "description": "DEX/platform name. raydium_cpmm for Raydium CPMM pools."
+    },
+    "pool_id": {
+      "optional": true,
+      "type": "string",
+      "description": "Pool address / id."
+    },
+    "slot": {
+      "optional": true,
+      "type": "integer",
+      "constraints": {
+        "ge": 0
+      },
+      "description": "Optional Solana slot."
+    },
+    "size_token": {
+      "optional": true,
+      "type": "number",
+      "constraints": {
+        "gt": 0
+      },
+      "description": "Optional token amount."
+    },
+    "source": {
+      "optional": true,
+      "type": "string",
+      "description": "Data source (helius|dune|manual|replay|other)."
+    }
+  }
+}

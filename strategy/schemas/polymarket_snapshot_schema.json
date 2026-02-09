@@ -1,0 +1,59 @@
+{
+    "type": "object",
+    "properties": {
+        "ts": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Snapshot timestamp in milliseconds since epoch"
+        },
+        "market_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Unique Polymarket market identifier"
+        },
+        "question": {
+            "type": "string",
+            "description": "Market question text"
+        },
+        "p_yes": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Probability of Yes outcome (0.0 to 1.0)"
+        },
+        "p_no": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Probability of No outcome (0.0 to 1.0)"
+        },
+        "volume_usd": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Trading volume in USD"
+        },
+        "event_date": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Event expiration date as Unix timestamp in milliseconds"
+        },
+        "category_tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Category tags for market classification"
+        }
+    },
+    "required": [
+        "ts",
+        "market_id",
+        "question",
+        "p_yes",
+        "p_no",
+        "volume_usd",
+        "event_date",
+        "category_tags"
+    ],
+    "additionalProperties": false
+}

@@ -1,0 +1,26 @@
+{
+    "data": {
+        "So11111111111111111111111111111111111111112": {
+            "id": "So11111111111111111111111111111111111111112",
+            "mintSymbol": "SOL",
+            "vsToken": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "vsTokenSymbol": "USDC",
+            "price": "1.23"
+        },
+        "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": {
+            "id": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "mintSymbol": "USDC",
+            "vsToken": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "vsTokenSymbol": "USDC",
+            "price": "1.00"
+        },
+        "JUPyiwrYJFskUPiHa7hkeR8VUtkqjberbSOWd91pbT2": {
+            "id": "JUPyiwrYJFskUPiHa7hkeR8VUtkqjberbSOWd91pbT2",
+            "mintSymbol": "JUP",
+            "vsToken": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "vsTokenSymbol": "USDC",
+            "price": "2.45"
+        }
+    },
+    "timeTaken": 0.012
+}

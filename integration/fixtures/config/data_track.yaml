@@ -1,0 +1,12 @@
+# PR-M.2 Data-Track Orchestrator Configuration
+# This config defines the paths for the daily update pipeline
+
+pipeline:
+  # Input files pattern (glob)
+  inputs:
+    pattern: "data/raw/daily_*.csv"
+
+  # Output storage paths
+  storage:
+    history: "data/processed/trades_history.parquet"
+    profiles: "data/processed/wallet_profiles.csv"

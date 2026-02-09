@@ -1,0 +1,65 @@
+{
+    "getSignaturesForAddress": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+            "signatures": [
+                {
+                    "signature": "5w3mGt1L2HZvVHKMWH8ZpA4eD6XJ1BqCW9ZzY9Lqw3ZGzY9Xx2ZpA4eD6XJ1BqCW9ZzY9Lqw3ZG",
+                    "slot": 245678900,
+                    "blockTime": 1707168000,
+                    "err": null,
+                    "memo": null
+                }
+            ]
+        }
+    },
+    "getParsedTransaction": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+            "meta": {
+                "err": null,
+                "fee": 5000,
+                "preBalances": [
+                    1000000000,
+                    50000000
+                ],
+                "postBalances": [
+                    995000000,
+                    55000000
+                ],
+                "innerInstructions": []
+            },
+            "transaction": {
+                "message": {
+                    "accountKeys": [
+                        {
+                            "pubkey": "Wallet111111111111111111111111111111",
+                            "signer": true
+                        },
+                        {
+                            "pubkey": "Token1111111111111111111111111111111",
+                            "signer": false
+                        }
+                    ],
+                    "instructions": [
+                        {
+                            "parsed": {
+                                "type": "swap",
+                                "info": {
+                                    "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                                    "amount": 1000000,
+                                    "otherMint": "So11111111111111111111111111111111111111112",
+                                    "otherAmount": 500000,
+                                    "source": "Wallet111111111111111111111111111111",
+                                    "destination": "Token1111111111111111111111111111111"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

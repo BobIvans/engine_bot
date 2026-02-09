@@ -1,0 +1,26 @@
+# Jito Tip Accounts Mock Response
+# These are example tip accounts - DO NOT use in production
+
+# Format: account_address lamports_per_signature
+tipYkqE4PLqPjV5SqB5Q4b2rT1VJvGpV7Zk7xrYx 10000
+tip3nAk9f2daz1g3u4qP8vG2s4fH6w7Z2j9kL5mN4qR 12000
+tip7mR2yZ9pJ3wK5xV8bN1j4h6g2fD3s5aR7tY8uI 15000
+
+# Sample output from /tip-accounts endpoint:
+{
+  "accounts": [
+    {
+      "account": "tipYkqE4PLqPjV5SqB5Q4b2rT1VJvGpV7Zk7xrYx",
+      "lamports_per_signature": 10000
+    },
+    {
+      "account": "tip3nAk9f2daz1g3u4qP8vG2s4fH6w7Z2j9kL5mN4qR",
+      "lamports_per_signature": 12000
+    },
+    {
+      "account": "tip7mR2yZ9pJ3wK5xV8bN1j4h6g2fD3s5aR7tY8uI",
+      "lamports_per_signature": 15000
+    }
+  ],
+  "valid_for_next_n_slots": 50
+}

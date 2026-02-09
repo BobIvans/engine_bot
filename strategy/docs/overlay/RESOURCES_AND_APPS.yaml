@@ -1,0 +1,233 @@
+schema_version: 1
+updated_utc: '2025-12-28T19:17:24Z'
+principles:
+  free_first: true
+  ui_terminals_not_in_core:
+  - BullX
+  - GMGN
+  - Axiom
+  adapter_rule: Treat every external source as replaceable (adapters + cache + retries).
+    Never make a 'MAYBE' source a SPOF.
+core_resources:
+- name: Helius
+  type: rpc/webhooks
+  free_first: 'YES'
+  note: Realtime wallet monitoring + decoded transactions (webhooks). Use rate limiting
+    + caching.
+  url: https://www.helius.dev/
+- name: Alchemy (Solana)
+  type: rpc
+  free_first: 'YES'
+  note: Secondary/failover RPC provider; keep a fallback to avoid SPOF.
+  url: https://www.alchemy.com/solana
+- name: Public Solana RPC
+  type: rpc
+  free_first: 'YES'
+  note: Last-resort fallback (limited, less reliable).
+  url: https://docs.solana.com/api/http
+- name: Solana Explorer
+  type: explorer
+  free_first: 'YES'
+  note: Official explorer for debugging tx/slots.
+  url: https://explorer.solana.com/
+- name: Solscan
+  type: explorer
+  free_first: 'YES'
+  note: Explorer + some APIs (rate-limited). Good for manual research.
+  url: https://solscan.io/
+- name: SolanaFM
+  type: explorer
+  free_first: 'YES'
+  note: Explorer with decoding/UX; useful for manual debugging.
+  url: https://solana.fm/
+- name: DuckDB + Parquet
+  type: storage
+  free_first: 'YES'
+  note: Local analytics store for MVP/backtests; fast + portable.
+  url: https://duckdb.org/
+- name: Google Colab
+  type: compute
+  free_first: 'YES'
+  note: Week-1 default environment for notebook R&D and backtests.
+  url: https://colab.research.google.com/
+- name: Solana Beach
+  type: explorer
+  free_first: 'YES'
+  note: Alternate explorer/metrics; useful for network health debugging.
+  url: https://solanabeach.io/
+data_sources:
+- name: Dune + Spellbook
+  type: analytics
+  free_first: 'YES'
+  note: Wallet discovery + SQL; export to CSV/Parquet for local processing.
+  url: https://dune.com/
+- name: Jupiter Quote API
+  type: dex_aggregator
+  free_first: 'YES'
+  note: Canonical slippage_est(size) + routing; use caching and respect limits.
+  url: https://dev.jup.ag/
+- name: Raydium docs/SDK
+  type: dex
+  free_first: 'YES'
+  note: AMM pool state + impact model for Raydium coverage.
+  url: https://docs.raydium.io/
+- name: Orca Whirlpools docs/SDK
+  type: dex
+  free_first: 'YES'
+  note: Optional DEX coverage (concentrated liquidity).
+  url: https://dev.orca.so/
+- name: Meteora docs (DLMM)
+  type: dex
+  free_first: 'YES'
+  note: Optional DEX coverage (DLMM).
+  url: https://docs.meteora.ag/
+- name: Birdeye (public API)
+  type: market_data
+  free_first: 'YES'
+  note: Prices/liquidity snapshots with rate limits; keep fallback sources.
+  url: https://birdeye.so/
+- name: Pyth Network price feeds (Solana)
+  type: oracle
+  free_first: 'YES'
+  note: SOL/USD and other feeds for qty_usd normalization + PnL reference.
+  url: https://docs.pyth.network/
+- name: Helius DAS (Digital Asset Standard)
+  type: asset_metadata
+  free_first: 'YES'
+  note: Owner->assets, token metadata flags; useful for wallet context and token metadata.
+  url: https://www.helius.dev/docs/api-reference/das/getassetsbyowner
+- name: Metaplex DAS (spec/SDK)
+  type: spec/sdk
+  free_first: 'YES'
+  note: Portable DAS layer to avoid vendor lock-in.
+  url: https://docs.metaplex.com/
+- name: Flipside (decoded Solana data)
+  type: analytics
+  free_first: 'YES'
+  note: Alternative decoded history; optional backfill channel.
+  url: https://flipsidecrypto.xyz/
+- name: Kolscan
+  type: wallet tracker/leaderboards
+  free_first: 'YES'
+  url: https://kolscan.io/
+  note: Seed lists of KOL/smart wallets + basic PnL/leaderboards. Use for discovery;
+    always verify on-chain.
+- name: Covalent
+  type: web3 API/indexer
+  free_first: MAYBE
+  url: https://www.covalenthq.com/
+  note: Convenience endpoints for tx/swaps. Treat as replaceable; strict caching and
+    rate-limits.
+- name: Moralis
+  type: web3 API/indexer
+  free_first: MAYBE
+  url: https://moralis.io/
+  note: Alternative indexer for history/enrichment. Treat as replaceable; strict caching
+    and rate-limits.
+- name: Bitquery (Solana GraphQL)
+  type: analytics
+  free_first: MAYBE
+  note: Optional accelerator for complex backfills (pricing may change). Never SPOF.
+  url: https://bitquery.io/
+- name: Polymarket (CLOB, read-only)
+  type: macro_overlay
+  free_first: 'YES'
+  note: 'Risk regime overlay: pm_bullish_score + pm_event_risk. Poll slowly + cache.'
+  url: https://docs.polymarket.com/
+- name: Dexscreener
+  type: market_data
+  free_first: 'YES'
+  note: Quick price/liquidity/volume snapshots. Treat as optional (rate limits/terms).
+  url: https://dexscreener.com/
+- name: GeckoTerminal
+  type: market_data
+  free_first: 'YES'
+  note: Price/liquidity snapshots across DEXes. Optional fallback for token_snapshot.
+  url: https://www.geckoterminal.com/
+- name: Shyft (Solana APIs)
+  type: api
+  free_first: MAYBE
+  note: Optional decoded tx / indexing provider; pricing can change. Do not depend
+    on it.
+  url: https://shyft.to/
+infra_and_storage:
+- name: Upstash Redis
+  type: cache/queue
+  free_first: 'YES'
+  note: Free tier for caching/streams; optional in week-1 (local Redis ok).
+  url: https://upstash.com/
+- name: Redis (local / docker)
+  type: cache/queue
+  free_first: 'YES'
+  note: Local queues + caching; simplest infra.
+  url: https://redis.io/
+- name: BigQuery sandbox
+  type: warehouse
+  free_first: 'YES'
+  note: Optional analytics store; good for dashboards/SQL. Avoid overkill week-1.
+  url: https://cloud.google.com/bigquery
+- name: GitHub Actions
+  type: automation
+  free_first: 'YES'
+  note: Cron-like jobs for ingestion/backtests on free tier for small runs.
+  url: https://github.com/features/actions
+dashboards_alerts:
+- name: Grafana OSS (local)
+  type: dashboard
+  free_first: 'YES'
+  note: Local dashboards; can read from CSV/Parquet/Prometheus.
+  url: https://grafana.com/oss/grafana/
+- name: Grafana Cloud (free tier)
+  type: dashboard
+  free_first: 'YES'
+  note: Optional hosted dashboards with free tier.
+  url: https://grafana.com/products/cloud/
+- name: Telegram Bot API
+  type: alerts
+  free_first: 'YES'
+  note: Daily report + alerts; simplest notification channel.
+  url: https://core.telegram.org/bots/api
+learning_and_reference:
+- name: Solana JSON-RPC docs
+  type: docs
+  free_first: 'YES'
+  note: RPC methods/limits; understand commitment/finality.
+  url: https://solana.com/docs/rpc
+- name: Solana Cookbook
+  type: docs
+  free_first: 'YES'
+  note: Practical snippets for programs/clients.
+  url: https://solanacookbook.com/
+- name: SPL Token docs
+  type: docs
+  free_first: 'YES'
+  note: Authorities, freeze/mint, transfer rules; core for honeypot checks.
+  url: https://spl.solana.com/token
+- name: Token-2022 docs (extensions)
+  type: docs
+  free_first: 'YES'
+  note: TransferHook / extensions useful for risk checks.
+  url: https://spl.solana.com/token-2022
+- name: Jito docs (reference)
+  type: docs/mev
+  free_first: 'YES'
+  note: 'Week-1: reference only; later for priority/bundles modeling/upgrades.'
+  url: https://docs.jito.wtf/
+optional_paid_upgrades:
+- name: Private/paid RPC
+  type: rpc
+  free_first: 'NO'
+  note: Only after proven edge; improves reliability + latency.
+- name: Jito bundles / tips
+  type: mev
+  free_first: 'NO'
+  note: Optional execution accelerator; not needed for week-1 MVP.
+- name: Paid terminals (BullX/GMGN/Axiom)
+  type: ui
+  free_first: 'NO'
+  note: Research-only; never core execution path.
+notes:
+- В ядре стратегии любые внешние источники подключаются через адаптеры и легко заменяются.
+- 'Сервисы с лимитами: всегда используем кэш + rate limiting + retries/backoff.'
+- 'Источники с free_first=MAYBE не должны становиться SPOF: используем только как
+  ускорители/бекфиллы.'

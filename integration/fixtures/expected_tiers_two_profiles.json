@@ -1,0 +1,8 @@
+{
+  "schema_version": "tier_counts.v1",
+  "expected_total_lines": 2,
+  "expected_tier_totals": {
+    "tier1": 1,
+    "tier3": 1
+  }
+}

@@ -1,0 +1,5 @@
+{"mint":"SOLabc123def456","volume_spike_15s_z":0.5,"smart_money_exits_30s":1,"liquidity_drain_60s_pct":-2.5,"price_impact_15s_bps":50}
+{"mint":"SOLxyz789ghi012","volume_spike_15s_z":2.1,"smart_money_exits_30s":3,"liquidity_drain_60s_pct":-5.0,"price_impact_15s_bps":150}
+{"mint":"SOLmno345jkl678","volume_spike_15s_z":-0.3,"smart_money_exits_30s":0,"liquidity_drain_60s_pct":0.5,"price_impact_15s_bps":10}
+{"mint":"SOLoutofrange901","volume_spike_15s_z":6.0,"smart_money_exits_30s":2,"liquidity_drain_60s_pct":-3.0,"price_impact_15s_bps":100}
+{"mint":"SOLnegativedrain234","volume_spike_15s_z":1.0,"smart_money_exits_30s":1,"liquidity_drain_60s_pct":-15.0,"price_impact_15s_bps":30}

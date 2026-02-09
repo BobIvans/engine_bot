@@ -1,0 +1,8 @@
+tier_1:
+  - WalletA  # Underperformer (ROI -50%)
+  - WalletSafe  # Good performer
+tier_2:
+  - WalletB  # Candidate (ROI 100%)
+  - WalletC  # Average
+tier_3:
+  - WalletD  # Newbie

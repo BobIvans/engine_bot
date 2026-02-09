@@ -1,0 +1,81 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Raydium Pool State",
+    "description": "Decoded Raydium AMM v4 pool state with reserves for slippage estimation",
+    "type": "object",
+    "required": [
+        "pool_address",
+        "mint_x",
+        "mint_y",
+        "reserve_x",
+        "reserve_y",
+        "lp_supply",
+        "fee_tier_bps"
+    ],
+    "properties": {
+        "pool_address": {
+            "type": "string",
+            "description": "Solana pubkey of the Raydium pool",
+            "examples": [
+                "EpX5PrYUWY7WDyjkJ5o3e3Vf9Uo5J4o9H4VrnLWDmTFF"
+            ]
+        },
+        "mint_x": {
+            "type": "string",
+            "description": "Mint address of token X (base token)",
+            "examples": [
+                "85VBFQZC9TZkfaptBWqv14ALD9fJNuk9nz2DPvCGQq4x"
+            ]
+        },
+        "mint_y": {
+            "type": "string",
+            "description": "Mint address of token Y (quote token, usually SOL)",
+            "examples": [
+                "So11111111111111111111111111111111111111112"
+            ]
+        },
+        "reserve_x": {
+            "type": "string",
+            "description": "Reserve amount of token X in raw units (no decimals)",
+            "examples": [
+                "1234567890"
+            ]
+        },
+        "reserve_y": {
+            "type": "string",
+            "description": "Reserve amount of token Y in raw units (no decimals)",
+            "examples": [
+                "56789012"
+            ]
+        },
+        "lp_supply": {
+            "type": "string",
+            "description": "Total LP token supply",
+            "examples": [
+                "9876543210"
+            ]
+        },
+        "fee_tier_bps": {
+            "type": "integer",
+            "description": "Fee tier in basis points (e.g., 25 = 0.25%)",
+            "minimum": 0,
+            "maximum": 10000,
+            "examples": [
+                25
+            ]
+        },
+        "decimals_x": {
+            "type": "integer",
+            "description": "Decimals for token X",
+            "minimum": 0,
+            "maximum": 18
+        },
+        "decimals_y": {
+            "type": "integer",
+            "description": "Decimals for token Y",
+            "minimum": 0,
+            "maximum": 18
+        }
+    },
+    "additionalProperties": false
+}

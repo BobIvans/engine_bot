@@ -1,0 +1,16 @@
+{
+  "schema_version": "sim_fill_v1",
+  "required": ["ts", "signal_id", "filled"],
+  "fields": {
+    "schema_version": {"type": "string", "optional": true, "allowed": ["sim_fill_v1"]},
+    "ts": {"type": "string"},
+    "signal_id": {"type": "string", "min_length": 3},
+    "limit_price": {"type": "number", "optional": true, "constraints": {"gt": 0}},
+    "ttl_sec": {"type": "integer", "optional": true, "constraints": {"ge": 0}},
+    "filled": {"type": "integer", "constraints": {"ge": 0}},
+    "fill_price": {"type": "number", "optional": true, "constraints": {"gt": 0}},
+    "slippage_bps": {"type": "number", "optional": true, "constraints": {"ge": 0}},
+    "latency_ms": {"type": "integer", "optional": true, "constraints": {"ge": 0}},
+    "reason": {"type": "string", "optional": true}
+  }
+}

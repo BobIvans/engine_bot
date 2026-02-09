@@ -1,0 +1,1 @@
+{"schema_version":"trade_v1","ts":"2026-01-05 10:00:00.000","wallet":"SoMeWallet1111111111111111111111111111111111","mint":"So11111111111111111111111111111111111111112","side":"buy","price":100.0,"size_usd":150.0,"platform":"raydium","tx_hash":"tx_001","pool_id":"pool_test_001","honeypot_pass":true,"wallet_roi_30d_pct":35.0,"wallet_winrate_30d":0.62,"wallet_trades_30d":120}

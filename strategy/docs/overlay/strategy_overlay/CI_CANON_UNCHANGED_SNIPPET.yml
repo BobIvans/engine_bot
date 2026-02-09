@@ -1,0 +1,7 @@
+# GitHub Actions snippet (add as a step in an existing job)
+- name: Canon unchanged
+  run: |
+    if ! git diff --exit-code -- vendor/gmee_canon; then
+      echo "Canon changed (vendor/gmee_canon). This is forbidden in P0." >&2
+      exit 1
+    fi

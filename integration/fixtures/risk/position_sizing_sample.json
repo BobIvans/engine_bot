@@ -1,0 +1,34 @@
+{
+    "description": "Position sizing test fixtures with 3 risk regimes",
+    "available_capital_usd": 10000,
+    "base_position_pct": 0.02,
+    "risk_beta": 0.5,
+    "max_position_pct_risk_on": 0.05,
+    "min_position_pct_risk_off": 0.01,
+    "scenarios": [
+        {
+            "scenario_id": "risk_on",
+            "risk_regime": 0.85,
+            "edge_final": 0.07,
+            "expected_position_pct": 0.0285,
+            "expected_method": "risk_aware",
+            "description": "Risk-on regime: position increased to 2.85%"
+        },
+        {
+            "scenario_id": "neutral",
+            "risk_regime": 0.0,
+            "edge_final": 0.05,
+            "expected_position_pct": 0.02,
+            "expected_method": "risk_aware",
+            "description": "Neutral regime: position at base 2%"
+        },
+        {
+            "scenario_id": "risk_off",
+            "risk_regime": -0.92,
+            "edge_final": 0.04,
+            "expected_position_pct": 0.01,
+            "expected_method": "risk_aware",
+            "description": "Risk-off regime: position decreased to 1% (min capped)"
+        }
+    ]
+}

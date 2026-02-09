@@ -1,0 +1,27 @@
+[
+    {
+        "wallet_addr": "4abcDEFG123456789ABCDEFGHIJKLMNopqrstuvwx",
+        "kolscan_rank": 17,
+        "kolscan_flags": [
+            "verified",
+            "memecoin_specialist"
+        ],
+        "last_active_ts": 1738945200
+    },
+    {
+        "wallet_addr": "5defHIJK23456789ABCDEFGHIJKLMNOPQrstuvwxyzAB",
+        "kolscan_rank": 42,
+        "kolscan_flags": [
+            "whale"
+        ],
+        "last_active_ts": 1738945100
+    },
+    {
+        "wallet_addr": "6cdefJKLM3456789ABCDEFGHIJKLMNOPQRSabcdefghijk",
+        "kolscan_rank": 128,
+        "kolscan_flags": [
+            "verified"
+        ],
+        "last_active_ts": 1738945000
+    }
+]

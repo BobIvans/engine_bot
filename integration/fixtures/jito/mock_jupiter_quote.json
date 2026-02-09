@@ -1,0 +1,24 @@
+{
+    "inputMint": "So11111111111111111111111111111111111111112",
+    "inAmount": "100000000",
+    "outputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "outAmount": "1000000",
+    "otherAmountThreshold": "999000",
+    "swapMode": "ExactIn",
+    "slippageBps": 50,
+    "priceImpactPct": "0.001",
+    "routePlan": [
+        {
+            "swapInfo": {
+                "ammKey": "71A5W6u7X6vGwP9vWmGxKqwG6r4QY3uqV1K1X6yCWX",
+                "label": "Orca",
+                "inputMint": "So11111111111111111111111111111111111111112",
+                "outputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                "inAmount": "100000000",
+                "outAmount": "1000000"
+            }
+        }
+    ],
+    "contextSlot": 123456789,
+    "timeTaken": 0.05
+}

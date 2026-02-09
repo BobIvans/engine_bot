@@ -1,0 +1,62 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Polymarket Token Mapping Schema",
+    "description": "Schema for mapping Polymarket markets to Solana tokens (PR-PM.4)",
+    "type": "object",
+    "properties": {
+        "market_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Polymarket market ID"
+        },
+        "token_mint": {
+            "type": "string",
+            "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$",
+            "description": "Solana token mint address"
+        },
+        "token_symbol": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Token symbol (e.g., TRUMP, WIF, GOAT)"
+        },
+        "relevance_score": {
+            "type": "number",
+            "minimum": 0.6,
+            "maximum": 1.0,
+            "description": "Relevance score: 1.0=exact_symbol, 0.8=thematic, 0.6=fuzzy_name"
+        },
+        "mapping_type": {
+            "type": "string",
+            "enum": [
+                "exact_symbol",
+                "thematic",
+                "fuzzy_name"
+            ],
+            "description": "Type of mapping strategy used"
+        },
+        "matched_keywords": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Keywords that triggered the match"
+        },
+        "ts": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Timestamp of mapping computation"
+        },
+        "schema_version": {
+            "type": "string",
+            "description": "Schema version identifier"
+        }
+    },
+    "required": [
+        "market_id",
+        "token_mint",
+        "token_symbol",
+        "relevance_score",
+        "mapping_type",
+        "matched_keywords"
+    ]
+}

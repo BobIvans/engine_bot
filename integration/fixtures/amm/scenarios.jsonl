@@ -1,0 +1,4 @@
+{"amount_in": 1.0, "reserve_in": 1000000.0, "reserve_out": 100000000.0, "fee_bps": 30, "expected_out": 99.69990059919911, "expected_impact_bps": 0.00999900009999001, "description": "Tiny trade (Linear). 1 SOL in 1M SOL/100M USDC. Impact ~0"}
+{"amount_in": 10000.0, "reserve_in": 20000.0, "reserve_out": 2000000.0, "fee_bps": 30, "expected_out": 665331.998665332, "expected_impact_bps": 3323.376623376623, "description": "Huge trade (Curve). 10k SOL in 20k SOL/2M USDC. Impact >30% (3323 bps)"}
+{"amount_in": 100.0, "reserve_in": 0.0, "reserve_out": 100000.0, "fee_bps": 30, "expected_out": 0.0, "expected_impact_bps": 0.0, "description": "Zero liquidity (Error). Zero reserve_in should raise ValueError"}
+{"amount_in": 0.0, "reserve_in": 10000.0, "reserve_out": 1000000.0, "fee_bps": 30, "expected_out": 0.0, "expected_impact_bps": 0.0, "description": "Zero amount (Edge). Should return 0 with no error"}

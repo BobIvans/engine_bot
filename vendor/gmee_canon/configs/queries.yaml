@@ -1,0 +1,42 @@
+# configs/queries.yaml — Query registry (SQL-as-API, canonical)
+#
+# P0 rule: this file is the ONLY registry of "read API" queries.
+# Anti-drift: params here MUST match placeholders in queries/*.sql 1:1 (no extras).
+
+functions:
+  profile_query:
+    sql: queries/01_profile_query.sql
+    params: [chain, wallet]
+
+  routing_query:
+    sql: queries/02_routing_query.sql
+    params: [chain]
+
+  microticks_window:
+    sql: queries/03_microticks_window.sql
+    params: [chain, trade_id, window_s]
+
+  glue_select:
+    sql: queries/04_glue_select.sql
+    # NOTE: params must match SQL placeholders exactly (anti-drift CI)
+    params:
+      - chain
+      - trade_id
+      - epsilon_pad_ms
+      - epsilon_min_ms
+      - epsilon_max_ms
+      - margin_mult
+      - min_hold_sec
+      - max_hold_sec
+      - mode_u_max_sec
+      - mode_s_max_sec
+      - mode_m_max_sec
+      - microticks_window_s
+      - aggr_u_window_s
+      - aggr_u_pct
+      - aggr_s_window_s
+      - aggr_s_pct
+      - aggr_m_window_s
+      - aggr_m_pct
+      - aggr_l_window_s
+      - aggr_l_pct

@@ -1,0 +1,91 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Wallet Profile Schema",
+    "description": "Schema for wallet profiles with clustering extensions",
+    "type": "object",
+    "properties": {
+        "wallet_addr": {
+            "type": "string",
+            "description": "Wallet address"
+        },
+        "tier": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Wallet tier (tier0, tier1, tier2, etc.)"
+        },
+        "roi_30d_pct": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "description": "ROI percentage over 30 days"
+        },
+        "winrate_30d": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "description": "Win rate over 30 days (0.0-1.0)"
+        },
+        "trades_30d": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "description": "Number of trades over 30 days"
+        },
+        "median_hold_sec": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "description": "Median holding period in seconds"
+        },
+        "avg_trade_size_sol": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "description": "Average trade size in SOL"
+        },
+        "cluster_label": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "minimum": 0,
+            "description": "PR-WD.4: Cluster label from co-trade clustering"
+        },
+        "leader_score": {
+            "type": [
+                "number",
+                "null"
+            ],
+            "minimum": 0,
+            "maximum": 1,
+            "description": "PR-WD.4: Score indicating leadership frequency (0.0-1.0)"
+        },
+        "follower_lag_ms": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "minimum": 0,
+            "description": "PR-WD.4: Median lag from leader in milliseconds"
+        },
+        "co_trade_count": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "minimum": 0,
+            "description": "PR-WD.4: Number of co-trades with cluster members"
+        }
+    },
+    "required": [
+        "wallet_addr"
+    ],
+    "additionalProperties": false
+}

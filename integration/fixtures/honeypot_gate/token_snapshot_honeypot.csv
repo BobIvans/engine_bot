@@ -1,0 +1,2 @@
+mint,ts_snapshot,liquidity_usd,volume_24h_usd,spread_bps,top10_holders_pct,single_holder_pct,extra
+SoL111111111111111111111111111111111111111,2024-01-01T00:00:00Z,50000.0,10000.0,100.0,80.0,50.0,"{""security"":{""is_honeypot"":true},""simulation"":{""success"":false}}"

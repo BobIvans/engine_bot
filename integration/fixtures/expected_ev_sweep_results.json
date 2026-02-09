@@ -1,0 +1,88 @@
+{
+    "schema_version": "results.v1",
+    "title": "PR-9 ev sweep",
+    "run": {
+        "created_utc": "1970-01-01T00:00:00Z",
+        "run_trace_id": "ev_sweep",
+        "fixture": {
+            "strategy_name": "ev-sweep-fixture",
+            "min_edge_swept": true
+        }
+    },
+    "sweeps": [
+        {
+            "name": "min_edge_bps",
+            "unit": "bps",
+            "values": [
+                0,
+                50,
+                100
+            ],
+            "rows": [
+                {
+                    "value": 0,
+                    "sim_metrics": {
+                        "positions_total": 3,
+                        "positions_closed": 3,
+                        "winrate": 0.3333333333333333,
+                        "roi_total": -0.006666666666666666,
+                        "avg_pnl_usd": -0.6666666666666666,
+                        "skipped_by_reason": {
+                            "missing_snapshot": 0,
+                            "missing_wallet_profile": 0,
+                            "ev_below_threshold": 0
+                        },
+                        "exit_reason_counts": {
+                            "TP": 1,
+                            "SL": 1,
+                            "TIME": 1
+                        }
+                    }
+                },
+                {
+                    "value": 50,
+                    "sim_metrics": {
+                        "positions_total": 2,
+                        "positions_closed": 2,
+                        "winrate": 0.5,
+                        "roi_total": 0.015,
+                        "avg_pnl_usd": 1.5,
+                        "skipped_by_reason": {
+                            "missing_snapshot": 0,
+                            "missing_wallet_profile": 0,
+                            "ev_below_threshold": 1
+                        },
+                        "exit_reason_counts": {
+                            "TP": 1,
+                            "SL": 0,
+                            "TIME": 1
+                        }
+                    }
+                },
+                {
+                    "value": 100,
+                    "sim_metrics": {
+                        "positions_total": 1,
+                        "positions_closed": 1,
+                        "winrate": 1.0,
+                        "roi_total": 0.05,
+                        "avg_pnl_usd": 5.0,
+                        "skipped_by_reason": {
+                            "missing_snapshot": 0,
+                            "missing_wallet_profile": 0,
+                            "ev_below_threshold": 2
+                        },
+                        "exit_reason_counts": {
+                            "TP": 1,
+                            "SL": 0,
+                            "TIME": 0
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "notes": [
+        "Deterministic offline sweep; no external APIs."
+    ]
+}

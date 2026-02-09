@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Hazard Score Schema",
+    "description": "Schema for hazard model output (PR-ML.4)",
+    "type": "object",
+    "properties": {
+        "hazard_score_raw": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Raw hazard score before calibration"
+        },
+        "hazard_score_calibrated": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Calibrated hazard probability (0.0 = safe, 1.0 = crash)"
+        },
+        "is_emergency_exit": {
+            "type": "boolean",
+            "description": "Whether emergency exit was triggered"
+        },
+        "triggering_features": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Features that contributed to high hazard score"
+        },
+        "model_version": {
+            "type": "string",
+            "description": "Model version identifier"
+        }
+    },
+    "required": [
+        "hazard_score_raw",
+        "hazard_score_calibrated",
+        "is_emergency_exit",
+        "triggering_features",
+        "model_version"
+    ]
+}

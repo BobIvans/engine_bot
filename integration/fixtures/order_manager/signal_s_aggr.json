@@ -1,0 +1,12 @@
+{
+    "signal_id": "sig_aggr_001",
+    "mint": "SoL1111111111111111111111111111111111111111",
+    "entry_price": 50.0,
+    "size_usd": 200.0,
+    "ttl_sec": 30,
+    "tp_pct": 0.10,
+    "sl_pct": 0.05,
+    "mode": "U_aggr",
+    "wallet": "AggrWallet123456789012345678901234567890",
+    "side": "BUY"
+}

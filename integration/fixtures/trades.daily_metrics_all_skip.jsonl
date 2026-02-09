@@ -1,0 +1,4 @@
+{"ts":"1","wallet":"W1","mint":"MINTA_MISSING","side":"BUY","price":1.00,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_1","mode":"U"}
+{"ts":"2","wallet":"W1","mint":"MINTA_MISSING","side":"SELL","price":1.05,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_tick_1"}
+{"ts":"1","wallet":"W2_MISSING","mint":"MINTB","side":"BUY","price":1.00,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_2","mode":"U"}
+{"ts":"2","wallet":"W2_MISSING","mint":"MINTB","side":"SELL","price":0.95,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_tick_2"}

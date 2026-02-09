@@ -1,0 +1,19 @@
+{
+    "inputMint": "So11111111111111111111111111111111111111112",
+    "inAmount": "1000000000",
+    "outputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "outAmount": "150500000",
+    "otherAmountThreshold": "149747500",
+    "slippageBps": 50,
+    "priceImpactPct": "0.001",
+    "routePlan": [
+        {
+            "ammKey": "CAMMCzo5YL8w4Eaf39c9mW13t9Z3fQHTDB7Z4Yo7JrKm",
+            "label": "Raydium",
+            "inputMint": "So11111111111111111111111111111111111111112",
+            "outputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "inAmount": "1000000000",
+            "outAmount": "150500000"
+        }
+    ]
+}

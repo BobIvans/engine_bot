@@ -1,0 +1,58 @@
+[
+    {
+        "market_id": "crypto_btc_100k_1",
+        "question": "Will BTC exceed $100K in 2025?",
+        "p_yes": 0.85,
+        "volume_usd": 1200000,
+        "category": "crypto"
+    },
+    {
+        "market_id": "crypto_btc_100k_2",
+        "question": "Bitcoin above $100K by year end",
+        "p_yes": 0.88,
+        "volume_usd": 1150000,
+        "category": "crypto"
+    },
+    {
+        "market_id": "crypto_eth_5k_1",
+        "question": "ETH > $5K in 2025?",
+        "p_yes": 0.82,
+        "volume_usd": 1300000,
+        "category": "crypto"
+    },
+    {
+        "market_id": "crypto_solana_500",
+        "question": "Solana exceed $500?",
+        "p_yes": 0.8,
+        "volume_usd": 1100000,
+        "category": "crypto"
+    },
+    {
+        "market_id": "macro_sp500_up_1",
+        "question": "S&P 500 above 6000 by Q2?",
+        "p_yes": 0.65,
+        "volume_usd": 800000,
+        "category": "macro"
+    },
+    {
+        "market_id": "macro_sp500_up_2",
+        "question": "Nasdaq rally continues?",
+        "p_yes": 0.68,
+        "volume_usd": 750000,
+        "category": "macro"
+    },
+    {
+        "market_id": "bear_btc_crash_1",
+        "question": "BTC crash below $50K?",
+        "p_yes": 0.25,
+        "volume_usd": 500000,
+        "category": "crypto"
+    },
+    {
+        "market_id": "bear_btc_crash_2",
+        "question": "Bitcoin drop below $60K?",
+        "p_yes": 0.3,
+        "volume_usd": 550000,
+        "category": "crypto"
+    }
+]

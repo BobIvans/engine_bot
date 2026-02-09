@@ -1,0 +1,19 @@
+# integration/fixtures/config/tuning_ranges.yaml
+# PR-E.4 Parameter Tuning Ranges Configuration
+
+# Example: Sweeping TP/SL parameters across multiple values
+# This will generate grid combinations: 2 * 2 = 4 configs
+
+modes.U.tp_pct:
+  - 0.05
+  - 0.10
+
+modes.U.sl_pct:
+  - -0.05
+  - -0.10
+
+# Additional ranges for more comprehensive tuning
+# modes.U.min_edge_bps:
+#   - 0
+#   - 50
+#   - 100

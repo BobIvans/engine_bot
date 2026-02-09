@@ -1,0 +1,18 @@
+{
+  "schema_version": "wallet_profile_v1",
+  "required": ["wallet"],
+  "fields": {
+    "schema_version": {"type": "string", "optional": true, "allowed": ["wallet_profile_v1"]},
+    "wallet": {"type": "string", "min_length": 3},
+    "tier": {"type": "string", "optional": true},
+    "cluster_label": {"type": "string", "optional": true},
+    "roi_7d_pct": {"type": "number", "optional": true},
+    "roi_30d_pct": {"type": "number", "optional": true},
+    "roi_90d_pct": {"type": "number", "optional": true},
+    "winrate_30d": {"type": "number", "optional": true, "constraints": {"ge": 0}},
+    "trades_30d": {"type": "integer", "optional": true, "constraints": {"ge": 0}},
+    "median_hold_sec": {"type": "number", "optional": true, "constraints": {"ge": 0}},
+    "avg_size_usd": {"type": "number", "optional": true, "constraints": {"ge": 0}},
+    "preferred_dex": {"type": "string", "optional": true}
+  }
+}

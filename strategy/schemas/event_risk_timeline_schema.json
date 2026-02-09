@@ -1,0 +1,49 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "EventRiskTimeline",
+    "description": "Output schema for event risk aggregation from Polymarket snapshots",
+    "type": "object",
+    "properties": {
+        "ts": {
+            "type": "integer",
+            "description": "Timestamp in milliseconds since epoch"
+        },
+        "high_event_risk": {
+            "type": "boolean",
+            "description": "True if event is high risk (critical type within 7 days)"
+        },
+        "days_to_resolution": {
+            "type": "integer",
+            "description": "Days until event resolution (negative if event has passed)"
+        },
+        "event_type": {
+            "type": "string",
+            "enum": [
+                "election",
+                "etf",
+                "regulatory",
+                "fed",
+                "macro",
+                "other"
+            ],
+            "description": "Classification of the event type"
+        },
+        "event_name": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Truncated event/question name"
+        },
+        "source_snapshot_id": {
+            "type": "string",
+            "description": "ID of the source Polymarket snapshot"
+        }
+    },
+    "required": [
+        "ts",
+        "high_event_risk",
+        "days_to_resolution",
+        "event_type",
+        "event_name",
+        "source_snapshot_id"
+    ]
+}

@@ -1,0 +1,2 @@
+{"signal_id": "Sig1", "side": "ENTER", "price": 101.0, "filled": true, "pnl_usd": -1.0}
+{"signal_id": "Sig2", "side": "ENTER", "price": 200.0, "filled": false, "pnl_usd": 0.0}

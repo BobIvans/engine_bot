@@ -1,0 +1,42 @@
+[
+    {
+        "index": 0,
+        "rv_5m": 0.12,
+        "volume_delta": 0.5,
+        "expected_distance": 270,
+        "tolerance": 5,
+        "description": "High volatility (0.12 > 0.08) → expand 1.8× (150 × 1.8 = 270)"
+    },
+    {
+        "index": 1,
+        "rv_5m": 0.02,
+        "volume_delta": 0.5,
+        "expected_distance": 216,
+        "tolerance": 5,
+        "description": "Low volatility (0.02 < 0.03) → contract × max(0.7, 1.44) = 1.44× (150 × 1.44 = 216)"
+    },
+    {
+        "index": 2,
+        "rv_5m": 0.09,
+        "volume_delta": -0.5,
+        "expected_distance": 270,
+        "tolerance": 5,
+        "description": "Mid-high volatility (0.09 > 0.08) → expand 1.8× (volume delta below threshold, no volume adaptation)"
+    },
+    {
+        "index": 3,
+        "rv_5m": 0.02,
+        "volume_delta": 0.5,
+        "expected_distance": 216,
+        "tolerance": 5,
+        "description": "Low volatility → same as test 1 (150 × 1.44 = 216)"
+    },
+    {
+        "index": 4,
+        "rv_5m": 0.30,
+        "volume_delta": -0.5,
+        "expected_distance": 270,
+        "tolerance": 5,
+        "description": "High volatility → expand 1.8× (RV < 0.5 so no outlier rejection, but volume delta below threshold)"
+    }
+]

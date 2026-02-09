@@ -1,0 +1,11 @@
+{
+    "signal_id": "sig-base-001",
+    "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "price": 1.0,
+    "size_usd": 100.0,
+    "ttl_sec": 3600,
+    "tp_pct": 0.05,
+    "sl_pct": -0.02,
+    "wallet": "wallet123",
+    "mode": "U"
+}

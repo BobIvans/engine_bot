@@ -1,0 +1,8 @@
+symbol,buy_tax,sell_tax,is_freezable,mint_authority,sim_ok,expected_result
+SOL_GOOD,0,0,false,false,true,PASS
+SCAM_TAX,5000,10000,false,false,true,REJECT
+SCAM_HONEY,0,0,false,false,false,REJECT
+SCAM_FREEZE,0,0,true,false,true,REJECT
+SOL_LOW_TAX,100,50,false,false,true,PASS
+SOL_UNKNOWN,,,false,false,true,REJECT
+SOL_UNKNOWN_ALLOWED,,,false,false,true,PASS

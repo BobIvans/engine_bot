@@ -1,0 +1,56 @@
+{
+    "remaining_active_count": 3,
+    "pruned_count": 3,
+    "promoted_count": 2,
+    "rejected_candidates_count": 5,
+    "pruned_wallets": [
+        {
+            "wallet": "wallet_declining1",
+            "reason": "wallet_winrate_7d_low",
+            "metrics": {
+                "winrate_7d": 0.45,
+                "roi_7d": -0.15,
+                "trades_7d": 12
+            }
+        },
+        {
+            "wallet": "wallet_declining2",
+            "reason": "wallet_trades_7d_low",
+            "metrics": {
+                "winrate_7d": 0.52,
+                "roi_7d": 0.02,
+                "trades_7d": 8
+            }
+        },
+        {
+            "wallet": "wallet_inactive1",
+            "reason": "wallet_winrate_7d_low",
+            "metrics": {
+                "winrate_7d": 0.30,
+                "roi_7d": -0.40,
+                "trades_7d": 2
+            }
+        }
+    ],
+    "promoted_wallets": [
+        {
+            "wallet": "candidate_star1",
+            "winrate_30d": 0.75,
+            "roi_30d": 0.30,
+            "trades_30d": 180
+        },
+        {
+            "wallet": "candidate_star2",
+            "winrate_30d": 0.70,
+            "roi_30d": 0.25,
+            "trades_30d": 160
+        }
+    ],
+    "expected_active_wallets": [
+        "wallet_performer1",
+        "wallet_performer2",
+        "wallet_marginal",
+        "candidate_star1",
+        "candidate_star2"
+    ]
+}

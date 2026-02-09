@@ -1,0 +1,38 @@
+# integration/fixtures/allocation/weights.yaml
+# Base weights and parameters for mode allocation
+#
+# PR-V.3
+
+# Base weights for each mode (sum should be 1.0)
+weights:
+  U: 0.2   # Ultra (high risk, high reward)
+  S: 0.3   # Short-term
+  M: 0.25  # Medium-term
+  L: 0.2   # Long-term
+  C: 0.05  # Cash buffer
+
+# Parameters
+params:
+  # Volatility sensitivity (0-1)
+  # Higher = more shift to U/S in high vol
+  vol_sensitivity: 0.5
+  
+  # Regime sensitivity (0-1)
+  # Higher = more shift to cash in bearish
+  regime_sensitivity: 0.5
+  
+  # Minimum allocation weight per mode
+  min_weight: 0.0
+  
+  # Cash buffer when in bearish regime (0-1)
+  cash_buffer_bearish: 0.5
+  
+  # Mode classifications
+  risk_on_modes:
+    - U
+    - S
+  
+  risk_off_modes:
+    - M
+    - L
+    - C

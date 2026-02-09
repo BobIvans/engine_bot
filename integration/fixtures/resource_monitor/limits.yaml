@@ -1,0 +1,9 @@
+# Resource limits configuration
+rpc_daily_limit: 100000
+rpc_monthly_limit: 3000000
+api_daily_limit: 10000
+api_monthly_limit: 300000
+
+# Thresholds for status determination
+threshold_warning: 0.80
+threshold_critical: 0.95

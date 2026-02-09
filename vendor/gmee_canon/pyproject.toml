@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gmee-p0"
+version = "0.4.0"
+description = "GMEE P0 v0.4 Variant A — minimal query runner + writer + planner"
+requires-python = ">=3.10"
+dependencies = [
+  "pyyaml>=6.0",]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "integration: requires ClickHouse running",
+]

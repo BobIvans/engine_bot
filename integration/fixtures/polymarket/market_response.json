@@ -1,0 +1,12 @@
+{
+    "id": "solana-price-above-150-by-eoy-2024",
+    "question": "Will Solana be above $150 by end of 2024?",
+    "slug": "solana-price-above-150-by-eoy-2024",
+    "outcome": "Yes",
+    "probability": 0.725,
+    "yes_price": 0.725,
+    "no_price": 0.275,
+    "volume": 1250000,
+    "active": true,
+    "data_quality": "ok"
+}

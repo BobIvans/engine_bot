@@ -1,0 +1,31 @@
+{
+    "profiles": [
+        {
+            "wallet_addr": "W1",
+            "median_hold_sec": 120,
+            "leader_score": 0.92,
+            "cluster_label": 0,
+            "roi_30d_pct": 45.5,
+            "winrate_30d": 0.78,
+            "trades_30d": 156
+        },
+        {
+            "wallet_addr": "W2",
+            "median_hold_sec": 45,
+            "leader_score": 0.35,
+            "cluster_label": 1,
+            "roi_30d_pct": 12.3,
+            "winrate_30d": 0.55,
+            "trades_30d": 89
+        },
+        {
+            "wallet_addr": "W3",
+            "median_hold_sec": null,
+            "leader_score": null,
+            "cluster_label": null,
+            "roi_30d_pct": null,
+            "winrate_30d": null,
+            "trades_30d": null
+        }
+    ]
+}

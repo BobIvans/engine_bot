@@ -1,0 +1,4 @@
+{"mint": "SOL", "wallet": "wallet_a", "side": "buy", "size_usd": 100.0, "liq_usd": 10000.0, "latency_ms": 100, "price": 100.0, "ts": 1700000000.0, "extra": {"vol_30s": 0.01}, "sim_metrics": {"slippage_bps": 0, "ttl_expired": false}}
+{"mint": "SOL", "wallet": "wallet_a", "side": "buy", "size_usd": 100.0, "liq_usd": 10000.0, "latency_ms": 100, "price": 100.0, "ts": 1700000001.0, "extra": {"vol_30s": 0.10}, "sim_metrics": {"slippage_bps": 0, "ttl_expired": false}}
+{"mint": "SOL", "wallet": "wallet_a", "side": "buy", "size_usd": 100.0, "liq_usd": 10000.0, "latency_ms": 500, "price": 100.0, "ts": 1700000002.0, "extra": {"vol_30s": 0.01}, "sim_metrics": {"slippage_bps": 0, "ttl_expired": false}}
+{"mint": "SOL", "wallet": "wallet_a", "side": "buy", "size_usd": 100.0, "liq_usd": 10000.0, "latency_ms": 500, "price": 100.0, "ts": 1700000003.0, "extra": {"vol_30s": 0.10}, "sim_metrics": {"slippage_bps": 0, "ttl_expired": false}}

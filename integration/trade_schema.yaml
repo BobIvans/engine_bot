@@ -1,0 +1,52 @@
+schema_name: trade_event
+schema_version: trade_v1
+record_type: object
+additional_properties: true
+required:
+- ts
+- wallet
+- mint
+- side
+- price
+- size_usd
+- tx_hash
+fields:
+  schema_version:
+    optional: true
+    allowed:
+    - trade_v1
+  ts:
+    required: true
+  wallet:
+    required: true
+  mint:
+    required: true
+  side:
+    required: true
+    allowed:
+    - BUY
+    - SELL
+    - buy
+    - sell
+  price:
+    required: true
+  size_usd:
+    required: true
+  tx_hash:
+    required: true
+  platform:
+    optional: true
+    allowed:
+    - raydium
+    - jupiter
+    - pumpfun
+    - meteora
+    - other
+  pool_id:
+    optional: true
+  slot:
+    optional: true
+  size_token:
+    optional: true
+  source:
+    optional: true

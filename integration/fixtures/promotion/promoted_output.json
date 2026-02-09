@@ -1,0 +1,8 @@
+[
+  {
+    "wallet": "7nYAh1wXYZ4sL5YmR8XZ1yZW2Xg6iZw4z3Xp3KZwPNp1",
+    "old_tier": "candidate",
+    "new_tier": "tier2",
+    "reason": "roi=15.0% >= 10.0%, winrate=0.60 >= 0.55, trades=50 >= 30"
+  }
+]

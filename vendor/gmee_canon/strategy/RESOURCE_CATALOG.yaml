@@ -1,0 +1,16 @@
+# Resource Catalog (Repo Artifact)
+# One entry per provider / dataset. Keep it machine-readable.
+# IMPORTANT: use only official APIs/exports and follow ToS.
+
+providers:
+  # - provider_id: dune
+  #   kind: onchain_query
+  #   access: ui|api|export
+  #   tos_notes: ...
+  #   variables:
+  #     - key: ...
+  #       type: float|int|string|json
+  #       description: ...
+  #   cadence: hourly|daily|...
+  #   latency_slo_ms: 0
+  #   cost: free|trial|paid

@@ -1,0 +1,53 @@
+# integration/fixtures/config/alerts.yaml
+# PR-D.4 Alerts Configuration Fixture
+
+version: "1.0.0"
+strategy_name: "alerts_test"
+
+# Telegram Alert Configuration
+alerts:
+  enabled: true
+  telegram:
+    # Credentials loaded from environment variables:
+    # TELEGRAM_BOT_TOKEN
+    # TELEGRAM_CHAT_ID
+    timeout_sec: 3
+    disable_notifications: false
+
+  # Alert filters
+  levels:
+    # When to send each type of alert
+    buy_signals: true
+    sell_signals: true
+    kill_switch: true
+    errors: true
+    warnings: true
+    info: false  # Silence info alerts
+
+  # Kill-switch thresholds
+  kill_switch:
+    max_drawdown_pct: 20.0
+    max_consecutive_losses: 5
+    max_positions: 10
+
+# Metrics Export Configuration
+metrics:
+  enabled: true
+  export_dir: "metrics"
+  format: "csv"
+
+  # Session metrics
+  session:
+    export_interval_sec: 60
+
+  # Trade logging
+  trades:
+    enabled: true
+    path: "metrics/trades.csv"
+
+  # Custom metrics
+  custom:
+    - name: "performance"
+      interval_sec: 300
+    - name: "risk"
+      interval_sec: 60

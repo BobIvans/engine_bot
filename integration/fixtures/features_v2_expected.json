@@ -1,0 +1,17 @@
+{
+  "version": "v2",
+  "keys": [
+    "f_trade_size_usd",
+    "f_price",
+    "f_side_is_buy",
+    "f_token_liquidity_usd",
+    "f_token_spread_bps",
+    "f_wallet_roi_30d_pct",
+    "f_wallet_winrate_30d",
+    "f_wallet_trades_30d",
+    "f_token_vol_30s",
+    "f_token_impulse_5m",
+    "f_smart_money_share"
+  ],
+  "source": "features/trade_features.py::FEATURE_KEYS_V2"
+}

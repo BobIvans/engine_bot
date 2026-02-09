@@ -1,0 +1,29 @@
+# integration/fixtures/config/live_exec.yaml
+# PR-G.1 Transaction Builder Adapter & Simulation Configuration
+
+# Live execution settings
+execution:
+  live_enabled: true
+  live_adapter: "jupiter_http"
+
+  # Jupiter API settings
+  jupiter_api_url: "https://quote-api.jup.ag/v6"
+
+  # Solana RPC settings
+  rpc_url: "https://api.mainnet-beta.solana.com"
+
+  # Request timeout (ms)
+  timeout_ms: 5000
+
+  # Default slippage for swaps (bps)
+  default_slippage_bps: 100
+
+# Risk limits for live execution
+risk:
+  limits:
+    # Max transaction size (bytes)
+    max_tx_size_bytes: 1200
+    # Max compute units
+    max_cu_limit: 1400000
+    # Min account balance for rent (lamports)
+    min_rent_balance: 890880

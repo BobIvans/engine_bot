@@ -1,0 +1,20 @@
+# integration/fixtures/config/polymarket_regime.yaml
+# PR-F.3 Polymarket Regime Overlay Configuration Fixture
+
+# Regime calculation settings
+regime:
+  # Minimum bullish score for Risk-On (below = Bearish/Risk-Off)
+  min_bullish_score: 0.1
+  # Maximum event risk for Risk-On (above = High Risk Event)
+  max_event_risk: 0.6
+  # Fallback to Risk-Off if data stale/missing
+  fallback_to_risk_off: true
+
+# Polymarket market IDs to monitor (example)
+markets:
+  sol_bullish:
+    id: "solana-price-above-150-by-eoy-2024"
+    weight: 0.5
+  memecap_bullish:
+    id: "memecoin-market-cap-above-50b-by-eoy-2024"
+    weight: 0.5

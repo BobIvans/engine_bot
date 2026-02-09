@@ -1,0 +1,15 @@
+# integration/fixtures/config/sentiment.yaml
+# PR-F.4 Social Sentiment Configuration
+
+# Sentiment analysis settings
+sentiment:
+  enabled: true
+  provider: stub
+
+  # Optional: Custom tags for stub engine testing
+  # These override the default MINT_PUMP, MINT_SCAM, etc.
+  stub_tags:
+    "MINT_PUMP": ["pump"]
+    "MINT_SCAM": ["scam"]
+    "MINT_BUZZ": ["buzz", "social"]
+    "TEST_TOKEN": ["test", "stub"]

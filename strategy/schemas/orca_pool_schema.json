@@ -1,0 +1,59 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Orca Whirlpool State",
+    "description": "Decoded Orca Whirlpool concentrated liquidity pool state",
+    "type": "object",
+    "properties": {
+        "pool_address": {
+            "type": "string",
+            "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$",
+            "description": "Solana pubkey of the Orca Whirlpool"
+        },
+        "mint_x": {
+            "type": "string",
+            "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$",
+            "description": "Mint address of token X (usually SOL)"
+        },
+        "mint_y": {
+            "type": "string",
+            "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$",
+            "description": "Mint address of token Y (the token being traded)"
+        },
+        "sqrt_price_x64": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "Square root of price as Q64.64 integer (price = (sqrt_price/2^64)^2)"
+        },
+        "tick_current": {
+            "type": "integer",
+            "description": "Current tick position in the pool"
+        },
+        "liquidity": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "Current liquidity in the active tick (Q64.64)"
+        },
+        "tick_spacing": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Tick spacing for the pool (e.g., 64 for standard pools)"
+        },
+        "fee_tier_bps": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Fee tier in basis points (e.g., 25 = 0.25%)"
+        }
+    },
+    "required": [
+        "pool_address",
+        "mint_x",
+        "mint_y",
+        "sqrt_price_x64",
+        "tick_current",
+        "liquidity",
+        "tick_spacing",
+        "fee_tier_bps"
+    ],
+    "additionalProperties": false
+}

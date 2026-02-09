@@ -1,0 +1,56 @@
+{
+    "sig_u_001": {
+        "entry_price": 100.0,
+        "tp_price": 105.0,
+        "sl_price": 97.0,
+        "ttl_sec": 60,
+        "expected_ttl_expires_ts": "2024-01-01T00:01:00Z",
+        "expected_transitions": [
+            {
+                "tick_price": 103.0,
+                "tick_ts": "2024-01-01T00:00:30Z",
+                "expected_action": null,
+                "reason": "Price between SL and TP, no action"
+            },
+            {
+                "tick_price": 106.0,
+                "tick_ts": "2024-01-01T00:01:00Z",
+                "expected_action": {
+                    "order_type": "MARKET_CLOSE",
+                    "reason": "tp_hit"
+                },
+                "reason": "TP hit at 105.0+"
+            }
+        ]
+    },
+    "sig_aggr_001": {
+        "entry_price": 50.0,
+        "tp_price": 55.0,
+        "sl_price": 47.5,
+        "ttl_sec": 30,
+        "expected_ttl_expires_ts": "2024-01-01T00:00:30Z",
+        "expected_transitions": [
+            {
+                "tick_price": 52.5,
+                "tick_ts": "2024-01-01T00:00:15Z",
+                "expected_action": null,
+                "reason": "Price between SL and TP"
+            },
+            {
+                "tick_price": 48.0,
+                "tick_ts": "2024-01-01T00:00:20Z",
+                "expected_action": null,
+                "reason": "SL not yet hit (47.5)"
+            },
+            {
+                "tick_price": 47.5,
+                "tick_ts": "2024-01-01T00:00:30Z",
+                "expected_action": {
+                    "order_type": "MARKET_CLOSE",
+                    "reason": "sl_hit"
+                },
+                "reason": "SL hit at 47.5"
+            }
+        ]
+    }
+}

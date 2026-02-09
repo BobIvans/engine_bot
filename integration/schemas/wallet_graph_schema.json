@@ -1,0 +1,145 @@
+{
+    "schema_name": "wallet_graph",
+    "schema_version": "wallet_graph.v1",
+    "description": "Wallet co-trade graph structure for leader-follower analysis.",
+    "required": [
+        "schema_version",
+        "nodes",
+        "edges",
+        "summary"
+    ],
+    "fields": {
+        "schema_version": {
+            "required": true,
+            "type": "string",
+            "allowed": [
+                "wallet_graph.v1"
+            ],
+            "description": "Schema version identifier."
+        },
+        "generated_at": {
+            "required": true,
+            "type": "string",
+            "description": "ISO-8601 timestamp of graph generation."
+        },
+        "config": {
+            "required": true,
+            "type": "object",
+            "fields": {
+                "window_sec": {
+                    "type": "number",
+                    "description": "Co-trade window in seconds."
+                },
+                "min_co_trades": {
+                    "type": "integer",
+                    "description": "Minimum co-trades threshold for edge inclusion."
+                }
+            }
+        },
+        "nodes": {
+            "required": true,
+            "type": "object",
+            "description": "Map of wallet address to node metrics.",
+            "additional_properties": {
+                "type": "object",
+                "required": [
+                    "wallet",
+                    "out_degree",
+                    "in_degree"
+                ],
+                "fields": {
+                    "wallet": {
+                        "type": "string",
+                        "description": "Wallet address (base58)."
+                    },
+                    "out_degree": {
+                        "type": "integer",
+                        "description": "Number of times this wallet led trades."
+                    },
+                    "in_degree": {
+                        "type": "integer",
+                        "description": "Number of times this wallet followed trades."
+                    }
+                }
+            }
+        },
+        "edges": {
+            "required": true,
+            "type": "array",
+            "description": "List of directed edges (leader -> follower).",
+            "items": {
+                "type": "object",
+                "required": [
+                    "leader",
+                    "follower",
+                    "weight",
+                    "tokens"
+                ],
+                "fields": {
+                    "leader": {
+                        "type": "string",
+                        "description": "Leader wallet address."
+                    },
+                    "follower": {
+                        "type": "string",
+                        "description": "Follower wallet address."
+                    },
+                    "weight": {
+                        "type": "integer",
+                        "description": "Number of co-trade occurrences."
+                    },
+                    "tokens": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Token mints where this pattern occurred."
+                    }
+                }
+            }
+        },
+        "summary": {
+            "required": true,
+            "type": "object",
+            "fields": {
+                "total_nodes": {
+                    "type": "integer",
+                    "description": "Total number of unique wallets."
+                },
+                "total_edges": {
+                    "type": "integer",
+                    "description": "Total number of edges."
+                },
+                "total_co_trades": {
+                    "type": "integer",
+                    "description": "Sum of all edge weights."
+                }
+            }
+        },
+        "tier_scores": {
+            "optional": true,
+            "type": "object",
+            "description": "Optional tier scores for wallet ranking.",
+            "additional_properties": {
+                "type": "object",
+                "fields": {
+                    "leader_score": {
+                        "type": "number"
+                    },
+                    "follower_score": {
+                        "type": "number"
+                    },
+                    "total_score": {
+                        "type": "number"
+                    },
+                    "out_degree": {
+                        "type": "integer"
+                    },
+                    "in_degree": {
+                        "type": "integer"
+                    }
+                }
+            }
+        }
+    }
+}

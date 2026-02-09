@@ -1,0 +1,9 @@
+{
+  "schema_version": "modes_counts.v1",
+  "expected_mode_names": ["X", "Y"],
+  "expected_total_lines": 2,
+  "expected_mode_totals": {
+    "X": 1,
+    "Y": 1
+  }
+}

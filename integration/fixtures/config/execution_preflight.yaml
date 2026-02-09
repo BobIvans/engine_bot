@@ -1,0 +1,35 @@
+version: "0.0"
+strategy_name: "execution-preflight-fixture"
+
+run:
+  timezone: "Europe/Riga"
+  mode: "paper"
+
+# Required subtrees for integration.config_loader.load_params_base
+wallet_profile: {}
+
+token_profile:
+  gates: {}
+  honeypot:
+    enabled: false
+
+signals: {}
+
+risk: {}
+
+execution: {}
+
+execution_preflight:
+  ttl_sec_default: 30
+  max_slippage_bps: 200
+  base_latency_ms: 100
+  jitter_ms: 50
+  slippage_bps_base: 50
+  slippage_bps_per_usd: 0.03
+
+modes:
+  U:
+    tp_pct: 0.05
+    sl_pct: -0.05
+    hold_sec_max: 10
+    ttl_sec: 30

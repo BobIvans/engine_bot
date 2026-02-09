@@ -1,0 +1,47 @@
+{
+  "schema_version": "trade_v1",
+  "cases": {
+    "sample_jsonl": {
+      "fixture": "integration/fixtures/trades.sample.jsonl",
+      "expected_counts": {
+        "total_lines": 2,
+        "normalized_ok": 2,
+        "rejected_by_normalizer": 0,
+        "rejected_by_gates": 0,
+        "filtered_out": 1,
+        "passed": 1,
+        "signals_written": 1,
+        "wallet_scores_written": 1,
+        "rejected_by_risk": 0
+      }
+    },
+    "parquet_sample": {
+      "fixture": "${OUT_PARQUET}",
+      "expected_counts": {
+        "total_lines": 3,
+        "normalized_ok": 3,
+        "rejected_by_normalizer": 0,
+        "rejected_by_gates": 0,
+        "filtered_out": 1,
+        "passed": 2,
+        "signals_written": 2,
+        "wallet_scores_written": 2,
+        "rejected_by_risk": 0
+      }
+    },
+    "edgecases_jsonl": {
+      "fixture": "integration/fixtures/trades.edgecases.jsonl",
+      "expected_counts": {
+        "total_lines": 8,
+        "normalized_ok": 2,
+        "rejected_by_normalizer": 6,
+        "rejected_by_gates": 2,
+        "filtered_out": 0,
+        "passed": 0,
+        "signals_written": 0,
+        "wallet_scores_written": 0,
+        "rejected_by_risk": 0
+      }
+    }
+  }
+}

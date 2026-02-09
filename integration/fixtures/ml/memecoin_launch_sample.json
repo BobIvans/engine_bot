@@ -1,0 +1,26 @@
+[
+  {
+    "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "first_pool_ts": 1738858800000,
+    "first_pool_source": "pump_fun",
+    "deployer_address": "7pLXfGzNqwFHg6X3EQ9BHJcz3o4yX6y7X8Y9Z2",
+    "deployer_reputation": 0.85,
+    "symbol": "WIF"
+  },
+  {
+    "mint": "DezXAZ8z7PnrnRJJk3J5RsWpi5wE5BWmfW8HgvY8jtE1",
+    "first_pool_ts": 1736266800000,
+    "first_pool_source": "raydium_cpmm",
+    "deployer_address": "AbCdEfGhIjKlMnOpQrStUvWxYz12345678901234",
+    "deployer_reputation": -0.30,
+    "symbol": "BONK"
+  },
+  {
+    "mint": "SoMeNeWmEmEcOiN12345678901234567890123456",
+    "first_pool_ts": 1738941600000,
+    "first_pool_source": "unknown",
+    "deployer_address": null,
+    "deployer_reputation": null,
+    "symbol": "NEWME"
+  }
+]

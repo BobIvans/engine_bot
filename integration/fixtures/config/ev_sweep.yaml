@@ -1,0 +1,28 @@
+version: "0.0"
+strategy_name: "ev-sweep-fixture"
+
+run:
+  timezone: "Europe/Riga"
+  mode: "paper"
+
+# Required subtrees
+wallet_profile: {}
+
+token_profile:
+  gates: {}
+  honeypot:
+    enabled: false
+
+signals: {}
+
+risk: {}
+
+execution: {}
+
+# PR-9 sweep config
+min_edge_bps: 0
+modes:
+  U:
+    tp_pct: 0.05
+    sl_pct: -0.05
+    hold_sec_max: 10

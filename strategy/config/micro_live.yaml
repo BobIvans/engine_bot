@@ -1,0 +1,44 @@
+# strategy/config/micro_live.yaml
+# Micro-Live Execution Mode Configuration
+#
+# This config is for safe mainnet testing with minimal capital.
+# All limits are bounded by hard-coded constants in micro_guard.py.
+#
+# PR-U.5
+
+mode: micro_live
+
+safety:
+  # Maximum trade size in SOL (bounded by MAX_MICRO_TRADE_SOL = 0.1)
+  max_trade_sol: 0.05
+  
+  # Maximum daily loss in SOL (bounded by MAX_MICRO_DAILY_LOSS_SOL = 0.5)
+  max_daily_loss_sol: 0.2
+  
+  # Only allow trades from these wallet addresses
+  # This prevents accidental noise from other signals
+  allowed_wallets:
+    - "7nYhPEv7z5VnKMj4m6kV4qZz5v8p7Gw8q5dRt5k2w3xF"
+    - "9mZRQ8dD4mVZ1j4f5mZ8v2a9b6c1e0f3g4h5i6j7k8l9m"
+    - "3qP2r4s6t8u0v1w2x3y4z5a6b7c8d9e0f1g2h3i4j5k6"
+    # Add your test wallet(s) here
+  
+  # Additional safety parameters
+  max_exposure_sol: 1.0  # Total position limit (bounded by MAX_MICRO_EXPOSURE_SOL)
+  require_allowlist: true  # Must have at least one wallet in allowed_wallets
+
+# Execution settings for micro mode
+execution:
+  # Use smaller slippage tolerance
+  slippage_tolerance_bps: 50  # 0.5%
+  
+  # Prefer smaller, more liquid pools
+  prefer_pool_size: "small"
+  
+  # Skip if price impact exceeds
+  max_price_impact_bps: 100  # 1%
+
+# Logging settings
+logging:
+  level: DEBUG
+  log_rejections: true  # Log all rejected orders to stderr

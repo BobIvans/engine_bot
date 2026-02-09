@@ -1,0 +1,14 @@
+{"ts":"2024-01-01T00:00:00Z","wallet":"W1","mint":"MINTA","side":"BUY","price":1.00,"exit_price":1.04,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_1","mode":"U"}
+{"ts":"2024-01-01T00:01:00Z","wallet":"W1","mint":"MINTA","side":"SELL","price":1.04,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_exit_1"}
+{"ts":"2024-01-02T00:00:00Z","wallet":"W2","mint":"MINTB","side":"BUY","price":1.00,"exit_price":1.06,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_2","mode":"U"}
+{"ts":"2024-01-02T00:02:00Z","wallet":"W2","mint":"MINTB","side":"SELL","price":1.06,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_exit_2"}
+{"ts":"2024-01-03T00:00:00Z","wallet":"W3","mint":"MINTC","side":"BUY","price":1.00,"exit_price":1.03,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_3","mode":"U"}
+{"ts":"2024-01-03T00:03:00Z","wallet":"W3","mint":"MINTC","side":"SELL","price":1.03,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_exit_3"}
+{"ts":"2024-01-04T00:00:00Z","wallet":"W4","mint":"MINTD","side":"BUY","price":1.00,"exit_price":1.05,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_4","mode":"S"}
+{"ts":"2024-01-04T00:04:00Z","wallet":"W4","mint":"MINTD","side":"SELL","price":1.05,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_exit_4"}
+{"ts":"2024-01-05T00:00:00Z","wallet":"W5","minTE","side":"BUY","price":1.00,"exit_price":1.07,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_5","mode":"S"}
+{"ts":"2024-01-05T00:05:00Z","wallet":"W5","minTE","side":"SELL","price":1.07,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_exit_5"}
+{"ts":"2024-01-06T00:00:00Z","wallet":"W6","mintF","side":"BUY","price":1.00,"exit_price":1.08,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_6","mode":"M"}
+{"ts":"2024-01-06T00:06:00Z","wallet":"W6","mintF","side":"SELL","price":1.08,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_exit_6"}
+{"ts":"2024-01-07T00:00:00Z","wallet":"W7","mintG","side":"BUY","price":1.00,"exit_price":1.10,"size_usd":100.0,"platform":"raydium","tx_hash":"tx_entry_7","mode":"M"}
+{"ts":"2024-01-07T00:07:00Z","wallet":"W7","mintG","side":"SELL","price":1.10,"size_usd":1.0,"platform":"raydium","tx_hash":"tx_exit_7"}

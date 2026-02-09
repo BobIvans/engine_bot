@@ -1,0 +1,4 @@
+- entity_type: rpc_arm
+  entity_id: example_arm
+  provider: example_provider
+  region: example_region

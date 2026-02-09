@@ -1,0 +1,4 @@
+wallet_address,roi_30d,winrate_30d,trades_30d,avg_trade_size_usd
+Wallet123,0.35,0.68,45,125.50
+Wallet456,0.12,0.42,120,45.25
+Wallet789,-0.08,0.35,23,85.00

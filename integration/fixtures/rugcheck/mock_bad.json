@@ -1,0 +1,60 @@
+{
+    "mint": "Rug1111111111111111111111111111111111111111",
+    "timestamp": 1704067200,
+    "result": {
+        "mintAuthority": {
+            "type": "mintable"
+        },
+        "freezeAuthority": {
+            "type": "freezeable"
+        },
+        "topHolders": [
+            {
+                "address": "ScammerWallet1",
+                "amount": 8500000
+            },
+            {
+                "address": "ScammerWallet2",
+                "amount": 1000000
+            },
+            {
+                "address": "Investor3",
+                "amount": 200000
+            },
+            {
+                "address": "Investor4",
+                "amount": 100000
+            },
+            {
+                "address": "Investor5",
+                "amount": 50000
+            },
+            {
+                "address": "Investor6",
+                "amount": 30000
+            },
+            {
+                "address": "Investor7",
+                "amount": 20000
+            },
+            {
+                "address": "Investor8",
+                "amount": 10000
+            },
+            {
+                "address": "Investor9",
+                "amount": 5000
+            },
+            {
+                "address": "Investor10",
+                "amount": 3000
+            }
+        ],
+        "supply": 10000000,
+        "owner": "ScammerWallet1",
+        "creator": "ScammerWallet1",
+        "lpBurned": false,
+        "verified": false,
+        "noSpecialMints": false
+    }
+}

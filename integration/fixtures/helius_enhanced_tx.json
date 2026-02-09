@@ -1,0 +1,33 @@
+{
+    "version": 0,
+    "type": "SWAP",
+    "signature": "5w3m4e8v2x9c1z6k4j7h3g5f2d4s6a9p0o5i8u1y4t5r6e3w7q",
+    "timestamp": 1707223405,
+    "feePayer": "7Np41oWjZB3jCMKmMNJpZ2VT1Nb6mYdfG4UoFTJbYExU",
+    "slot": 245678900,
+    "tokenTransfers": [
+        {
+            "fromUserAccount": "7Np41oWjZB3jCMKmMNJpZ2VT1Nb6mYdfG4UoFTJbYExU",
+            "toUserAccount": "9WzDXwB3M3X3X3X3X3X3X3X3X3X3X3X3X3X3X3X3X",
+            "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "tokenAmount": "100.50",
+            "tokenStandard": "Token-2022"
+        },
+        {
+            "fromUserAccount": "AnotherWallet111111111111111111111111111",
+            "toUserAccount": "7Np41oWjZB3jCMKmMNJpZ2VT1Nb6mYdfG4UoFTJbYExU",
+            "mint": "7V2sT3B7v2x9c1z6k4j7h3g5f2d4s6a9p0o5i8u1y4t5r",
+            "tokenAmount": "2500000",
+            "tokenStandard": "Token-2022"
+        }
+    ],
+    "nativeTransfers": [],
+    "events": {
+        "swap": {
+            "inputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "outputMint": "7V2sT3B7v2x9c1z6k4j7h3g5f2d4s6a9p0o5i8u1y4t5r",
+            "inputAmount": "100.50",
+            "outputAmount": "2500000"
+        }
+    }
+}

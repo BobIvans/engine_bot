@@ -1,0 +1,21 @@
+gatherers:
+- type: window_delta
+  params:
+    name: rpc_latency_delta_1h_vs_24h
+    table: rpc_events
+    time_column: sent_ts
+    entity_type: rpc_arm
+    entity_column: rpc_arm
+    value_column: latency_ms
+    recent_window_s: 3600
+    baseline_window_s: 86400
+    min_rows: 50
+    limit_entities: 2000
+- type: cooccurrence
+  params:
+    name: rpc_arm_x_err_code
+    table: rpc_events
+    left_column: rpc_arm
+    right_column: err_code
+    time_column: sent_ts
+    top_k: 2000

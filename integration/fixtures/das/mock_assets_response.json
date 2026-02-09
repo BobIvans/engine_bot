@@ -1,0 +1,94 @@
+{
+    "jsonrpc": "2.0",
+    "result": {
+        "total": 2,
+        "limit": 1000,
+        "page": 1,
+        "items": [
+            {
+                "id": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                "interface": "FUNGIBLE",
+                "ownership": {
+                    "owner": "7UX2i7NcVMoxStq8mHxeE7KGvSmkxhKKE5kh1GvJPmEE",
+                    "amount": "1000000000",
+                    "delegate": null
+                },
+                "token_info": {
+                    "balance": 1000000000,
+                    "decimals": 6,
+                    "symbol": "USDC",
+                    "name": "USD Coin",
+                    "supply": 42000000000000,
+                    "token_program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+                },
+                "metadata": {
+                    "symbol": "USDC",
+                    "name": "USD Coin",
+                    "image_uri": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png"
+                },
+                "is_mutable": false,
+                "frozen": false,
+                "authorities": [
+                    {
+                        "address": "2qGyeN71uq8X1gEGPqkdJ1g1K3f3k2yX1GQ5Jk4zqXqQ",
+                        "kind": "freeze"
+                    },
+                    {
+                        "address": "2qGyeN71uq8X1gEGPqkdJ1g1K3f3k2yX1GQ5Jk4zqXqQ",
+                        "kind": "mint"
+                    }
+                ],
+                "compression": {
+                    "eligible": false,
+                    "compressed": false,
+                    "data_hash": null,
+                    "creator_hash": null
+                },
+                "burnt": false
+            },
+            {
+                "id": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+                "mint": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+                "interface": "FUNGIBLE",
+                "ownership": {
+                    "owner": "7UX2i7NcVMoxStq8mHxeE7KGvSmkxhKKE5kh1GvJPmEE",
+                    "amount": "5000000000",
+                    "delegate": null
+                },
+                "token_info": {
+                    "balance": 5000000000,
+                    "decimals": 5,
+                    "symbol": "BONK",
+                    "name": "Bonk Token",
+                    "supply": 100000000000000,
+                    "token_program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+                },
+                "metadata": {
+                    "symbol": "BONK",
+                    "name": "Bonk Token",
+                    "image_uri": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezXAZ8z7PnrnRJjz3wCa6xjnXBoRgixB7YaB1pPB263/logo.png"
+                },
+                "is_mutable": false,
+                "frozen": false,
+                "authorities": [
+                    {
+                        "address": "GqJ5YPKLs4ymKoqG3NqGSq4YV4UTqiWKD9gA6u5XqB6J",
+                        "kind": "freeze"
+                    },
+                    {
+                        "address": "GqJ5YPKLs4ymKoqG3NqGSq4YV4UTqiWKD9gA6u5XqB6J",
+                        "kind": "mint"
+                    }
+                ],
+                "compression": {
+                    "eligible": false,
+                    "compressed": false,
+                    "data_hash": null,
+                    "creator_hash": null
+                },
+                "burnt": false
+            }
+        ]
+    }
+}

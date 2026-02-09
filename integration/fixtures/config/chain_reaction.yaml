@@ -1,0 +1,35 @@
+version: "0.0"
+strategy_name: "chain-reaction-fixture"
+
+# PR-L.2 Chain Reaction Logic fixture
+# Tests immediate_exit and tighten_sl actions
+
+modes:
+  A:
+    tp_pct: 0.05
+    sl_pct: -0.05
+    hold_sec_max: 600
+    exits:
+      chain_reaction:
+        enabled: true
+        threshold: 0.5
+        action: "immediate_exit"
+  
+  B:
+    tp_pct: 0.05
+    sl_pct: -0.05
+    hold_sec_max: 600
+    exits:
+      chain_reaction:
+        enabled: true
+        threshold: 0.7
+        action: "tighten_sl"
+        panic_sl_pct: -0.02
+  
+  C:
+    # Disabled chain reaction - should hold even with high score
+    tp_pct: 0.05
+    sl_pct: -0.05
+    hold_sec_max: 600
+    exits:
+      # No chain_reaction section - backward compatibility test

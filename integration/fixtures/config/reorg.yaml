@@ -1,0 +1,37 @@
+# integration/fixtures/config/reorg.yaml
+# PR-G.2 Idempotency Layer & Reorg Guard Configuration
+
+# Idempotency settings
+idempotency:
+  # State file path for persistence
+  state_file: "/tmp/idempotency_state.jsonl"
+  
+  # Time-to-live for locks in seconds (default: 1 hour)
+  ttl_sec: 3600
+  
+  # Time bucket size for key generation (seconds)
+  # Smaller buckets = more precise deduplication
+  bucket_sec: 60
+
+# Reorg Guard settings
+reorg:
+  # Solana RPC endpoint
+  rpc_url: "https://api.mainnet-beta.solana.com"
+  
+  # Request timeout (ms)
+  timeout_ms: 5000
+  
+  # Number of blocks to wait for finality heuristic
+  # Solana typically finalizes within ~150 blocks
+  finality_threshold_blocks: 150
+  
+  # Block height buffer past last_valid_block_height to declare dropped
+  drop_buffer_blocks: 10
+
+# Risk limits
+risk:
+  # Max reorg depth to tolerate (blocks)
+  max_reorg_depth: 20
+  
+  # Grace period for tx confirmation (seconds)
+  confirmation_grace_sec: 30

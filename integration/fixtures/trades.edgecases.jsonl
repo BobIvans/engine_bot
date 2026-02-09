@@ -1,0 +1,26 @@
+# Edgecases for trade_normalizer (P0.2.2)
+# Expect: mix of normalizations and rejects; pipeline should print summary counts.
+
+# 1) invalid JSON
+{not_json}
+
+# 2) missing wallet
+{"ts":"2026-01-05 10:00:00.000","mint":"So11111111111111111111111111111111111111112","side":"buy","price":100.0,"size_usd":50.0,"platform":"raydium","tx_hash":"tx_bad_wallet"}
+
+# 3) bad side
+{"ts":"2026-01-05 10:00:01.000","wallet":"W","mint":"So11111111111111111111111111111111111111112","side":"hold","price":100.0,"size_usd":50.0,"platform":"raydium","tx_hash":"tx_bad_side"}
+
+# 4) empty ts
+{"ts":"","wallet":"W","mint":"So11111111111111111111111111111111111111112","side":"buy","price":100.0,"size_usd":50.0,"platform":"raydium","tx_hash":"tx_bad_ts"}
+
+# 5) non-numeric price
+{"ts":"2026-01-05 10:00:02.000","wallet":"W","mint":"So11111111111111111111111111111111111111112","side":"buy","price":"abc","size_usd":50.0,"platform":"raydium","tx_hash":"tx_bad_price"}
+
+# 6) negative size_usd
+{"ts":"2026-01-05 10:00:03.000","wallet":"W","mint":"So11111111111111111111111111111111111111112","side":"buy","price":100.0,"size_usd":-1.0,"platform":"raydium","tx_hash":"tx_bad_size"}
+
+# 7) extra fields are ok
+{"ts":"2026-01-05 10:00:04.000","wallet":"SoMeWallet1111111111111111111111111111111111","mint":"So11111111111111111111111111111111111111112","side":"buy","price":100.0,"size_usd":150.0,"platform":"raydium","tx_hash":"tx_ok_extra","extra":{"foo":"bar"}}
+
+# 8) missing snapshot should be rejected by gates (mint not in token_snapshot.sample.csv)
+{"ts":"2026-01-05 10:00:05.000","wallet":"SoMeWallet1111111111111111111111111111111111","mint":"MintNotInSnapshot11111111111111111111111111","side":"buy","price":100.0,"size_usd":150.0,"platform":"raydium","tx_hash":"tx_missing_snapshot"}

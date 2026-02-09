@@ -1,0 +1,84 @@
+name: ch-compile-smoke
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  clickhouse-gates:
+    runs-on: ubuntu-latest
+    env:
+      # Keep CI environment explicit (avoid "magic defaults").
+      CLICKHOUSE_HOST: localhost
+      CLICKHOUSE_PORT: "8123"
+      CLICKHOUSE_DATABASE: default
+      CLICKHOUSE_HTTP_URL: http://localhost:8123
+      # Backstop import-path issues when running `python ci/<script>.py`.
+      PYTHONPATH: .
+    services:
+      clickhouse:
+        # EPIC 0.1: pin ClickHouse version/tag to avoid dialect drift.
+        image: clickhouse/clickhouse-server:24.3
+        ports:
+          - 8123:8123
+          - 9000:9000
+        options: >-
+          --name clickhouse
+          --ulimit nofile=262144:262144
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Wait for ClickHouse
+        run: |
+          for i in {1..60}; do
+            if curl -sSf http://localhost:8123/ping >/dev/null; then
+              echo "ClickHouse is up"; exit 0
+            fi
+            sleep 1
+          done
+          echo "ClickHouse did not start"; exit 1
+
+      - name: Apply ClickHouse DDL (idempotent)
+        run: |
+          docker exec -i clickhouse clickhouse-client --multiquery < schemas/clickhouse.sql
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          pip install pyyaml
+
+      - name: Anti-drift gate (YAML ↔ SQL ↔ DDL)
+        run: |
+          python scripts/assert_no_drift.py
+
+      - name: YAML-derived literal ban guard (04_glue_select.sql)
+        run: |
+          python ci/yaml_literal_ban_guard.py
+
+      - name: Deterministic VIEW guard (wallet_profile_30d)
+        run: |
+          python ci/check_wallet_profile_determinism.py
+
+      - name: Writer DB-ordering asserts guard (EPIC 4.1)
+        env:
+          GMEE_ORDERING_MODE: hard
+        run: |
+          python ci/check_writer_ordering_db_asserts.py
+
+      - name: Compile canonical queries (EXPLAIN SYNTAX)
+        run: |
+          python ci/explain_syntax_gate.py
+
+      - name: Canary seed + checks
+        run: |
+          docker exec -i clickhouse clickhouse-client --multiquery < scripts/canary_golden_trace.sql
+          docker exec -i clickhouse clickhouse-client --multiquery < scripts/canary_checks.sql
+
+      - name: Oracle gate (04_glue_select.sql; expected TSV from file)
+        run: |
+          python ci/oracle_glue_select_gate.py

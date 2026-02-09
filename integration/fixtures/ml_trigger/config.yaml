@@ -1,0 +1,5 @@
+# PR-N.2 ML Retraining Trigger Configuration
+
+retraining:
+  cadence_hours: 24
+  drift_psi_threshold: 0.15

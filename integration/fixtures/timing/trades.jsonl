@@ -1,0 +1,5 @@
+{"wallet": "W1", "mint": "TokenA", "timestamp": "2024-01-15T10:00:00Z", "side": "buy", "amount": 100.0, "price": 1.0}
+{"wallet": "W2", "mint": "TokenA", "timestamp": "2024-01-15T10:00:05Z", "side": "buy", "amount": 50.0, "price": 1.0}
+{"wallet": "W3", "mint": "TokenA", "timestamp": "2024-01-15T10:00:10Z", "side": "buy", "amount": 75.0, "price": 1.0}
+{"wallet": "W1", "mint": "TokenB", "timestamp": "2024-01-15T11:00:00Z", "side": "buy", "amount": 200.0, "price": 2.0}
+{"wallet": "W3", "mint": "TokenB", "timestamp": "2024-01-15T11:00:02Z", "side": "buy", "amount": 30.0, "price": 2.0}

@@ -1,0 +1,38 @@
+[
+    {
+        "signal_id": "sig-tp-test-001",
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "entry_price": 1.0,
+        "size_usd": 100.0,
+        "tp_price": 1.05,
+        "sl_price": 0.98,
+        "status": "CLOSED",
+        "close_reason": "tp_hit",
+        "close_price": 1.05,
+        "remaining_size_usd": 100.0
+    },
+    {
+        "signal_id": "sig-sl-test-001",
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "entry_price": 1.0,
+        "size_usd": 100.0,
+        "tp_price": 1.05,
+        "sl_price": 0.98,
+        "status": "CLOSED",
+        "close_reason": "sl_hit",
+        "close_price": 0.98,
+        "remaining_size_usd": 100.0
+    },
+    {
+        "signal_id": "sig-ttl-test-001",
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "entry_price": 1.0,
+        "size_usd": 100.0,
+        "tp_price": 1.05,
+        "sl_price": 0.98,
+        "status": "EXPIRED",
+        "close_reason": "ttl_expired",
+        "close_price": null,
+        "remaining_size_usd": 100.0
+    }
+]

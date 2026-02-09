@@ -1,0 +1,6 @@
+mint,ts_snapshot,liquidity_usd,volume_24h_usd,spread_bps,top10_holders_pct,single_holder_pct,extra
+MintA1111111111111111111111111111111,1700000000,50000,100000,50,25.0,10.0,"{""simulation"": {""success"": true, ""buy_tax_bps"": 100, ""sell_tax_bps"": 100}}"
+MintB2222222222222222222222222222222,1700000000,60000,120000,40,20.0,8.0,"{""simulation"": {""success"": false, ""error"": ""transfer failed""}}"
+MintC3333333333333333333333333333333,1700000000,70000,150000,30,15.0,5.0,"{""simulation"": {""success"": true, ""buy_tax_bps"": 0, ""sell_tax_bps"": 9900}}"
+MintD4444444444444444444444444444444,1700000000,80000,200000,25,10.0,3.0,"{""simulation"": {""success"": true, ""buy_tax_bps"": 500, ""sell_tax_bps"": 500}}"
+MintE5555555555555555555555555555555,1700000000,0,0,0,0.0,0.0,

@@ -1,0 +1,11 @@
+# Strategy-owned allowlist (Iteration-1 P0)
+#
+# Format options:
+# - YAML list, or
+# - YAML dict: { wallets: [...] }
+# - CSV/TXT supported too (see integration/allowlist_loader.py)
+
+wallets:
+  # Replace with real Solana wallets you copy-trade
+  - "ExampleWallet11111111111111111111111111111111"
+  - "ExampleWallet22222222222222222222222222222222"

@@ -1,0 +1,17 @@
+# Non-canonical: optional DataGatherers to join external Universal Variables (UV) onto trades.
+# Use after you produce uv artifacts via tools/premium_trial_pipeline.py.
+
+# NOTE: you MUST set snapshot_id to the id created by the capture pipeline.
+# Example:
+#   python tools/premium_trial_pipeline.py ... -> prints snapshot_id
+#   then update it here OR pass another config that sets it.
+
+gatherers:
+  - type: external_uv_join
+    params:
+      name: external_uv_join
+      uv_root: out/capture
+      snapshot_id: <SET_ME>
+      # optional: if absent, loads all providers under out/capture/uv
+      providers: []
+      feature_cfg: configs/providers/external_uv_feature_join.yaml

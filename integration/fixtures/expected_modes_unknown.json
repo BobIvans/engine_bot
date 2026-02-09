@@ -1,0 +1,8 @@
+{
+  "schema_version": "modes_counts.v1",
+  "expected_mode_names": ["__unknown_mode__"],
+  "expected_total_lines": 1,
+  "expected_mode_totals": {
+    "__unknown_mode__": 1
+  }
+}

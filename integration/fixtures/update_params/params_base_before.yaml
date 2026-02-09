@@ -1,0 +1,25 @@
+version: "3.0"
+strategy_name: "solana-copy-scalp"
+
+# PR-Q.1: Auto-update configuration
+auto_update:
+  enabled: true
+  min_days_required: 7
+  ewma_alpha: 0.15
+  bounds:
+    mu_win: [0.01, 0.25]
+    mu_loss: [0.005, 0.15]
+  max_change_per_run: 0.20
+
+# Payoff parameters (tuned by PR-Q.1)
+payoff_mu_win:
+  U: 0.040
+  S: 0.050
+  M: 0.080
+  L: 0.120
+
+payoff_mu_loss:
+  U: 0.020
+  S: 0.030
+  M: 0.040
+  L: 0.060

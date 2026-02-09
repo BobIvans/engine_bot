@@ -1,0 +1,3 @@
+wallet,roi_30d_pct,winrate_30d,trades_30d
+WalletTierHigh,25.0,0.7,60
+WalletTierLow,-5.0,0.4,5

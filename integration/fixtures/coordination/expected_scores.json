@@ -1,0 +1,24 @@
+{
+    "clustered": {
+        "description": "5 trades from 3 wallets in one token over 12 seconds (expected ~0.85)",
+        "expected_avg_score": 0.75,
+        "expected_high_count": 3,
+        "wallet_scores": {
+            "Wallet111111111111111111111111111111": 0.8,
+            "Wallet222222222222222222222222222222": 0.8,
+            "Wallet333333333333333333333333333333": 0.8
+        }
+    },
+    "random": {
+        "description": "5 trades from 5 different wallets in different tokens over 45 seconds (expected ~0.15)",
+        "expected_avg_score": 0.25,
+        "expected_high_count": 0,
+        "wallet_scores": {
+            "WalletAAAA11111111111111111111111111": 0.1,
+            "WalletBBBB22222222222222222222222222": 0.1,
+            "WalletCCCC33333333333333333333333333": 0.1,
+            "WalletDDDD44444444444444444444444444": 0.1,
+            "WalletEEEE55555555555555555555555555": 0.1
+        }
+    }
+}

@@ -1,0 +1,5 @@
+{"wallet": "WalletA", "roi_7d": -0.50, "winrate": 0.20, "trades_count": 10}
+{"wallet": "WalletSafe", "roi_7d": 0.10, "winrate": 0.55, "trades_count": 5}
+{"wallet": "WalletB", "roi_7d": 1.00, "winrate": 0.80, "trades_count": 20}
+{"wallet": "WalletC", "roi_7d": 0.05, "winrate": 0.50, "trades_count": 8}
+{"wallet": "WalletD", "roi_7d": 0.00, "winrate": 0.00, "trades_count": 0}

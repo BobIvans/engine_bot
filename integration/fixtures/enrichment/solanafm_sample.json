@@ -1,0 +1,35 @@
+[
+    {
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "is_verified": true,
+        "creator_address": "GoSq3sNVHbMc7xQ7jY48X3vNM6hG9X3Y8Z3K1p9Q2r4",
+        "top_holder_pct": 15.5,
+        "holder_count": 15234,
+        "has_mint_authority": false,
+        "has_freeze_authority": false,
+        "enrichment_ts": 1704067200,
+        "source": "fixture"
+    },
+    {
+        "mint": "7kLnGqRJ7nr5cULBVa6v1w6gT3bZ6Z6T3Z6T3Z6T3Z6T3Z",
+        "is_verified": false,
+        "creator_address": "AbCdEfGhIjKlMnOpQrStUvWxYz1234567890123456",
+        "top_holder_pct": 45.2,
+        "holder_count": 892,
+        "has_mint_authority": true,
+        "has_freeze_authority": false,
+        "enrichment_ts": 1704067200,
+        "source": "fixture"
+    },
+    {
+        "mint": "SoMeUnVeRiFiEdToKeN12345678901234567890123456",
+        "is_verified": false,
+        "creator_address": null,
+        "top_holder_pct": 95.8,
+        "holder_count": 45,
+        "has_mint_authority": true,
+        "has_freeze_authority": true,
+        "enrichment_ts": 1704067200,
+        "source": "fixture"
+    }
+]

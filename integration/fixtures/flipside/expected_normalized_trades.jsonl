@@ -1,0 +1,3 @@
+{"timestamp": 1705312800, "wallet": "Wallet123", "mint": "So11111111111111111111111111111111111111112", "amount": 100.0, "price_usd": 1.5, "value_usd": 150.0, "platform": "raydium", "tx_hash": "Tx1234567890abcdef1"}
+{"timestamp": 1705312860, "wallet": "Wallet456", "mint": "Ep2BJgYjnJ5D3K9f4yBe6Y6mX4Yz5Y2M4f4m3X7n6p4q", "amount": 50.0, "price_usd": 1.5, "value_usd": 75.0, "platform": "jupiter", "tx_hash": "Tx1234567890abcdef2"}
+{"timestamp": 1705312920, "wallet": "Wallet789", "mint": "Lp9w4m6n8p2r5s3v1x9z6c4b2n5m8k1j4h7g0f3d6s", "amount": 200.0, "price_usd": 1.5, "value_usd": 300.0, "platform": "orca", "tx_hash": "Tx1234567890abcdef3"}

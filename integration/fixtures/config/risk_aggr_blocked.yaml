@@ -1,0 +1,40 @@
+# integration/fixtures/config/risk_aggr_blocked.yaml
+# PR-E.2.1: Aggressive Risk Gates & Kill-Switch
+# Config fixture where gates are intentionally restrictive.
+
+aggressive:
+  enabled: true
+  triggers:
+    U_aggr: {base: "U", dt_max: 15, min_chg: 0.03, partial: 0.4, trail: 0.12}
+    S_aggr: {base: "S", dt_max: 30, min_chg: 0.06, partial: 0.5, trail: 0.12}
+    M_aggr: {base: "M", dt_max: 60, min_chg: 0.10, partial: 0.4, trail: 0.15}
+    L_aggr: {base: "L", dt_max: 90, min_chg: 0.15, partial: 0.35, trail: 0.20}
+
+  safety_filters:
+    # PR-E.2.1: Safety gates with restrictive thresholds
+    wallet:
+      min_winrate_30d: 0.60
+      min_roi_30d_pct: 25.0
+    token:
+      min_liquidity_usd: 1000000  # $1M - intentionally restrictive
+      max_top10_holders_pct: 0.70
+    risk_state:
+      disable_if_daily_loss_ge: 0.05  # Block if daily loss >= 5%
+    limits:
+      max_aggr_trades_per_day: 10
+      max_aggr_open_positions: 3
+    # Existing filters
+    min_wallet_tier: "tier1"
+    min_wallet_winrate_30d: 0.60
+    min_wallet_roi_30d_pct: 20.0
+    max_spread_bps: 180
+    require_honeypot_pass: true
+    require_risk_regime_not_risk_off: true
+    require_not_in_cooldown: true
+
+  chain_reaction:
+    enabled: true
+    leader_min_indegree: 3
+    exit_hazard_threshold: 0.70
+    reaction_window_sec: 30
+    action: "tighten_sl_or_exit"

@@ -1,0 +1,65 @@
+# Minimal fixture config for modes_smoke.
+# This mirrors strategy/config/params_base.yaml enough for paper_pipeline,
+# but adds root-level modes for Variant A.
+
+version: 1
+strategy_name: demo
+
+run:
+  seed: 1
+
+wallet_profile:
+  min_trades_30d: 1
+  min_roi_30d_pct: -1000.0
+  min_winrate_30d: 0.0
+
+token_profile:
+  min_liquidity_usd: 0.0
+
+# Root-level modes (preferred by resolve_modes)
+modes:
+  X:
+    ttl_sec: 60
+    max_slippage_bps: 50
+    tp_pct: 1.0
+    sl_pct: -1.0
+    hold_sec_min: 0
+    hold_sec_max: 10
+  Y:
+    ttl_sec: 60
+    max_slippage_bps: 50
+    tp_pct: 1.0
+    sl_pct: -1.0
+    hold_sec_min: 0
+    hold_sec_max: 10
+
+signals:
+  modes:
+    choose_mode:
+      kind: simple_shift
+      # For this fixture, assignment comes from trades' explicit "mode" field.
+      shift_towards: X
+      shift_away_from: Y
+      shift_probability: 0.0
+      else_mode: X
+    base_profiles:
+      X:
+        ttl_sec: 60
+        max_slippage_bps: 50
+        tp_pct: 1.0
+        sl_pct: -1.0
+        hold_sec_min: 0
+        hold_sec_max: 10
+      Y:
+        ttl_sec: 60
+        max_slippage_bps: 50
+        tp_pct: 1.0
+        sl_pct: -1.0
+        hold_sec_min: 0
+        hold_sec_max: 10
+
+risk:
+  max_position_usd: 1000000.0
+
+execution:
+  only_buy: false

@@ -1,0 +1,6 @@
+{"description": "Fast Network - below base latency", "rpc_roundtrip_ms": 150.0, "slot_lag_ms": null, "base_latency_ms": 200.0, "latency_cost_slope": 0.1, "slot_lag_penalty_bps": 100.0, "expected_cost_bps": 0.0}
+{"description": "Normal Network - at base latency", "rpc_roundtrip_ms": 200.0, "slot_lag_ms": null, "base_latency_ms": 200.0, "latency_cost_slope": 0.1, "slot_lag_penalty_bps": 100.0, "expected_cost_bps": 0.0}
+{"description": "Slow Network - 300ms above baseline", "rpc_roundtrip_ms": 500.0, "slot_lag_ms": null, "base_latency_ms": 200.0, "latency_cost_slope": 0.1, "slot_lag_penalty_bps": 100.0, "expected_cost_bps": 30.0}
+{"description": "Congested Network - 800ms above baseline", "rpc_roundtrip_ms": 1000.0, "slot_lag_ms": null, "base_latency_ms": 200.0, "latency_cost_slope": 0.1, "slot_lag_penalty_bps": 100.0, "expected_cost_bps": 80.0}
+{"description": "Outage - timeout should cap at MAX", "rpc_roundtrip_ms": 12000.0, "slot_lag_ms": null, "base_latency_ms": 200.0, "latency_cost_slope": 0.1, "slot_lag_penalty_bps": 100.0, "expected_cost_bps": 1000.0}
+{"description": "With Slot Lag - latency penalty + slot lag", "rpc_roundtrip_ms": 300.0, "slot_lag_ms": 3000.0, "base_latency_ms": 200.0, "latency_cost_slope": 0.1, "slot_lag_penalty_bps": 100.0, "expected_cost_bps": 110.0}

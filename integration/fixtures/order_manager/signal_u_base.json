@@ -1,0 +1,12 @@
+{
+    "signal_id": "sig_u_001",
+    "mint": "So11111111111111111111111111111111111111112",
+    "entry_price": 100.0,
+    "size_usd": 100.0,
+    "ttl_sec": 60,
+    "tp_pct": 0.05,
+    "sl_pct": 0.03,
+    "mode": "U",
+    "wallet": "7nYhPEv6s5XJ3EYsN8Rjc3Xw4x3Y3Yx3Y3Yx3Y3Yx3Y3Y",
+    "side": "BUY"
+}

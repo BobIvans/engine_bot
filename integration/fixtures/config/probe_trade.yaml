@@ -1,0 +1,8 @@
+# Probe Trade Configuration (PR-K.2)
+# Enable probe trading for unverified tokens
+
+token_profile:
+  honeypot:
+    probe_trade:
+      enabled: true
+      max_probe_cost_usd: 10.0  # Maximum size for probe trades in USD

@@ -1,0 +1,93 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  overlay_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Overlay drift lint
+      # overlay_lint is the primary anti-drift gate
+        run: |
+          chmod +x scripts/overlay_lint.sh
+          ./scripts/overlay_lint.sh
+
+  policy_check:
+    runs-on: ubuntu-latest
+    needs: [overlay_lint]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Policy check (machine-readable)
+        run: |
+          python scripts/policy_check.py
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    needs: [overlay_lint]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shellcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+      - name: ShellCheck scripts
+        run: |
+          shellcheck scripts/*.sh
+
+  python_static:
+    runs-on: ubuntu-latest
+    needs: [overlay_lint]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip check
+      - name: Compile all (syntax)
+        run: |
+          python -m compileall -q .
+      - name: Import sanity
+        run: |
+          python -c "import integration.allowlist_loader"
+          python -c "import integration.write_signal"
+          python -c "import integration.write_wallet_score"
+          python -c "import integration.config_mapper"
+          python -c "import integration.run_exit_plan"
+
+  smoke:
+    runs-on: ubuntu-latest
+    needs: [overlay_lint, policy_check, shellcheck, python_static]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Iteration-1 chain
+        env:
+          CLICKHOUSE_URL: http://localhost:8123
+        run: |
+          chmod +x scripts/iteration1.sh
+          ./scripts/iteration1.sh
+
+  p1_smoke:
+    runs-on: ubuntu-latest
+    needs: [smoke]
+    steps:
+      - uses: actions/checkout@v4
+      - name: P1 smoke (allowlist + signal + score + CH asserts)
+        env:
+          CLICKHOUSE_URL: http://localhost:8123
+        run: |
+          chmod +x scripts/p1_smoke.sh
+          ./scripts/p1_smoke.sh

@@ -1,0 +1,25 @@
+# Non-canonical: which Universal Variables to join onto trades as "features".
+# The join happens purely in the DataGatherer layer (filesystem UV artifacts + ClickHouse trades).
+# No schema changes required.
+
+entity_features:
+  wallet:
+    # trades.traced_wallet
+    id_field: traced_wallet
+    vars:
+      - wallet_score
+      - wallet_smart_money_tag
+
+  pool:
+    # trades.pool_id
+    id_field: pool_id
+    vars:
+      - pool_liquidity_usd
+      - pool_volume_1h_usd
+
+  route:
+    # trades.dex_route
+    id_field: dex_route
+    vars:
+      - route_mev_risk_score
+      - route_pending_tx_count

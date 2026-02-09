@@ -1,0 +1,18 @@
+# integration/fixtures/config/inference.yaml
+# PR-C.5 Model Inference Configuration
+
+# Model inference settings
+model:
+  enabled: true
+  mode: "json_weights"  # "model_off", "heuristic", or "json_weights"
+  model_path: "integration/fixtures/mock_model.json"
+
+# Mock model weights for deterministic testing
+mock_model:
+  intercept: 0.0
+  weights:
+    f_wallet_winrate_30d: 1.0
+    f_wallet_roi_30d_pct: 0.5
+    f_wallet_trades_30d: 0.1
+    f_token_liquidity_usd: 0.0
+    f_token_spread_bps: -0.1

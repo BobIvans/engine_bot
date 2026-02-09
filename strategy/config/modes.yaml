@@ -1,0 +1,33 @@
+# strategy/config/modes.yaml
+# Optional: split-out of signals.modes for humans. Runner may ignore this file.
+base_profiles:
+  U: {hold_sec_min: 15, hold_sec_max: 30, tp_pct: 3.0, sl_pct: -2.5, ttl_sec: 30}
+  S: {hold_sec_min: 60, hold_sec_max: 90, tp_pct: 5.0, sl_pct: -4.5, ttl_sec: 90}
+  M: {hold_sec_min: 120, hold_sec_max: 180, tp_pct: 9.0, sl_pct: -7.0, ttl_sec: 180}
+  L: {hold_sec_min: 240, hold_sec_max: 300, tp_pct: 14.0, sl_pct: -10.0, ttl_sec: 300}
+
+aggressive_profiles:
+  U_aggr:
+    partial_take_profit_pct_of_pos: 40
+    partial_tp_pct: 3.5
+    runner_tp_pct: 25.0
+    runner_sl_pct: -7.0
+    trailing_stop_pct_from_peak: 12.0
+  S_aggr:
+    partial_take_profit_pct_of_pos: 50
+    partial_tp_pct: 7.0
+    runner_tp_pct: 50.0
+    runner_sl_pct: -12.0
+    trailing_stop_pct_from_peak: 12.0
+  M_aggr:
+    partial_take_profit_pct_of_pos: 40
+    partial_tp_pct: 12.0
+    runner_tp_pct: 100.0
+    runner_sl_pct: -20.0
+    trailing_stop_pct_from_peak: 15.0
+  L_aggr:
+    partial_take_profit_pct_of_pos: 35
+    partial_tp_pct: 18.0
+    runner_tp_pct: 180.0
+    runner_sl_pct: -30.0
+    trailing_stop_pct_from_peak: 20.0

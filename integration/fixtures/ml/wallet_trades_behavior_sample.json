@@ -1,0 +1,166 @@
+{
+  "trades": [
+    {
+      "wallet": "W1",
+      "ts": 1738945200000,
+      "platform": "raydium",
+      "entry_price_usd": 0.50,
+      "exit_price_usd": 0.55,
+      "size_in_usd": 1000,
+      "size_out_usd": 1100
+    },
+    {
+      "wallet": "W1",
+      "ts": 1738944000000,
+      "platform": "raydium",
+      "entry_price_usd": 0.48,
+      "exit_price_usd": 0.52,
+      "size_in_usd": 1200,
+      "size_out_usd": 1300
+    },
+    {
+      "wallet": "W1",
+      "ts": 1738942800000,
+      "platform": "raydium",
+      "entry_price_usd": 0.45,
+      "exit_price_usd": 0.49,
+      "size_in_usd": 1500,
+      "size_out_usd": 1633
+    },
+    {
+      "wallet": "W1",
+      "ts": 1738941600000,
+      "platform": "raydium",
+      "entry_price_usd": 0.42,
+      "exit_price_usd": 0.46,
+      "size_in_usd": 1800,
+      "size_out_usd": 1971
+    },
+    {
+      "wallet": "W1",
+      "ts": 1738940400000,
+      "platform": "raydium",
+      "entry_price_usd": 0.40,
+      "exit_price_usd": 0.44,
+      "size_in_usd": 2000,
+      "size_out_usd": 2200
+    },
+    {
+      "wallet": "W1",
+      "ts": 1738939200000,
+      "platform": "raydium",
+      "entry_price_usd": 0.38,
+      "exit_price_usd": 0.41,
+      "size_in_usd": 2200,
+      "size_out_usd": 2374
+    },
+    {
+      "wallet": "W1",
+      "ts": 1738938000000,
+      "platform": "raydium",
+      "entry_price_usd": 0.36,
+      "exit_price_usd": 0.39,
+      "size_in_usd": 2500,
+      "size_out_usd": 2708
+    },
+    {
+      "wallet": "W1",
+      "ts": 1738936800000,
+      "platform": "raydium",
+      "entry_price_usd": 0.35,
+      "exit_price_usd": 0.38,
+      "size_in_usd": 2800,
+      "size_out_usd": 3040
+    },
+    {
+      "wallet": "W1",
+      "ts": 1738935600000,
+      "platform": "orca",
+      "entry_price_usd": 0.34,
+      "exit_price_usd": 0.35,
+      "size_in_usd": 3000,
+      "size_out_usd": 3088
+    },
+    {
+      "wallet": "W1",
+      "ts": 1738934400000,
+      "platform": "raydium",
+      "entry_price_usd": 0.33,
+      "exit_price_usd": 0.36,
+      "size_in_usd": 3200,
+      "size_out_usd": 3491
+    },
+    {
+      "wallet": "W2",
+      "ts": 1738945200000,
+      "platform": "orca",
+      "entry_price_usd": 0.50,
+      "exit_price_usd": 0.52,
+      "size_in_usd": 500,
+      "size_out_usd": 520
+    },
+    {
+      "wallet": "W2",
+      "ts": 1738944000000,
+      "platform": "raydium",
+      "entry_price_usd": 0.51,
+      "exit_price_usd": 0.54,
+      "size_in_usd": 600,
+      "size_out_usd": 635
+    },
+    {
+      "wallet": "W2",
+      "ts": 1738942800000,
+      "platform": "meteora",
+      "entry_price_usd": 0.52,
+      "exit_price_usd": 0.53,
+      "size_in_usd": 700,
+      "size_out_usd": 713
+    },
+    {
+      "wallet": "W2",
+      "ts": 1738941600000,
+      "platform": "orca",
+      "entry_price_usd": 0.49,
+      "exit_price_usd": 0.48,
+      "size_in_usd": 800,
+      "size_out_usd": 784
+    },
+    {
+      "wallet": "W2",
+      "ts": 1738940400000,
+      "platform": "raydium",
+      "entry_price_usd": 0.47,
+      "exit_price_usd": 0.46,
+      "size_in_usd": 900,
+      "size_out_usd": 881
+    },
+    {
+      "wallet": "W2",
+      "ts": 1738939200000,
+      "platform": "meteora",
+      "entry_price_usd": 0.45,
+      "exit_price_usd": 0.47,
+      "size_in_usd": 1000,
+      "size_out_usd": 1044
+    },
+    {
+      "wallet": "W2",
+      "ts": 1738938000000,
+      "platform": "orca",
+      "entry_price_usd": 0.43,
+      "exit_price_usd": 0.45,
+      "size_in_usd": 1100,
+      "size_out_usd": 1151
+    },
+    {
+      "wallet": "W3",
+      "ts": 1738936800000,
+      "platform": "raydium",
+      "entry_price_usd": 0.35,
+      "exit_price_usd": null,
+      "size_in_usd": 500,
+      "size_out_usd": null
+    }
+  ]
+}

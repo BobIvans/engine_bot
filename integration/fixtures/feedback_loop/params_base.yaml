@@ -1,0 +1,18 @@
+# Base Strategy Parameters
+# This file contains default payoff values by trading mode
+
+payoff_mu_win:
+  U: 0.08
+  S: 0.10
+  M: 0.06
+  L: 0.04
+
+payoff_mu_loss:
+  U: 0.04
+  S: 0.05
+  M: 0.04
+  L: 0.03
+
+# Other parameters
+risk_per_trade_bps: 100
+max_position_count: 5

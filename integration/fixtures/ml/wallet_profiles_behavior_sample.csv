@@ -1,0 +1,4 @@
+wallet_addr,median_hold_sec,leader_score,cluster_label,roi_30d_pct,winrate_30d,trades_30d
+W1,120,0.92,0,45.5,0.78,156
+W2,45,0.35,1,12.3,0.55,89
+W3,,,,,,

@@ -1,0 +1,2 @@
+mint,ts_snapshot,liquidity_usd,volume_24h_usd,spread_bps,top10_holders_pct,single_holder_pct,is_honeypot,freeze_authority,mint_authority,security_top_holders_pct
+So11111111111111111111111111111111111111112,2026-01-05 09:59:59.000,50000.0,200000.0,120.0,60.0,20.0,false,null,null,0.5

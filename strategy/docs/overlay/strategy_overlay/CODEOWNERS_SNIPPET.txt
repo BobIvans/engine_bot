@@ -1,0 +1,2 @@
+# Protect GMEE canon (read-only)
+/vendor/gmee_canon/**  @your-team-or-bot

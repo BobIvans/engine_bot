@@ -1,0 +1,105 @@
+{
+  "schema_version": "token_snapshot_v1",
+  "required": [
+    "ts",
+    "mint"
+  ],
+  "fields": {
+    "schema_version": {
+      "type": "string",
+      "optional": true,
+      "allowed": [
+        "token_snapshot_v1"
+      ]
+    },
+    "ts": {
+      "type": "string"
+    },
+    "mint": {
+      "type": "string",
+      "min_length": 3
+    },
+    "price_usd": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "liquidity_usd": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "volume_5m_usd": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "volume_1h_usd": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "volume_24h_usd": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "spread_bps": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "depth_bps_100": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "depth_bps_300": {
+      "type": "number",
+      "optional": true,
+      "constraints": {
+        "ge": 0
+      }
+    },
+    "honeypot_flag": {
+      "types": [
+        "number",
+        "string"
+      ],
+      "optional": true
+    },
+    "best_route": {
+      "type": "object",
+      "optional": true,
+      "description": "Best Jupiter route for buying this token (jupiter_route.v1 format)"
+    },
+    "raydium_pool": {
+      "type": "object",
+      "optional": true,
+      "description": "Raydium AMM v4 pool state for this token (raydium_pool.v1 format)"
+    },
+    "estimated_slippage_bps": {
+      "type": "integer",
+      "optional": true,
+      "description": "Estimated slippage in basis points for buying this token via AMM",
+      "constraints": {
+        "ge": 0,
+        "le": 10000
+      }
+    }
+  }
+}

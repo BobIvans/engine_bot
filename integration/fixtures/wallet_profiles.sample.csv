@@ -1,0 +1,4 @@
+wallet,tier,roi_30d_pct,winrate_30d,trades_30d,median_hold_sec,avg_trade_size_sol
+wallet_good,tier1,35.0,0.68,120,75,0.60
+wallet_border,tier2,10.5,0.55,30,140,0.25
+wallet_bad,, -5.0,0.40,10,30,0.15

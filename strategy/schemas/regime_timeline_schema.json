@@ -1,0 +1,42 @@
+{
+    "type": "object",
+    "properties": {
+        "ts": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "risk_regime": {
+            "type": "number",
+            "minimum": -1.0,
+            "maximum": 1.0
+        },
+        "bullish_markets": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "bearish_markets": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "source_snapshot_id": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "ts",
+        "risk_regime",
+        "bullish_markets",
+        "bearish_markets",
+        "confidence",
+        "source_snapshot_id"
+    ]
+}

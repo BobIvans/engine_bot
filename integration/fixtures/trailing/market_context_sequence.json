@@ -1,0 +1,57 @@
+[
+    {
+        "ts": 1700000000.0,
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "price": "1.00",
+        "rv_5m": 0.12,
+        "rv_15m": 0.10,
+        "volume_delta_1m": 0.5,
+        "volume_profile_score": 0.7,
+        "liquidity_usd": 5000000.0,
+        "spread_bps": 5.0
+    },
+    {
+        "ts": 1700000010.0,
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "price": "1.01",
+        "rv_5m": 0.02,
+        "rv_15m": 0.03,
+        "volume_delta_1m": 0.5,
+        "volume_profile_score": 0.9,
+        "liquidity_usd": 5200000.0,
+        "spread_bps": 3.0
+    },
+    {
+        "ts": 1700000020.0,
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "price": "1.02",
+        "rv_5m": 0.09,
+        "rv_15m": 0.08,
+        "volume_delta_1m": -0.5,
+        "volume_profile_score": 0.3,
+        "liquidity_usd": 4800000.0,
+        "spread_bps": 8.0
+    },
+    {
+        "ts": 1700000030.0,
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "price": "1.025",
+        "rv_5m": 0.02,
+        "rv_15m": 0.04,
+        "volume_delta_1m": 0.5,
+        "volume_profile_score": 0.85,
+        "liquidity_usd": 5100000.0,
+        "spread_bps": 4.0
+    },
+    {
+        "ts": 1700000040.0,
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "price": "1.03",
+        "rv_5m": 0.30,
+        "rv_15m": 0.25,
+        "volume_delta_1m": -0.5,
+        "volume_profile_score": 0.2,
+        "liquidity_usd": 3000000.0,
+        "spread_bps": 15.0
+    }
+]

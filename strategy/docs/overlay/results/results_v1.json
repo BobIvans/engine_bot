@@ -1,0 +1,16 @@
+{
+  "schema_version": "results.v1",
+  "run_id": "",
+  "date_utc": "",
+  "inputs": {
+    "trades_fixture": "",
+    "token_snapshot": "",
+    "wallet_profiles": ""
+  },
+  "summary": {
+    "counts": {},
+    "mode_counts": {},
+    "tier_counts": {}
+  },
+  "notes": []
+}

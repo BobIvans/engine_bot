@@ -1,0 +1,30 @@
+{
+  "model_version": "test_v1",
+  "calibration_points": [
+    {
+      "raw": 0.0,
+      "calibrated": 0.0
+    },
+    {
+      "raw": 0.2,
+      "calibrated": 0.15
+    },
+    {
+      "raw": 0.4,
+      "calibrated": 0.35
+    },
+    {
+      "raw": 0.6,
+      "calibrated": 0.65
+    },
+    {
+      "raw": 0.8,
+      "calibrated": 0.85
+    },
+    {
+      "raw": 1.0,
+      "calibrated": 1.0
+    }
+  ],
+  "created_ts": 1770644377
+}

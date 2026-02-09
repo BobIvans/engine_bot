@@ -1,0 +1,81 @@
+{
+    "jupiter": {
+        "description": "Mock response from https://api.jup.ag/price/v2?ids={mint}",
+        "sample_mint": "So11111111111111111111111111111111111111112",
+        "response": {
+            "data": {
+                "So11111111111111111111111111111111111111112": {
+                    "id": "So11111111111111111111111111111111111111112",
+                    "mintSymbol": "SOL",
+                    "vsToken": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                    "vsTokenSymbol": "USDC",
+                    "price": "102.45"
+                },
+                "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": {
+                    "id": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                    "mintSymbol": "USDC",
+                    "vsToken": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                    "vsTokenSymbol": "USDC",
+                    "price": "1.00"
+                },
+                "JUPyiwrYJFskUPiHa7hkeR8VUtkqjberbSOWd91pbT2": {
+                    "id": "JUPyiwrYJFskUPiHa7hkeR8VUtkqjberbSOWd91pbT2",
+                    "mintSymbol": "JUP",
+                    "vsToken": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                    "vsTokenSymbol": "USDC",
+                    "price": "2.45"
+                }
+            },
+            "timeTaken": 0.012
+        }
+    },
+    "dexscreener": {
+        "description": "Mock response from https://api.dexscreener.com/latest/dex/tokens/{mint}",
+        "sample_mint": "So11111111111111111111111111111111111111112",
+        "response": {
+            "pair": {
+                "dexId": "raydium",
+                "pairAddress": "8sFAr8Yfcobts753Z158NLComVd4f7B2fPeY4fC31BhN",
+                "baseToken": {
+                    "address": "So11111111111111111111111111111111111111112",
+                    "symbol": "SOL",
+                    "name": "Solana"
+                },
+                "quoteToken": {
+                    "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                    "symbol": "USDC",
+                    "name": "USD Coin"
+                },
+                "priceUsd": "102.45",
+                "priceNative": "1.02",
+                "liquidity": {
+                    "usd": 24567890,
+                    "base": 120000,
+                    "quote": 12345678
+                },
+                "volume": {
+                    "h24": 45678901,
+                    "h6": 12345678,
+                    "h1": 2345678,
+                    "m5": 123456
+                },
+                "priceChange": {
+                    "h24": 2.34,
+                    "h6": 0.45,
+                    "h1": 0.12,
+                    "m5": 0.02
+                },
+                "txns": {
+                    "h24": 1234,
+                    "h6": 456,
+                    "h1": 78,
+                    "m5": 12
+                },
+                "buys": 789,
+                "sells": 445,
+                "url": "https://dexscreener.com/raydium/8sFAr8Yfcobts753Z158NLComVd4f7B2fPeY4fC31BhN"
+            },
+            "pairSimilar": []
+        }
+    }
+}

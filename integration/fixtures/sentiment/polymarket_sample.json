@@ -1,0 +1,42 @@
+[
+    {
+        "id": "will-btc-exceed-100k-by-dec-2024",
+        "question": "Will Bitcoin exceed $100K by December 31, 2024?",
+        "price1": 0.78,
+        "outcome1": "Yes",
+        "volumeUSD": 1245000,
+        "eventExpirationDate": "2024-12-31T23:59:59Z"
+    },
+    {
+        "id": "will-eth-above-5k-year-end",
+        "question": "Will Ethereum trade above $5,000 by year end 2024?",
+        "price1": 0.45,
+        "outcome1": "Yes",
+        "volumeUSD": 892000,
+        "eventExpirationDate": "2024-12-31T23:59:59Z"
+    },
+    {
+        "id": "trump-win-election-2024",
+        "question": "Will Donald Trump win the 2024 US Presidential Election?",
+        "price1": 0.52,
+        "outcome1": "Yes",
+        "volumeUSD": 3450000,
+        "eventExpirationDate": "2024-11-05T23:59:59Z"
+    },
+    {
+        "id": "solana-above-200-2024",
+        "question": "Will Solana exceed $200 in 2024?",
+        "price1": 0.67,
+        "outcome1": "Yes",
+        "volumeUSD": 567000,
+        "eventExpirationDate": "2024-12-31T23:59:59Z"
+    },
+    {
+        "id": "inflation-below-3pct-dec",
+        "question": "Will US inflation be below 3% in December 2024?",
+        "price1": 0.35,
+        "outcome1": "Yes",
+        "volumeUSD": 234000,
+        "eventExpirationDate": "2025-01-15T23:59:59Z"
+    }
+]

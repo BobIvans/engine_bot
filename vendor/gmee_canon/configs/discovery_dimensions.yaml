@@ -1,0 +1,65 @@
+version: 1
+description: Non-canonical helper mapping for discovery/search across existing Tier-0
+  tables. Safe to extend without changing canon.
+base_filters:
+  trace_id:
+    table: trades
+    column: trace_id
+    type: UUID
+  trade_id:
+    table: trades
+    column: trade_id
+    type: UUID
+  chain:
+    table: trades
+    column: chain
+    type: String
+  env:
+    table: trades
+    column: env
+    type: String
+  source:
+    table: trades
+    column: source
+    type: String
+  traced_wallet:
+    table: trades
+    column: traced_wallet
+    type: String
+  token_mint:
+    table: trades
+    column: token_mint
+    type: String
+  pool_id:
+    table: trades
+    column: pool_id
+    type: String
+  experiment_id:
+    table: trades
+    column: experiment_id
+    type: UUID
+  entry_rpc_winner:
+    table: trades
+    column: entry_rpc_winner
+    type: String
+  signal_source:
+    table: signals_raw
+    column: source
+    type: String
+  signal_wallet:
+    table: signals_raw
+    column: traced_wallet
+    type: String
+  signal_token:
+    table: signals_raw
+    column: token_mint
+    type: String
+  signal_pool:
+    table: signals_raw
+    column: pool_id
+    type: String
+json_filter_syntax:
+- payload.<key>=<value>  -> JSONExtractString(payload_json, <key>) = {param:String}
+  (signals_raw)
+- details.<key>=<value>  -> JSONExtractString(details_json, <key>) = {param:String}
+  (forensics_events)

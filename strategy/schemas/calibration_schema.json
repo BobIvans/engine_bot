@@ -1,0 +1,102 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Calibration Schema",
+    "description": "Schema for model calibration files (PR-ML.5)",
+    "type": "object",
+    "properties": {
+        "model_version": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$",
+            "description": "Unique version identifier for this calibration"
+        },
+        "calibration_type": {
+            "type": "string",
+            "enum": [
+                "platt",
+                "isotonic"
+            ],
+            "description": "Type of calibration method"
+        },
+        "params": {
+            "type": "object",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "a": {
+                            "type": "number",
+                            "description": "Platt scaling coefficient (should be negative)"
+                        },
+                        "b": {
+                            "type": "number",
+                            "description": "Platt scaling intercept"
+                        }
+                    },
+                    "required": [
+                        "a",
+                        "b"
+                    ]
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "minimum": 0.0,
+                                "maximum": 1.0
+                            },
+                            "description": "Raw score control points (must be sorted)"
+                        },
+                        "y": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "minimum": 0.0,
+                                "maximum": 1.0
+                            },
+                            "description": "Calibrated score control points (must be monotonically increasing)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ]
+                }
+            ]
+        },
+        "trained_on": {
+            "type": "string",
+            "format": "date",
+            "description": "Date when calibration was trained"
+        },
+        "metrics": {
+            "type": "object",
+            "properties": {
+                "brier_score": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "description": "Brier score (lower is better)"
+                },
+                "ece": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0,
+                    "description": "Expected Calibration Error"
+                },
+                "samples": {
+                    "type": "integer",
+                    "minimum": 100,
+                    "description": "Number of samples used for calibration"
+                }
+            }
+        }
+    },
+    "required": [
+        "model_version",
+        "calibration_type",
+        "params",
+        "trained_on"
+    ]
+}

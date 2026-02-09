@@ -1,0 +1,2 @@
+{"signal_id": "S1", "timestamp": 1704067200, "mint": "So11111111111111111111111111111111111111112", "score": 0.85, "threshold": 0.7, "reason": "high_score", "wallet": "Wallet123"}
+{"signal_id": "S2", "timestamp": 1704067300, "mint": "Rug1111111111111111111111111111111111111111", "score": 0.45, "threshold": 0.7, "reason": "below_threshold", "wallet": "Wallet456"}
