@@ -132,3 +132,30 @@ def load_regime_config(config_path: str) -> Dict[str, Any]:
 # Example usage (for testing)
 if __name__ == "__main__":
     pass
+def adjust_min_edge_bps(
+    base_min_edge: float,
+    regime: float,
+    cfg: Dict[str, Any],
+) -> float:
+    """Adjust the minimum required edge (in bps) based on regime score.
+
+    Convention:
+      - positive regime (risk-on) -> allow slightly *lower* required edge
+      - negative regime (risk-off) -> require *higher* edge
+
+    Args:
+        base_min_edge: Base threshold.
+        regime: Regime score (-1.0 to 1.0).
+        cfg: Adjustment configuration (optional keys: min_edge_regime_scalar, min_edge_floor_mult, min_edge_cap_mult).
+
+    Returns:
+        Adjusted threshold (>=0).
+    """
+    scalar = float(cfg.get("min_edge_regime_scalar", cfg.get("regime_scalar", 0.5)))
+    multiplier = 1.0 - (regime * scalar)
+
+    floor_mult = float(cfg.get("min_edge_floor_mult", 0.5))
+    cap_mult = float(cfg.get("min_edge_cap_mult", 2.0))
+    multiplier = max(floor_mult, min(multiplier, cap_mult))
+
+    return max(0.0, float(base_min_edge) * multiplier)
