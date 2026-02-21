@@ -552,7 +552,7 @@ class CopyScalpStrategy:
         
         # Step 5: Determine Mode based on regime
         # Higher regime = more aggressive mode
-        if effective_risk_regime > 0.7:
+        if effective_risk_regime >= 0.7:
             mode = Mode.XL
             size_pct = min(self.params.max_size_pct, base_size * 1.5)
         elif effective_risk_regime > 0.3:

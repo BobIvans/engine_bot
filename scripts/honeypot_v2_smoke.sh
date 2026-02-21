@@ -90,10 +90,10 @@ params = $params_dict
 
 passed, reasons = evaluate_security_dict(data, params)
 result = 'PASS' if passed else 'REJECT'
-print(f'{result}:{','.join(reasons)}' if reasons else result)
+print(result + (':' + ','.join(reasons) if reasons else ''))
 " 2>&1) || {
     echo "[honeypot_v2_smoke] Testing $symbol... ERROR: $result" >&2
-    ((FAIL_COUNT++))
+    FAIL_COUNT=$((FAIL_COUNT + 1))
     continue
 }
     
@@ -108,13 +108,13 @@ print(f'{result}:{','.join(reasons)}' if reasons else result)
         else
             echo "[honeypot_v2_smoke] Testing $symbol... PASS (Rejected as expected)"
         fi
-        ((PASS_COUNT++))
+        PASS_COUNT=$((PASS_COUNT + 1))
     else
         echo "[honeypot_v2_smoke] Testing $symbol... FAIL - Expected $expected_result, got $actual_result" >&2
         if [ -n "$reasons_output" ]; then
             echo "[honeypot_v2_smoke]   Reasons: $reasons_output" >&2
         fi
-        ((FAIL_COUNT++))
+        FAIL_COUNT=$((FAIL_COUNT + 1))
     fi
     
 done < "$FIXTURES_DIR/token_snapshot.csv"
