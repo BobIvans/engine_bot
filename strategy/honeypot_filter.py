@@ -146,12 +146,23 @@ def check_security(
     if not bool(honeypot_cfg.get("enabled", False)):
         return True, None
 
+    token_profile_cfg = cfg.get("token_profile") or {}
+    security_cfg = token_profile_cfg.get("security") or {}
+    has_security_gate = bool(security_cfg.get("enabled", False))
+    has_token_gates = bool(token_profile_cfg.get("gates"))
+
+    # Backward compatibility:
+    # - Legacy PR-B.3 smoke expects missing snapshot/security to be a hard fail.
+    # - Full signal pipeline (with token gates/security gate) expects soft-pass/defer here
+    #   because missing snapshot is handled by integration gates.
+    allow_defer_on_missing = has_security_gate or has_token_gates
+
     if snapshot is None or not hasattr(snapshot, "extra") or snapshot.extra is None:
-        return True, None
+        return (True, None) if allow_defer_on_missing else (False, HONEYPOT_FLAG)
 
     security = snapshot.extra.get("security")
     if security is None:
-        return True, None
+        return (True, None) if allow_defer_on_missing else (False, HONEYPOT_FLAG)
 
     if security.get("is_honeypot") is True:
         return False, HONEYPOT_FLAG
