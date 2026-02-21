@@ -1122,8 +1122,8 @@ def _main_inner(args) -> int:
                 mode_counts[mode_bucket]["rejected_by_risk"] += 1
                 tier_counts[tier_bucket]["rejected_by_risk"] += 1
 
-            # PR-8.1: Build signal row for risk reject
-            if args.signals_out:
+            # PR-8.1: Build signal row for risk reject (BUY flows only)
+            if args.signals_out and t.side == "BUY":
                 wallet_tier = None
                 if t.extra and isinstance(t.extra, dict):
                     wallet_tier = t.extra.get("wallet_tier")

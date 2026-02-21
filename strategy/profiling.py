@@ -235,3 +235,85 @@ def enrich_with_kolscan(profile: WalletProfile, kolscan_data: Dict[str, Any]) ->
 
     # Return as dict ( caller can merge with WalletProfile)
     return enriched_dict  # type: ignore
+
+
+
+def _field(record: Any, name: str, default: Any = None) -> Any:
+    """Read field from dict-like or object-like records."""
+    if isinstance(record, dict):
+        return record.get(name, default)
+    return getattr(record, name, default)
+
+
+
+def aggregate_wallet_stats(trades: list[Any]) -> list[WalletProfile]:
+    """Aggregate normalized trades into wallet-level profile metrics.
+
+    Expected per trade fields: wallet, pnl_usd, size_usd.
+    Returns deterministic wallet-sorted output.
+    """
+    by_wallet: Dict[str, Dict[str, Any]] = {}
+
+    for trade in trades:
+        wallet_raw = _field(trade, "wallet")
+        if wallet_raw is None:
+            continue
+        wallet = str(wallet_raw)
+
+        bucket = by_wallet.setdefault(
+            wallet,
+            {
+                "trades": 0,
+                "wins": 0,
+                "pnl_sum": 0.0,
+                "size_sum": 0.0,
+                "size_count": 0,
+            },
+        )
+
+        bucket["trades"] += 1
+
+        pnl = _field(trade, "pnl_usd")
+        if pnl is not None:
+            pnl_f = float(pnl)
+            bucket["pnl_sum"] += pnl_f
+            if pnl_f > 0:
+                bucket["wins"] += 1
+
+        size = _field(trade, "size_usd")
+        if size is not None:
+            size_f = float(size)
+            if size_f > 0:
+                bucket["size_sum"] += size_f
+                bucket["size_count"] += 1
+
+    profiles: list[WalletProfile] = []
+    for wallet in sorted(by_wallet.keys()):
+        b = by_wallet[wallet]
+        trades_n = int(b["trades"])
+
+        winrate = None
+        if trades_n > 0:
+            winrate = float(b["wins"]) / float(trades_n)
+
+        roi_30d_pct = 0.0
+        if b["size_sum"] > 0:
+            roi_30d_pct = (float(b["pnl_sum"]) / float(b["size_sum"])) * 100.0
+
+        avg_trade_size_sol = None
+        if b["size_count"] > 0:
+            avg_size_usd = float(b["size_sum"]) / float(b["size_count"])
+            avg_trade_size_sol = avg_size_usd / 100.0
+
+        profiles.append(
+            WalletProfile(
+                wallet=wallet,
+                roi_30d_pct=roi_30d_pct,
+                winrate_30d=winrate,
+                trades_30d=trades_n,
+                median_hold_sec=None,
+                avg_trade_size_sol=avg_trade_size_sol,
+            )
+        )
+
+    return profiles

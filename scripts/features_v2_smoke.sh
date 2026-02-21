@@ -14,13 +14,19 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 echo "[features_v2_smoke] Starting Feature Engineering v2 smoke test..." >&2
 
+export PYTHONPATH="$ROOT_DIR:$PYTHONPATH"
+export ROOT_DIR
+
 python3 << 'PYTHON_TEST'
 import sys
 import json
 from collections import defaultdict
 
-# Add root to path
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
+import os
+
+# Add repo root to path
+root_dir = os.environ['ROOT_DIR']
+sys.path.insert(0, root_dir)
 
 from features.trade_features import (
     FEATURE_KEYS_V1, 
@@ -63,7 +69,7 @@ print("[features_v2_smoke] Testing snapshot extra data capture...", file=sys.std
 # Test 3: Load snapshot store with v2 columns
 try:
     snap_store = TokenSnapshotStore.from_csv(
-        "/Users/ivansbobrovs/Downloads/strategy pack/integration/fixtures/token_snapshot.v2.csv"
+        f"{root_dir}/integration/fixtures/token_snapshot.v2.csv"
     )
     snap = snap_store.get("MINT_A")
     if snap is not None:
@@ -157,7 +163,7 @@ print("[features_v2_smoke] Testing features_v2_expected.json contract...", file=
 
 # Test 6: Verify contract file
 try:
-    with open("/Users/ivansbobrovs/Downloads/strategy pack/integration/fixtures/features_v2_expected.json", "r") as f:
+    with open(f"{root_dir}/integration/fixtures/features_v2_expected.json", "r") as f:
         contract = json.load(f)
     
     contract_keys = set(contract.get("keys", []))
