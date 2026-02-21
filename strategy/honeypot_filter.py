@@ -178,6 +178,47 @@ def check_simulation_security(
     return True, None
 
 
+def check_security(snapshot: Any, cfg: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
+    """Compatibility wrapper used by signal_engine.
+
+    - If snapshot includes security data (typically under snapshot.extra['security']),
+      we evaluate it using `evaluate_security_dict`.
+    - If no security data is present, we *pass* by default to avoid blocking trading
+      when the upstream security provider is unavailable.
+    """
+    hp_cfg = (cfg or {}).get("token_profile", {}).get("honeypot", {}) or {}
+    if hp_cfg.get("enabled", True) is False:
+        return True, None
+
+    # Extract security dict from various snapshot shapes.
+    security: Optional[Dict[str, Any]] = None
+    if snapshot is None:
+        security = None
+    elif hasattr(snapshot, "get_security_data") and callable(getattr(snapshot, "get_security_data")):
+        try:
+            security = snapshot.get_security_data()
+        except Exception:
+            security = None
+    elif hasattr(snapshot, "security") and isinstance(getattr(snapshot, "security"), dict):
+        security = getattr(snapshot, "security")
+    elif hasattr(snapshot, "extra") and isinstance(getattr(snapshot, "extra"), dict):
+        security = getattr(snapshot, "extra").get("security")
+
+    if not security:
+        # No security data available — do not hard-fail.
+        return True, None
+
+    ok, reasons = evaluate_security_dict(
+        security,
+        max_tax_bps=int(hp_cfg.get("max_tax_bps", 0) or 0),
+        block_freeze_authority=bool(hp_cfg.get("block_freeze_authority", True)),
+        allow_unknown=bool(hp_cfg.get("allow_unknown", True)),
+    )
+    if ok:
+        return True, None
+    reason = reasons[0] if reasons else "security_fail"
+    return False, reason
+
 def is_honeypot_safe(
     mint: str,
     snapshot_extra: Optional[Dict[str, Any]] = None,
