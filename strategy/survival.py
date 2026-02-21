@@ -164,6 +164,42 @@ def estimate_hazard(
     )
 
 
+def estimate_exit_probability_simple(
+    median_hold_sec: Optional[float],
+    window_sec: float = 60.0,
+    default_prob: float = 0.5,
+) -> float:
+    """Estimate probability of exit within ``window_sec`` from median hold time.
+
+    Backward-compatible helper for feature builders. Returns ``default_prob``
+    when ``median_hold_sec`` is missing/invalid and clamps output to [0, 1].
+    """
+
+    def _clamp01(v: float) -> float:
+        return max(0.0, min(1.0, float(v)))
+
+    try:
+        default = _clamp01(float(default_prob))
+    except Exception:
+        default = 0.5
+
+    if median_hold_sec is None:
+        return default
+
+    try:
+        hold = float(median_hold_sec)
+        window = float(window_sec)
+    except Exception:
+        return default
+
+    if hold <= 0 or window <= 0:
+        return default
+
+    # Simple exponential survival model: P(exit by t) = 1 - exp(-t / median_hold)
+    prob = 1.0 - math.exp(-window / hold)
+    return _clamp01(prob)
+
+
 if __name__ == "__main__":
     # Quick self-test
     print("Survival Estimator Self-Test")
