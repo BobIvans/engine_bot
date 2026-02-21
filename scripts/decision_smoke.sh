@@ -86,14 +86,14 @@ print(f'RESULTS:{passed}:{failed}')
         scenario=$(echo "$line" | cut -d':' -f2)
         details=$(echo "$line" | cut -d':' -f3-)
         echo "[decision_smoke] Scenario $scenario... PASS ($details)"
-        ((PASS_COUNT++))
+        PASS_COUNT=$((PASS_COUNT + 1))
     elif [[ "$line" == FAIL:* ]]; then
         scenario=$(echo "$line" | cut -d':' -f2)
         check=$(echo "$line" | cut -d':' -f3)
         actual=$(echo "$line" | cut -d':' -f4)
         expected=$(echo "$line" | cut -d':' -f5)
         echo "[decision_smoke] Scenario $scenario... FAIL ($check: got $actual, expected $expected)" >&2
-        ((FAIL_COUNT++))
+        FAIL_COUNT=$((FAIL_COUNT + 1))
     else
         # Echo debug info
         echo "[decision_smoke] $line" >&2
