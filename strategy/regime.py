@@ -114,6 +114,33 @@ def adjust_position_size(
     return base_size * multiplier
 
 
+
+def adjust_min_edge_bps(
+    base_min_edge: int,
+    regime: float,
+    cfg: Dict[str, Any],
+) -> int:
+    """Adjust minimum edge threshold using risk regime.
+
+    Positive regime lowers required edge (more permissive),
+    negative regime increases required edge (more conservative).
+
+    Supported cfg keys:
+      - regime_scalar: linear adjustment magnitude (default 0.20)
+      - min_factor: lower clamp for multiplier (default 0.5)
+      - max_factor: upper clamp for multiplier (default 2.0)
+    """
+    scalar = float(cfg.get("regime_scalar", 0.20))
+    min_factor = float(cfg.get("min_factor", 0.5))
+    max_factor = float(cfg.get("max_factor", 2.0))
+
+    # Bullish regime reduces threshold; bearish increases it.
+    multiplier = 1.0 - (float(regime) * scalar)
+    multiplier = max(min_factor, min(multiplier, max_factor))
+
+    adjusted = int(round(float(base_min_edge) * multiplier))
+    return max(0, adjusted)
+
 def load_regime_config(config_path: str) -> Dict[str, Any]:
     """Load regime configuration from YAML file.
 
