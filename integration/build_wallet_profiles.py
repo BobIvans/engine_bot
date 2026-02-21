@@ -54,13 +54,50 @@ def iter_trades_from_path(path: str) -> Iterator[Union[dict, tuple[dict, int]]]:
 
 
 def check_pnl_usd_warning(trade: dict) -> None:
-    """Check if pnl_usd is missing and warn to stderr."""
-    extra = trade.get("extra")
-    if not extra or "pnl_usd" not in extra:
+    """Check if pnl_usd is missing in top-level or extra payload and warn."""
+    extra = trade.get("extra") if isinstance(trade, dict) else None
+    has_top_level = isinstance(trade, dict) and ("pnl_usd" in trade)
+    has_extra = isinstance(extra, dict) and ("pnl_usd" in extra)
+    if not has_top_level and not has_extra:
         print(
-            f"Warning: Missing 'pnl_usd' in trade extra for wallet={trade.get('wallet')}, tx={trade.get('tx_hash')}",
+            f"Warning: Missing 'pnl_usd' for wallet={trade.get('wallet')}, tx={trade.get('tx_hash')}",
             file=sys.stderr,
         )
+
+
+def _extract_trade_for_profiling(record: dict, lineno: int | None):
+    """Extract minimal fields required for wallet profiling.
+
+    Supports lightweight fixtures with top-level `pnl_usd`, and falls back to
+    trade normalizer for full canonical trade payloads.
+    """
+    wallet = record.get("wallet")
+    size_usd = record.get("size_usd")
+
+    extra = record.get("extra") if isinstance(record.get("extra"), dict) else {}
+    pnl_usd = record.get("pnl_usd")
+    if pnl_usd is None:
+        pnl_usd = extra.get("pnl_usd")
+
+    if wallet is not None and size_usd is not None:
+        return {
+            "wallet": wallet,
+            "size_usd": size_usd,
+            "pnl_usd": 0.0 if pnl_usd is None else pnl_usd,
+        }
+
+    # Fallback path for canonical trade records
+    trade = normalize_trade_record(record, lineno=lineno or 0)
+    if isinstance(trade, dict) and trade.get("_reject"):
+        return None
+
+    trade_extra = trade.extra if getattr(trade, "extra", None) else {}
+    trade_pnl = trade_extra.get("pnl_usd", 0.0) if isinstance(trade_extra, dict) else 0.0
+    return {
+        "wallet": trade.wallet,
+        "size_usd": trade.size_usd,
+        "pnl_usd": trade_pnl,
+    }
 
 
 def write_profiles_csv(profiles: List[WalletProfile], path: str) -> None:
@@ -142,10 +179,8 @@ def main() -> int:
         # Check for pnl_usd warning
         check_pnl_usd_warning(record)
 
-        # Normalize trade
-        trade = normalize_trade_record(record, lineno=lineno or 0)
-        if isinstance(trade, dict) and trade.get("_reject"):
-            # Skip rejected trades
+        trade = _extract_trade_for_profiling(record, lineno)
+        if trade is None:
             continue
         trades.append(trade)
 

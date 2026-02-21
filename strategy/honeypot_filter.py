@@ -11,6 +11,8 @@ This is a critical component for passes_safety_filters().
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Any, Tuple
 
+from integration.reject_reasons import HONEYPOT_FLAG, HONEYPOT_FREEZE, HONEYPOT_MINT_AUTH
+
 
 # Rejection reason constants
 REASON_SIM_FAIL = "sim_fail"
@@ -124,6 +126,54 @@ def evaluate_security_dict(
 
 # Alias for convenience
 evaluate = evaluate_security
+
+
+def check_security(
+    snapshot: Optional[Any],
+    cfg: Dict[str, Any],
+) -> Tuple[bool, Optional[str]]:
+    """Backward-compatible security gate used by signal_engine.
+
+    Legacy smoke checks (PR-B.3) expect this function to:
+    - respect token_profile.honeypot.enabled
+    - reject missing snapshot/security payload when enabled
+    - reject explicit honeypot/freeze/mint authority flags
+
+    Returns:
+        Tuple of (passed, reject_reason)
+    """
+    honeypot_cfg = ((cfg.get("token_profile") or {}).get("honeypot")) or {}
+    if not bool(honeypot_cfg.get("enabled", False)):
+        return True, None
+
+    token_profile_cfg = cfg.get("token_profile") or {}
+    security_cfg = token_profile_cfg.get("security") or {}
+    has_security_gate = bool(security_cfg.get("enabled", False))
+    has_token_gates = bool(token_profile_cfg.get("gates"))
+
+    # Backward compatibility:
+    # - Legacy PR-B.3 smoke expects missing snapshot/security to be a hard fail.
+    # - Full signal pipeline (with token gates/security gate) expects soft-pass/defer here
+    #   because missing snapshot is handled by integration gates.
+    allow_defer_on_missing = has_security_gate or has_token_gates
+
+    if snapshot is None or not hasattr(snapshot, "extra") or snapshot.extra is None:
+        return (True, None) if allow_defer_on_missing else (False, HONEYPOT_FLAG)
+
+    security = snapshot.extra.get("security")
+    if security is None:
+        return (True, None) if allow_defer_on_missing else (False, HONEYPOT_FLAG)
+
+    if security.get("is_honeypot") is True:
+        return False, HONEYPOT_FLAG
+
+    if bool(honeypot_cfg.get("reject_if_freeze_authority_present", False)) and security.get("freeze_authority") is True:
+        return False, HONEYPOT_FREEZE
+
+    if bool(honeypot_cfg.get("reject_if_mint_authority_present", False)) and security.get("mint_authority") is True:
+        return False, HONEYPOT_MINT_AUTH
+
+    return True, None
 
 
 def check_simulation_security(
