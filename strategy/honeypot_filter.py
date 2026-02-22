@@ -190,9 +190,60 @@ def check_simulation_security(
         return False, f"high_sell_tax: {sell_tax}bps"
 
     return True, None
+def _extract_security_dict(snapshot, **kwargs):
+    """
+    Best-effort extraction of security dict from various snapshot shapes.
+    Supports:
+      - kwargs: security/sec/security_dict
+      - snapshot.extra["security"] (dict)
+      - snapshot.extra["security"]["result"] (dict)
+      - snapshot.extra["token_security"] (dict)
+      - snapshot.security (dict)
+      - snapshot.security_dict (dict)
+    """
+    sec = kwargs.get("security") or kwargs.get("sec") or kwargs.get("security_dict")
+    if isinstance(sec, dict):
+        return sec
+
+    if snapshot is None:
+        return None
+
+    # attribute-style
+    for attr in ("security", "security_dict"):
+        try:
+            v = getattr(snapshot, attr, None)
+            if isinstance(v, dict):
+                return v
+        except Exception:
+            pass
+
+    # extra-style
+    extra = None
+    try:
+        extra = getattr(snapshot, "extra", None)
+    except Exception:
+        extra = None
+
+    if isinstance(extra, dict):
+        # common direct keys
+        for k in ("security", "token_security", "security_data", "sec"):
+            v = extra.get(k)
+            if isinstance(v, dict):
+                # sometimes wrapped as {"result": {...}}
+                if isinstance(v.get("result"), dict):
+                    return v["result"]
+                return v
+
+        # nested wrapper cases
+        v = extra.get("security")
+        if isinstance(v, dict) and isinstance(v.get("result"), dict):
+            return v["result"]
+
+    return None
 
 
-def is_honeypot_safe(snapshot, cfg):
+
+def is_honeypot_safe(snapshot=None, cfg=None, **kwargs):
     """
     V2-aware honeypot safety check.
     Returns True if token is safe to trade, False otherwise.
@@ -206,6 +257,16 @@ def is_honeypot_safe(snapshot, cfg):
       - Reject if buy_tax_pct or sell_tax_pct exceed max_tax_pct (default 10).
     """
     hp_cfg = (cfg or {}).get("token_profile", {}).get("honeypot", {}) or {}
+    sec = _extract_security_dict(snapshot, **kwargs)
+    # Compat: allow callers to pass mint/security via kwargs (older gate wiring)
+    # We do not require mint for logic; it's accepted to avoid TypeError.
+    if snapshot is None:
+        sec_kw = kwargs.get("security") or kwargs.get("sec") or kwargs.get("security_dict")
+        if isinstance(sec_kw, dict):
+            # emulate snapshot.extra={"security": sec}
+            class _Tmp:
+                extra = {"security": sec_kw}
+            snapshot = _Tmp()
     if not hp_cfg.get("enabled", False):
         return True
 

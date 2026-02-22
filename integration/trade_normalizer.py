@@ -148,3 +148,8 @@ def _opt_bool(x: Any) -> Optional[bool]:
     if s in {"0", "false", "no", "n"}:
         return False
     return None
+
+
+# Backward/forward-compat alias expected by tools/tune_strategy.py
+def normalize_trade(*args, **kwargs):
+    return normalize_trade_record(*args, **kwargs)
