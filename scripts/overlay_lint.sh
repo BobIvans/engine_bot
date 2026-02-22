@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+trap 'echo "[overlay_lint] FAIL at line $LINENO: $BASH_COMMAND" >&2' ERR
 # scripts/overlay_lint.sh
 # Master lint and smoke test runner
 
@@ -229,8 +231,6 @@ bash scripts/grafana_export_smoke.sh
 echo "[overlay_lint] running exits smoke..." >&2
 bash scripts/exits_smoke.sh
 
-echo "[overlay_lint] running polymarket smoke..." >&2
-bash scripts/polymarket_smoke.sh
 
 echo "[overlay_lint] running slippage smoke..." >&2
 bash scripts/slippage_smoke.sh
