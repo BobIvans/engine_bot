@@ -132,3 +132,101 @@ def load_regime_config(config_path: str) -> Dict[str, Any]:
 # Example usage (for testing)
 if __name__ == "__main__":
     pass
+
+# --- CI compatibility shim ---
+def adjust_min_edge_bps(min_edge_bps: int, risk_regime: float) -> int:
+    """
+    Adjust minimum edge threshold (bps) based on risk regime scalar.
+    Conservative default: when risk_regime > 0 (riskier), require higher edge.
+    When risk_regime < 0 (calmer), allow slightly lower edge.
+
+    risk_regime is expected roughly in [-1, 1]. Function is monotonic.
+    """
+    try:
+        base = int(min_edge_bps)
+    except Exception:
+        base = 0
+
+    try:
+        rr = float(risk_regime)
+    except Exception:
+        rr = 0.0
+
+    # Clamp to [-1, 1]
+    if rr > 1.0:
+        rr = 1.0
+    if rr < -1.0:
+        rr = -1.0
+
+    # Scale adjustment: up to +/- 30% of base, but at least +/-10 bps for nonzero base.
+    adj = int(round(base * 0.30 * rr))
+    if base != 0 and adj == 0 and rr != 0.0:
+        adj = 10 if rr > 0 else -10
+
+    return base + adj
+
+# --- CI/API compatibility override ---
+def adjust_min_edge_bps(*args, **kwargs) -> int:
+    """
+    Compatible with callers that pass:
+      adjust_min_edge_bps(base_min_edge=..., regime=..., cfg=...)
+    Also supports older positional calls.
+    Returns adjusted minimum edge (bps) as int.
+    """
+    # Support keyword style used by signal_engine
+    if "base_min_edge" in kwargs or "regime" in kwargs or "cfg" in kwargs:
+        base = kwargs.get("base_min_edge", kwargs.get("min_edge_bps", 0))
+        regime = kwargs.get("regime", kwargs.get("risk_regime", 0.0))
+        cfg = kwargs.get("cfg", {}) or {}
+
+        try:
+            base_i = int(base)
+        except Exception:
+            base_i = 0
+
+        try:
+            rr = float(regime)
+        except Exception:
+            rr = 0.0
+
+        # Clamp
+        rr = max(-1.0, min(1.0, rr))
+
+        # Configurable scaling (defaults chosen to be conservative but mild)
+        # cfg may contain something like {"scale_pct": 0.30, "min_step_bps": 10}
+        try:
+            scale_pct = float(cfg.get("scale_pct", 0.30))
+        except Exception:
+            scale_pct = 0.30
+        try:
+            min_step = int(cfg.get("min_step_bps", 10))
+        except Exception:
+            min_step = 10
+
+        adj = int(round(base_i * scale_pct * rr))
+        if base_i != 0 and adj == 0 and rr != 0.0:
+            adj = min_step if rr > 0 else -min_step
+
+        return base_i + adj
+
+    # Positional fallback: (min_edge_bps, risk_regime)
+    if len(args) >= 2:
+        try:
+            base_i = int(args[0])
+        except Exception:
+            base_i = 0
+        try:
+            rr = float(args[1])
+        except Exception:
+            rr = 0.0
+        rr = max(-1.0, min(1.0, rr))
+        adj = int(round(base_i * 0.30 * rr))
+        if base_i != 0 and adj == 0 and rr != 0.0:
+            adj = 10 if rr > 0 else -10
+        return base_i + adj
+
+    # Default
+    try:
+        return int(args[0]) if args else int(kwargs.get("min_edge_bps", 0))
+    except Exception:
+        return 0
