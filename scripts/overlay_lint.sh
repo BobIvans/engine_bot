@@ -4,6 +4,13 @@
 
 set -e
 
+# Install deps for smokes (CI may run without prior pip install)
+echo "[overlay_lint] ensuring python deps (requirements.txt) are installed..."
+python3 -m pip install --upgrade pip || true
+python3 -m pip install -r requirements.txt || true
+python3 -c "import duckdb; print('[overlay_lint] duckdb OK', duckdb.__version__)" || true
+
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
