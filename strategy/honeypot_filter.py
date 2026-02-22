@@ -192,87 +192,93 @@ def check_simulation_security(
     return True, None
 
 
-def is_honeypot_safe(
-    mint: str,
-    snapshot_extra: Optional[Dict[str, Any]] = None,
-    simulation_success: bool = True,
-    buy_tax_bps: Optional[int] = None,
-    sell_tax_bps: Optional[int] = None,
-    is_freezable: bool = False,
-) -> bool:
+def is_honeypot_safe(snapshot, cfg):
     """
-    Determine if a token is honeypot-safe based on available data.
+    V2-aware honeypot safety check.
+    Returns True if token is safe to trade, False otherwise.
 
-    This function combines data from:
-    - Token snapshot extra fields (security.is_honeypot)
-    - Simulation results (buy_tax_bps, sell_tax_bps, success)
-    - Token properties (is_freezable)
-
-    Args:
-        mint: Token mint address
-        snapshot_extra: Optional dict with security/simulation data from snapshot
-        simulation_success: Whether the dry-run simulation succeeded
-        buy_tax_bps: Buy tax in basis points
-        sell_tax_bps: Sell tax in basis points
-        is_freezable: Whether the token has freeze authority
-
-    Returns:
-        True if token is honeypot-safe, False otherwise
+    Rules:
+      - If honeypot module disabled in cfg -> PASS.
+      - If no security data at all -> PASS (do not block).
+      - If security dict exists but core fields are unknown (None) -> REJECT by default,
+        unless allow_unknown is enabled (cfg or security dict).
+      - Reject if is_honeypot True / freeze authority / mint authority (per cfg flags).
+      - Reject if buy_tax_pct or sell_tax_pct exceed max_tax_pct (default 10).
     """
-    # Check snapshot security data first
-    if snapshot_extra is not None:
-        security = snapshot_extra.get("security")
-        if security is not None:
-            # Direct honeypot flag
-            is_honeypot = security.get("is_honeypot")
-            if is_honeypot is True:
-                return False
+    hp_cfg = (cfg or {}).get("token_profile", {}).get("honeypot", {}) or {}
+    if not hp_cfg.get("enabled", False):
+        return True
 
-    # Check simulation success
-    if not simulation_success:
+    # Extract security dict from snapshot
+    sec = None
+    try:
+        extra = getattr(snapshot, "extra", None)
+        if isinstance(extra, dict):
+            sec = (
+                extra.get("security")
+                or extra.get("security_v2")
+                or extra.get("security_data")
+                or extra.get("token_security")
+            )
+    except Exception:
+        sec = None
+
+    # Back-compat: if no security data -> pass
+    if sec is None:
+        return True
+
+    # Some callers might pass security dict directly
+    if not isinstance(sec, dict):
+        return True
+
+    allow_unknown = bool(hp_cfg.get("allow_unknown", False) or sec.get("allow_unknown") is True)
+
+    # Unknown handling (core fields)
+    if any(sec.get(k) is None for k in ("is_honeypot", "freeze_authority", "mint_authority")):
+        if not allow_unknown:
+            return False
+
+    # Explicit red flags
+    if sec.get("is_honeypot") is True:
         return False
 
-    # Check tax thresholds (default 10% = 1000 bps)
-    if buy_tax_bps is not None and buy_tax_bps > 1000:
-        return False
-    if sell_tax_bps is not None and sell_tax_bps > 1000:
+    if hp_cfg.get("reject_if_freeze_authority_present", False) and sec.get("freeze_authority") is True:
         return False
 
-    # Check freeze authority
-    if is_freezable:
+    if hp_cfg.get("reject_if_mint_authority_present", False) and sec.get("mint_authority") is True:
+        return False
+
+    # Tax thresholds
+    max_tax_pct = hp_cfg.get("max_tax_pct", hp_cfg.get("max_tax", 10))
+    try:
+        max_tax_pct = float(max_tax_pct)
+    except Exception:
+        max_tax_pct = 10.0
+
+    buy_tax = sec.get("buy_tax_pct")
+    sell_tax = sec.get("sell_tax_pct")
+
+    # If tax keys exist but values unknown -> reject unless allowed
+    if ("buy_tax_pct" in sec or "sell_tax_pct" in sec) and (buy_tax is None or sell_tax is None):
+        if not allow_unknown:
+            return False
+
+    def to_float(x):
+        try:
+            return float(x)
+        except Exception:
+            return None
+
+    bt = to_float(buy_tax)
+    st = to_float(sell_tax)
+
+    if bt is not None and bt > max_tax_pct:
+        return False
+    if st is not None and st > max_tax_pct:
         return False
 
     return True
 
-
-if __name__ == "__main__":
-    # Quick self-test
-    print("Honeypot Filter v2 Self-Test")
-    print("=" * 40)
-    
-    # Test cases
-    test_cases = [
-        ("SOL_GOOD", {"buy_tax": 0, "sell_tax": 0, "is_freezable": False, "sim_ok": True}),
-        ("SCAM_TAX", {"buy_tax": 5000, "sell_tax": 10000, "is_freezable": False, "sim_ok": True}),
-        ("SCAM_HONEY", {"buy_tax": 0, "sell_tax": 0, "is_freezable": False, "sim_ok": False}),
-        ("SCAM_FREEZE", {"buy_tax": 0, "sell_tax": 0, "is_freezable": True, "sim_ok": True}),
-    ]
-    
-    params = HoneypotFilterParams(
-        max_tax_bps=1000,
-        block_freeze_authority=True,
-        allow_unknown=False
-    )
-    
-    for symbol, data in test_cases:
-        data["symbol"] = symbol
-        passed, reasons = evaluate_security_dict(data, params)
-        status = "PASS" if passed else "REJECT"
-        print(f"{symbol}: {status} - {reasons}")
-
-# --- CI compatibility shim ---
-# Some modules import `check_security` from this file.
-# Keep it as a stable API even if internal implementation evolves.
 def _reason_to_str(reason: Any) -> str:
     """Best-effort normalize reason to a short string."""
     if reason is None:
