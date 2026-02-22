@@ -15,13 +15,18 @@ fail() {
 }
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export ROOT_DIR
 
 echo "[overlay_lint] running exits smoke..." >&2
 
 # Test: Run Python tests for aggressive exits
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export ROOT_DIR
 python3 << 'PYEOF'
 import sys
-sys.path.insert(0, "${ROOT_DIR}")
+import os
+ROOT_DIR = os.environ.get("ROOT_DIR", ".")
+sys.path.insert(0, ROOT_DIR)
 
 from strategy.exits import (
     PositionState,
@@ -35,7 +40,7 @@ from strategy.exits import (
 import yaml
 
 # Load config
-with open("${ROOT_DIR}/integration/fixtures/config/aggressive_exits.yaml", "r") as f:
+with open(os.path.join(ROOT_DIR, "integration/fixtures/config/aggressive_exits.yaml"), "r") as f:
     cfg = yaml.safe_load(f)
 
 print("[exits_smoke] Testing aggressive trigger detection...")
@@ -101,10 +106,10 @@ assert abs(trail_stop - expected_stop) < 0.01, f"Expected {expected_stop}, got {
 print(f"  Trailing stop from peak {peak_price}: {trail_stop:.2f} (12% trail) - PASS")
 
 # Test 5: Aggressive mode with trailing stop hit
-# State: U_aggr mode, partial taken, peak at 110, now at 97 (below 96.8 trail stop)
+# State: U_aggr mode, partial taken, peak at 110, now at 96.7 (below 96.8 trail stop)
 state5 = PositionState(
     entry_price=entry_price,
-    current_price=97.0,
+    current_price=96.7,
     peak_price=110.0,
     elapsed_sec=25.0,
     mode="U_aggr",
