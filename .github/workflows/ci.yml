@@ -30,6 +30,9 @@ jobs:
           python -V
           python -m pip show duckdb || true
           python -c "import duckdb; print('duckdb OK', duckdb.__version__)" || true
+          python -V
+          python -m pip show duckdb || true
+          python -c "import duckdb; print('duckdb OK', duckdb.__version__)" || true
       - name: Policy check (machine-readable)
         run: |
           python scripts/policy_check.py
@@ -59,6 +62,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          python -V
+          python -m pip show duckdb || true
+          python -c "import duckdb; print('duckdb OK', duckdb.__version__)" || true
           python -V
           python -m pip show duckdb || true
           python -c "import duckdb; print('duckdb OK', duckdb.__version__)" || true
