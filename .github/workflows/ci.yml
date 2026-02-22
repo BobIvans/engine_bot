@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up venv + install deps
+        run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -c "import duckdb; print('duckdb OK', duckdb.__version__)"
       - name: Overlay drift lint
       # overlay_lint is the primary anti-drift gate
         run: |
