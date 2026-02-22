@@ -1,144 +1,158 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
+# scripts/dynamic_exec_smoke.sh
+# PR-E.3 Dynamic TTL & Slippage Model - Smoke Test
+
+set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${SCRIPT_DIR}")" && pwd)"
 
 echo "[dynamic_exec_smoke] Starting dynamic execution smoke test..." >&2
-echo "[dynamic_exec_smoke] ROOT_DIR=${ROOT_DIR}" >&2
 
-cd "${ROOT_DIR}"
+# Python test script
+python3 << PYTHON_TEST
+import sys
+import json
 
-unset PYTHONPATH
-export PYTHONPATH="${ROOT_DIR}"
+# Add root to path
+sys.path.insert(0, '$ROOT_DIR')
 
-python3 - <<'PY'
-import os, sys, inspect
+from strategy.dynamic_adjustment import (
+    calculate_dynamic_ttl,
+    calculate_slippage_bps,
+    extract_volatility,
+)
+from execution.sim_fill import simulate_fill, FillResult
 
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(0, ROOT_DIR)
-sys.path = [p for p in sys.path if "strategy pack" not in (p or "")]
-
+# Test counters
 passed = 0
 failed = 0
 
-def ok(name, cond, detail=""):
+def test_case(name, condition, msg=""):
     global passed, failed
-    if cond:
-        print(f"  [dynamic] {name}: PASS{(' ' + detail) if detail else ''}", file=sys.stderr)
+    if condition:
+        print(f"  [dynamic] {name}: PASS", file=sys.stderr)
         passed += 1
     else:
-        print(f"  [dynamic] {name}: FAIL{(' ' + detail) if detail else ''}", file=sys.stderr)
+        print(f"  [dynamic] {name}: FAIL {msg}", file=sys.stderr)
         failed += 1
 
-# Try to import dynamic module(s) without assuming exact structure.
-# We support a couple common layouts.
-dyn = None
-for mod in ("strategy.dynamic_exec", "strategy.dynamic_execution", "integration.dynamic_exec", "integration.dynamic_execution"):
-    try:
-        dyn = __import__(mod, fromlist=["*"])
-        mod_name = mod
-        break
-    except Exception:
-        continue
+print("[dynamic_exec_smoke] Testing pure dynamic adjustment logic...", file=sys.stderr)
 
-if dyn is None:
-    raise SystemExit("Could not import dynamic exec module (tried strategy/integration dynamic_exec*)")
-
-print(f"[dynamic_exec_smoke] Using module: {mod_name} ({dyn.__file__})", file=sys.stderr)
-
-# Find candidate functions.
-# We look for ttl/slippage calculators and simulate_fill.
-fn_ttl = getattr(dyn, "compute_dynamic_ttl_sec", None) or getattr(dyn, "dynamic_ttl_sec", None) or getattr(dyn, "compute_ttl_sec", None)
-fn_slip = getattr(dyn, "compute_dynamic_slippage_bps", None) or getattr(dyn, "dynamic_slippage_bps", None) or getattr(dyn, "compute_slippage_bps", None)
-fn_fill = getattr(dyn, "simulate_fill", None)
-
-ok("has_ttl_fn", callable(fn_ttl))
-ok("has_slippage_fn", callable(fn_slip))
-ok("has_simulate_fill", callable(fn_fill))
-
-if failed:
-    raise SystemExit(1)
-
-# Build minimal cfgs. Keep keys permissive: module should ignore unknown keys.
+# Config with dynamic execution enabled
 cfg_enabled = {
-    "execution": {
-        "dynamic": {
-            "enabled": True,
-            # Floors/clamps — even if module uses different keys, these won't hurt.
-            "ttl_min_sec": 10,
-            "ttl_max_sec": 600,
-            "slippage_min_bps": 10,
-            "slippage_max_bps": 500,
-        }
-    }
+    "dynamic_execution": {
+        "enabled": True,
+        "ttl_vol_factor": 10.0,
+        "min_ttl_ms": 500,
+        "slippage_slope": 0.01,
+        "slippage_vol_mult": 5.0,
+    },
+    "orders": {"ttl": {"default_ttl_sec": 120}},
+    "slippage_model": {"model": "constant_bps", "constant_bps": 80},
 }
-cfg_disabled = {"execution": {"dynamic": {"enabled": False}}}
 
-# Minimal inputs: some modules want "trade" or "snapshot". We'll pass simple dicts.
-trade_low = {"price": 1.0, "size_usd": 100.0, "vol_30s": 0.01}
-trade_high = {"price": 1.0, "size_usd": 100.0, "vol_30s": 1.50}
-snap_low = {"vol_30s": 0.01, "liquidity_usd": 50000.0}
-snap_high = {"vol_30s": 1.50, "liquidity_usd": 50000.0}
+# Config with dynamic execution disabled
+cfg_disabled = {
+    "dynamic_execution": {"enabled": False},
+    "orders": {"ttl": {"default_ttl_sec": 120}},
+    "slippage_model": {"model": "constant_bps", "constant_bps": 80},
+}
 
-def call(fn, *args):
-    # Try a few common calling conventions
-    for kwargs in (
-        {"trade": args[0], "snapshot": args[1], "cfg": args[2]},
-        {"trade": args[0], "snap": args[1], "cfg": args[2]},
-        {"trade": args[0], "token_snapshot": args[1], "cfg": args[2]},
-        {"snapshot": args[1], "cfg": args[2]},
-        {"cfg": args[2]},
-    ):
-        try:
-            return fn(**kwargs)
-        except TypeError:
-            continue
-    # last resort: positional
-    return fn(*args)
+# Test 1: Dynamic TTL - higher volatility = shorter TTL
+base_ttl = 2000  # 2 seconds in ms
+vol_low = 0.01
+vol_high = 0.10
 
-# --- TTL invariants ---
-ttl_low = call(fn_ttl, trade_low, snap_low, cfg_enabled)
-ttl_high = call(fn_ttl, trade_high, snap_high, cfg_enabled)
-ok("ttl_returns_number", isinstance(ttl_low, (int, float)) and isinstance(ttl_high, (int, float)), f"(low={ttl_low}, high={ttl_high})")
+ttl_low = calculate_dynamic_ttl(base_ttl, vol_low, cfg_enabled)
+ttl_high = calculate_dynamic_ttl(base_ttl, vol_high, cfg_enabled)
 
-# Expectation (robust): higher vol should NOT increase TTL (usually shorter TTL under higher vol).
-# If your logic is opposite, this check can be flipped, but given current smoke naming, it likely expects low_vol >= high_vol.
-ok("ttl_monotone_low_ge_high", ttl_low >= ttl_high, f"(low={ttl_low}, high={ttl_high})")
+test_case("dynamic_ttl_low_vol", (ttl_low <= base_ttl) and (ttl_low >= 500), f"ttl_low={ttl_low}, base={base_ttl}")
+test_case("dynamic_ttl_high_vol", ttl_high < ttl_low, f"ttl_high={ttl_high}, ttl_low={ttl_low}")
+test_case("dynamic_ttl_high_vol_shorter", ttl_high < base_ttl)
+test_case("dynamic_ttl_min_floor", ttl_high >= 500)  # min_ttl_ms
 
-# TTL should be positive
-ok("ttl_positive", ttl_low > 0 and ttl_high > 0)
+# Test 2: Dynamic TTL - disabled returns base
+ttl_disabled = calculate_dynamic_ttl(base_ttl, vol_high, cfg_disabled)
+test_case("dynamic_ttl_disabled", ttl_disabled == base_ttl)
 
-# Disabled => should fallback to static/default TTL (we only check it's a number and not exploding)
-ttl_dis = call(fn_ttl, trade_low, snap_low, cfg_disabled)
-ok("ttl_disabled_number", isinstance(ttl_dis, (int, float)), f"(disabled={ttl_dis})")
-ok("ttl_disabled_positive", ttl_dis > 0, f"(disabled={ttl_dis})")
+# Test 3: Dynamic slippage - higher volatility = higher slippage
+base_bps = 10
+size_usd = 100.0
+liq_usd = 10000.0
 
-# --- Slippage invariants ---
-slip_low = call(fn_slip, trade_low, snap_low, cfg_enabled)
-slip_high = call(fn_slip, trade_high, snap_high, cfg_enabled)
-ok("slip_returns_number", isinstance(slip_low, (int, float)) and isinstance(slip_high, (int, float)), f"(low={slip_low}, high={slip_high})")
+slip_low = calculate_slippage_bps(base_bps, size_usd, liq_usd, vol_low, cfg_enabled)
+slip_high = calculate_slippage_bps(base_bps, size_usd, liq_usd, vol_high, cfg_enabled)
 
-# Slippage should be non-negative
-ok("slip_non_negative", slip_low >= 0 and slip_high >= 0, f"(low={slip_low}, high={slip_high})")
+test_case("slippage_low_vol", (slip_low >= base_bps) and (slip_low <= slip_high), f"slip_low={slip_low}, base={base_bps}, slip_high={slip_high}")
+test_case("slippage_high_vol", slip_high > slip_low, f"slip_high={slip_high}, slip_low={slip_low}")
+test_case("slippage_high_vol_higher", slip_high > base_bps)
 
-# Higher vol should not reduce slippage (usually higher vol => higher slippage)
-ok("slip_monotone_low_le_high", slip_low <= slip_high, f"(low={slip_low}, high={slip_high})")
+# Test 4: Dynamic slippage - larger size = higher slippage
+size_large = 1000.0
+slip_large = calculate_slippage_bps(base_bps, size_large, liq_usd, vol_low, cfg_enabled)
+test_case("slippage_size_impact", slip_large > slip_low)
 
-slip_dis = call(fn_slip, trade_low, snap_low, cfg_disabled)
-ok("slip_disabled_number", isinstance(slip_dis, (int, float)), f"(disabled={slip_dis})")
-ok("slip_disabled_non_negative", slip_dis >= 0, f"(disabled={slip_dis})")
+# Test 5: Dynamic slippage - disabled returns base
+slip_disabled = calculate_slippage_bps(base_bps, size_usd, liq_usd, vol_high, cfg_disabled)
+test_case("slippage_disabled", slip_disabled == base_bps)
 
-# --- simulate_fill sanity (if present) ---
-try:
-    fill = call(fn_fill, trade_high, snap_high, cfg_enabled)
-    ok("simulate_fill_returns", fill is not None)
-except Exception as e:
-    ok("simulate_fill_no_throw", False, f"({type(e).__name__}: {e})")
+# Test 6: extract_volatility from trade extra
+trade_extra = {"vol_30s": 0.05}
+snapshot_extra = {}
+vol = extract_volatility(trade_extra, snapshot_extra)
+test_case("extract_vol_trade", vol == 0.05)
 
+# Test 7: extract_volatility from snapshot extra (fallback)
+trade_extra2 = {}
+snapshot_extra2 = {"vol_30s": 0.03}
+vol2 = extract_volatility(trade_extra2, snapshot_extra2)
+test_case("extract_vol_snapshot", vol2 == 0.03)
+
+# Test 8: extract_volatility returns 0 when both missing
+vol3 = extract_volatility({}, {})
+test_case("extract_vol_default", vol3 == 0.0)
+
+print("[dynamic_exec_smoke] Testing simulate_fill with dynamic models...", file=sys.stderr)
+
+# Test 9: simulate_fill with dynamic slippage
+# Create a mock snapshot with liquidity
+class MockSnapshot:
+    liquidity_usd = 10000.0
+
+result_low = simulate_fill(
+    side="buy",
+    mid_price=100.0,
+    size_usd=100.0,
+    snapshot=MockSnapshot(),
+    execution_cfg=cfg_enabled,
+    mode_ttl_sec=120,
+    seed=42,
+    vol_30s=0.01,
+)
+
+result_high = simulate_fill(
+    side="buy",
+    mid_price=100.0,
+    size_usd=100.0,
+    snapshot=MockSnapshot(),
+    execution_cfg=cfg_enabled,
+    mode_ttl_sec=120,
+    seed=42,  # Same seed = same latency
+    vol_30s=0.10,
+)
+
+test_case("sim_fill_dynamic_slippage", result_high.slippage_bps >= result_low.slippage_bps)
+test_case("sim_fill_slippage_positive", result_high.slippage_bps > 0)
+
+# Summary
 print(f"\n[dynamic_exec_smoke] Tests: {passed} passed, {failed} failed", file=sys.stderr)
-if failed:
-    raise SystemExit(1)
 
-print("[dynamic_exec_smoke] OK ✅", file=sys.stderr)
-PY
+if failed > 0:
+    sys.exit(1)
+else:
+    print("[dynamic_exec_smoke] OK ✅", file=sys.stderr)
+    sys.exit(0)
+PYTHON_TEST
+
+echo "[dynamic_exec_smoke] Smoke test completed." >&2
