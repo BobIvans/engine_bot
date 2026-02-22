@@ -550,6 +550,23 @@ class CopyScalpStrategy:
                 metadata={"stage": "ev"}
             )
         
+
+        # Fallback: if regime timeline is missing (neutral/None), allow scenario-provided bullish_score to drive regime
+        bullish_score = getattr(token, "bullish_score", None) or getattr(token, "polymarket_bullish_score", None)
+        if bullish_score is not None:
+            try:
+                bs = float(bullish_score)
+                # clamp to [-1, 1]
+                if bs > 1.0:
+                    bs = 1.0
+                if bs < -1.0:
+                    bs = -1.0
+                # only overwrite neutral/None regimes
+                if effective_risk_regime is None or abs(float(effective_risk_regime)) < 1e-9:
+                    effective_risk_regime = bs
+            except Exception:
+                pass
+
         # Step 5: Determine Mode based on regime
         # Higher regime = more aggressive mode.
         #
