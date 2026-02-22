@@ -516,3 +516,132 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+# --- Backwards compatible exports for smoke scripts ---
+from dataclasses import dataclass
+from typing import Optional, Any, Dict
+
+@dataclass
+class TuningConfig:
+    """Compatibility config expected by scripts/feedback_loop_smoke.py.
+
+    Accepts legacy kwargs:
+      - max_change_ratio -> mapped to UpdateConfig.max_change_per_run
+      - min_payoff_value -> applied to bounds for mu_win/mu_loss lower clamp
+    """
+    max_change_ratio: float = 0.20
+    min_payoff_value: float = 0.01
+    # passthrough / optional knobs
+    enabled: bool = True
+    min_days_required: int = 7
+    ewma_alpha: float = 0.15
+    bounds: Optional[Dict[str, Any]] = None
+
+    def to_update_config(self) -> "UpdateConfig":
+        uc = UpdateConfig(
+            enabled=self.enabled,
+            min_days_required=self.min_days_required,
+            ewma_alpha=self.ewma_alpha,
+            bounds=self.bounds,
+            max_change_per_run=self.max_change_ratio,
+        )
+
+        # Apply min_payoff_value to bounds if present
+        try:
+            mpv = float(self.min_payoff_value)
+        except Exception:
+            mpv = None
+
+        if mpv is not None and uc.bounds:
+            for k in ("mu_win", "mu_loss"):
+                b = uc.bounds.get(k)
+                if isinstance(b, list) and len(b) == 2:
+                    uc.bounds[k] = [max(mpv, b[0]), b[1]]
+        return uc
+
+
+class ParamTuner:
+    """Backward-compatible wrapper expected by feedback_loop_smoke."""
+    def __init__(self, cfg: Optional[TuningConfig] = None):
+        self.cfg = cfg or TuningConfig()
+
+        self.mode_stats = {}
+
+    def compute_stats(self):
+        """Compat API: return mapping mode -> (raw_win, raw_loss)."""
+        out = {}
+        ms_map = getattr(self, 'mode_stats', {}) or {}
+        for mode, ms in ms_map.items():
+            try:
+                out[mode] = (float(ms.avg_win_pct), float(ms.avg_loss_pct))
+            except Exception:
+                # tolerate unexpected shapes
+                out[mode] = (0.0, 0.0)
+        return out
+
+    def apply_limits(self, current_value: float, raw_value: float) -> float:
+        """Compat API for feedback_loop_smoke: EWMA + clamp + max-change."""
+        # EWMA smoothing
+        alpha = float(getattr(self.cfg, 'ewma_alpha', 0.15))
+        try:
+            new_v = apply_ewma(float(current_value), float(raw_value), alpha)
+        except Exception:
+            new_v = float(current_value)
+
+        # Bounds (default to mu_win bounds)
+        uc = self.cfg.to_update_config()
+        bounds = (uc.bounds or {}).get('mu_win') or [0.0, 10.0]
+        try:
+            new_v = clamp_value(float(new_v), bounds)
+        except Exception:
+            pass
+
+        # Max change per run
+        ratio = float(getattr(self.cfg, 'max_change_ratio', 0.20))
+        cur = float(current_value)
+        max_delta = abs(cur) * ratio
+        lo = cur - max_delta
+        hi = cur + max_delta
+        if new_v < lo:
+            new_v = lo
+        elif new_v > hi:
+            new_v = hi
+
+        return float(round(new_v, 6))
+
+    def step(self, params: Dict[str, Any], outcome: Dict[str, Any]) -> Dict[str, Any]:
+        fn = globals().get("update_params") or globals().get("apply_update") or globals().get("update")
+        if fn is None:
+            return dict(params)
+
+        # Prefer calling module functions with UpdateConfig if they accept it
+        uc = self.cfg.to_update_config()
+        try:
+            return fn(params, outcome, uc)
+        except TypeError:
+            return fn(params, outcome)
+
+    def tune(self, history_path: str, base_config_path: str):
+        """Compatibility API expected by scripts/feedback_loop_smoke.py.
+
+        Returns:
+          (new_params_dict, patched_yaml_str)
+        """
+        import yaml as _yaml
+
+        # Load current params (yaml)
+        with open(base_config_path, "r") as f:
+            current_params = _yaml.safe_load(f) or {}
+
+        # Load trades/metrics (jsonl) and compute stats
+        trades = load_metrics(history_path, lookback_days=30)
+        stats = compute_mode_stats(trades)
+        self.mode_stats = stats
+
+        # Compute updated params using adapted UpdateConfig
+        uc = self.cfg.to_update_config()
+        new_params = compute_updated_params(current_params, stats, uc)
+
+        patched_yaml = _yaml.dump(new_params, default_flow_style=False, sort_keys=False)
+        return new_params, patched_yaml
+
