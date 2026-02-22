@@ -81,7 +81,6 @@ def test_basic_pruning():
         ),
         WalletProfileInput(
             wallet="wallet_good",
-            winrate_7d=0.65,
             trades_7d=15,
             roi_7d=0.12,
             winrate_30d=0.70,
