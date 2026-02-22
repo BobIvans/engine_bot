@@ -102,6 +102,13 @@ class DecisionStage:
         # Check if file exists
         if not self.regime_timeline_path.exists():
             print(f"[decision] regime_timeline not found at {self.regime_timeline_path}, using neutral regime", file=sys.stderr)
+            # Fallback: if regime timeline missing, use bullish_score from scenario event (if present)
+            try:
+                bull = (event or {}).get('bullish_score')
+                if bull is not None:
+                    risk_regime = float(bull)
+            except Exception:
+                pass
             self._cached_risk_regime = 0.0
             return 0.0
         
