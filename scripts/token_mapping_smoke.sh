@@ -27,18 +27,27 @@ echo "[overlay_lint] running token_mapping smoke..."
 # Test 1: Run the pipeline
 echo "[token_mapping] Testing pipeline execution..."
 
+
+TMP_ERR="${OUTPUT_PARQUET}.stderr"
+set +e
 result=$(cd "$ROOT_DIR" && python3 -m ingestion.pipelines.token_mapping_pipeline \
   --input-polymarket "$POLYMARKET_JSON" \
   --input-tokens "$TOKENS_CSV" \
   --output "$OUTPUT_PARQUET" \
   --dry-run \
-  --summary-json 2>&1)
-
+  --summary-json 2> "${TMP_ERR}" )
 exit_code=$?
 
+set -e
+
 if [ $exit_code -ne 0 ]; then
-    echo "[token_mapping_smoke] ERROR: Pipeline failed"
-    echo "$result"
+    echo "[token_mapping_smoke] ERROR: token_mapping_pipeline failed (exit=$exit_code)" >&2
+    echo "[token_mapping_smoke] --- stderr (first 200 lines) ---" >&2
+    sed -n '1,200p' "${TMP_ERR}" >&2 || true
+    echo "[token_mapping_smoke] --- end stderr ---" >&2
+    echo "[token_mapping_smoke] --- captured stdout/stderr (fallback) ---" >&2
+    echo "$result" >&2 || true
+    echo "[token_mapping_smoke] --- end fallback ---" >&2
     exit 1
 fi
 
