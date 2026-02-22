@@ -25,6 +25,7 @@ mkdir -p "${TMP_DIR}"
 
 TRADES_JSONL="${TMP_DIR}/trades_smoke.jsonl"
 OUT_PARQUET="${TMP_DIR}/train_smoke.parquet"
+OUT_CSV="${TMP_DIR}/train_smoke.csv"
 COVERAGE_JSON="${TMP_DIR}/coverage_smoke.json"
 
 # Minimal v1 trades dataset (2 rows)
@@ -33,8 +34,7 @@ cat > "${TRADES_JSONL}" <<'JSONL'
 {"schema_version":"trade_v1","ts":"2026-01-05 10:00:02.000","wallet":"SoMeWallet1111111111111111111111111111111111","mint":"So11111111111111111111111111111111111111112","side":"sell","price":102.0,"size_usd":150.0,"platform":"raydium","tx_hash":"tx_002","pool_id":"pool_test_001","honeypot_pass":true,"wallet_roi_30d_pct":35.0,"wallet_winrate_30d":0.62,"wallet_trades_30d":120}
 JSONL
 
-rm -f "${OUT_PARQUET}" "${COVERAGE_JSON}"
-
+rm -f "${OUT_PARQUET}" "${OUT_CSV}" "${COVERAGE_JSON}"
 # Make sure repo root is first on sys.path (not /Users/ivansbobrovs)
 python3 - <<PY
 import os, sys
@@ -51,12 +51,13 @@ python3 "${EXPORTER}" \
   --coverage-stderr
 
 # Assertions: parquet exists and non-empty
-if [[ ! -f "${OUT_PARQUET}" ]]; then
-  echo "[train_model_smoke] ERROR: out parquet not created: ${OUT_PARQUET}" >&2
-  exit 1
-fi
-if [[ ! -s "${OUT_PARQUET}" ]]; then
-  echo "[train_model_smoke] ERROR: out parquet is empty: ${OUT_PARQUET}" >&2
+# Accept parquet OR csv (duckdb may be unavailable in CI)
+if [[ -f "${OUT_PARQUET}" && -s "${OUT_PARQUET}" ]]; then
+  echo "[train_model_smoke] OK: parquet created: ${OUT_PARQUET}" >&2
+elif [[ -f "${OUT_CSV}" && -s "${OUT_CSV}" ]]; then
+  echo "[train_model_smoke] OK: csv created (duckdb unavailable): ${OUT_CSV}" >&2
+else
+  echo "[train_model_smoke] ERROR: neither parquet nor csv created (expected ${OUT_PARQUET} or ${OUT_CSV})" >&2
   exit 1
 fi
 
