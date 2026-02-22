@@ -25,6 +25,15 @@ OUTPUT_PARQUET="/tmp/polymarket_token_mapping.parquet"
 echo "[overlay_lint] running token_mapping smoke..."
 
 # Test 1: Run the pipeline
+echo "[token_mapping] Python:"
+python3 -V || true
+echo "[token_mapping] pip:"
+python3 -m pip -V || true
+echo "[token_mapping] duckdb import test:"
+python3 -c "import duckdb; print('duckdb OK', duckdb.__version__)" || true
+echo "[token_mapping] pip show duckdb:"
+python3 -m pip show duckdb || true
+
 echo "[token_mapping] Testing pipeline execution..."
 
 
