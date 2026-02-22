@@ -60,13 +60,13 @@ if [ "$markets_covered" -lt 3 ]; then
     errors=$((errors + 1))
 fi
 
-if [ "$(echo "$top_relevance" | python3 -c 'import sys; print(1.0 if float(sys.stdin.read()) >= 1.0 else 0)')" -ne 1 ]; then
+if [ "$(echo "$top_relevance" | python3 -c 'import sys; print(1 if float(sys.stdin.read()) >= 1.0 else 0)')" -ne 1 ]; then
     echo "[token_mapping_smoke] ERROR: Expected top_relevance >= 1.0, got $top_relevance"
     errors=$((errors + 1))
 fi
 
 if [ $errors -gt 0 ]; then
-    echo "[token_mapping_smoke] ERRgt 0 ];ORS: $errors validation failures"
+    echo "[token_mapping_smoke] ERRORS: $errors validation failures"
     exit 1
 fi
 
