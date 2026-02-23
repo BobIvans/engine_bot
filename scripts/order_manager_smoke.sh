@@ -166,6 +166,18 @@ position = manager.on_fill(
 assert position.signal_id == "sig_reg_001"
 assert position.status == "ACTIVE"
 p2 = manager.get_position("sig_reg_001")
+p2 = manager.get_position("sig_reg_001")
+print("[order_manager_smoke] Debug: get_position type=", type(p2), file=sys.stderr)
+try:
+    print("[order_manager_smoke] Debug: get_position dict=", getattr(p2, "__dict__", None), file=sys.stderr)
+except Exception as e:
+    print("[order_manager_smoke] Debug: get_position dict err=", e, file=sys.stderr)
+assert p2 is not None
+assert p2.signal_id == position.signal_id
+assert p2.mint == position.mint
+assert p2.status == position.status
+assert p2.entry_price == position.entry_price
+assert p2.size_usd == position.size_usd
 assert p2 is not None
 assert p2.signal_id == position.signal_id
 assert p2.mint == position.mint
