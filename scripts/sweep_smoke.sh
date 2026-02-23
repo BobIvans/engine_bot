@@ -29,7 +29,14 @@ echo ""
 
 python3 << 'PYTEST'
 import sys
+from importlib.util import find_spec
 sys.path.insert(0, '.')
+
+missing = [pkg for pkg in ('numpy', 'yaml') if find_spec(pkg) is None]
+if missing:
+    print(f"[sweep_smoke] SKIP: missing optional dependencies: {', '.join(missing)}")
+    print("[sweep_smoke] OK (skipped)")
+    raise SystemExit(0)
 
 import json
 import os
