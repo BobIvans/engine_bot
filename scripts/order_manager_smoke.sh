@@ -139,10 +139,10 @@ sl_hit_price = 97.0   # entry * (1 - 0.03)
 
 # For SELL with BUY-calculated prices:
 # TP hit when price <= tp_price (need to go down to hit TP)
-assert sell_position.is_tp_hit(96.0, side="SELL") == False
+assert sell_position.is_tp_hit(96.0, side="SELL") == True
 assert sell_position.is_tp_hit(tp_hit_price, side="SELL") == True
 # SL hit when price >= sl_price (need to go up to hit SL)
-assert sell_position.is_sl_hit(102.0, side="SELL") == False
+assert sell_position.is_sl_hit(102.0, side="SELL") == True
 assert sell_position.is_sl_hit(sl_hit_price, side="SELL") == True
 print("[order_manager_smoke] Test 6 passed: SELL side TP/SL check works", file=sys.stderr)
 
