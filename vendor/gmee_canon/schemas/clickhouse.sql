@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS signals_raw (
 ENGINE=MergeTree
 PARTITION BY (chain, toYYYYMM(signal_time))
 ORDER BY (chain, signal_time, source, signal_id)
-TTL signal_time + INTERVAL 180 DAY DELETE;
+TTL toDateTime(signal_time) + INTERVAL 180 DAY DELETE;
 
 -- 1) trade_attempts (append-only, P0-critical)
 CREATE TABLE IF NOT EXISTS trade_attempts (
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS trade_attempts (
 ENGINE=MergeTree
 PARTITION BY (chain, toYYYYMM(local_send_time))
 ORDER BY (chain, env, stage, our_wallet, local_send_time, attempt_id)
-TTL local_send_time + INTERVAL 90 DAY DELETE;
+TTL toDateTime(local_send_time) + INTERVAL 90 DAY DELETE;
 
 -- 2) rpc_events (append-only)
 CREATE TABLE IF NOT EXISTS rpc_events (
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS rpc_events (
 ENGINE=MergeTree
 PARTITION BY (chain, toYYYYMM(sent_ts))
 ORDER BY (chain, rpc_arm, sent_ts, trade_id)
-TTL sent_ts + INTERVAL 90 DAY DELETE;
+TTL toDateTime(sent_ts) + INTERVAL 90 DAY DELETE;
 
 -- 3) trades (append-only, 1 row = lifecycle)
 CREATE TABLE IF NOT EXISTS trades (
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS microticks_1s (
 ENGINE=MergeTree
 PARTITION BY (chain, toYYYYMM(ts))
 ORDER BY (chain, trade_id, t_offset_s)
-TTL ts + INTERVAL 60 DAY DELETE;
+TTL toDateTime(ts) + INTERVAL 60 DAY DELETE;
 
 -- 5) wallet_daily_agg_state (AggregatingMergeTree)
 CREATE TABLE IF NOT EXISTS wallet_daily_agg_state (
@@ -315,4 +315,4 @@ CREATE TABLE IF NOT EXISTS forensics_events (
 ENGINE=MergeTree
 PARTITION BY (chain, toYYYYMM(ts))
 ORDER BY (chain, ts, kind, severity)
-TTL ts + INTERVAL 180 DAY DELETE;
+TTL toDateTime(ts) + INTERVAL 180 DAY DELETE;
