@@ -9,116 +9,16 @@ INSERT INTO signals_raw
 (trace_id, chain, env, source, signal_id, signal_time, traced_wallet, token_mint, pool_id, confidence, payload_json, ingested_at)
 VALUES ('11111111-1111-1111-1111-111111111111', 'solana', 'canary', 'synthetic', 'sig_canary_1', now64(3) - INTERVAL 20 SECOND, 'wallet_X', 'token_Y', 'pool_Z', 0.5, '{"kind":"synthetic"}', now64(3));
 
-INSERT INTO trade_attempts
-(attempt_id, trade_id, trace_id, chain, env, stage, our_wallet, idempotency_token, attempt_no, retry_count,
- nonce_u64, nonce_scope, nonce_value, local_send_time, rpc_sent_list, payload_hash, client_version, build_sha)
-VALUES
-('33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111',
- 'solana', 'canary', 'entry', 'our_wallet_A',
- 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
- 1, 0, 0, 'sol_blockhash', 'blockhash_abc',
- now64(3) - INTERVAL 15 SECOND,
- ['rpc_arm_1','rpc_arm_2'],
- 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
- 'canary', 'deadbeef');
+INSERT INTO trade_attempts (attempt_id, trade_id, trace_id, chain, env, stage, our_wallet, idempotency_token, attempt_no, retry_count, nonce_u64, nonce_scope, nonce_value, local_send_time, rpc_sent_list, payload_hash, client_version, build_sha) VALUES ('33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'solana', 'canary', 'entry', 'our_wallet_A', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 1, 0, 0, 'sol_blockhash', 'blockhash_abc', now64(3) - INTERVAL 15 SECOND, ['rpc_arm_1','rpc_arm_2'], 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'canary', 'deadbeef');
 
 -- rpc_events: arm_1 succeeds ok, arm_2 fails
-INSERT INTO rpc_events
-(attempt_id, trade_id, trace_id, chain, env, stage, idempotency_token, rpc_arm, sent_ts,
- first_seen_ts, first_confirm_ts, finalized_ts, ok_bool, err_code, latency_ms, confirm_quality,
- tx_sig, block_ref, finality_level, reorg_depth)
-VALUES
-('33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111',
- 'solana', 'canary', 'entry',
- 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
- 'rpc_arm_1',
- now64(3) - INTERVAL 15 SECOND,
- now64(3) - INTERVAL 14 SECOND,
- now64(3) - INTERVAL 13 SECOND,
- NULL,
- 1, 'OK', 120, 'ok', 'tx_sig_abc', 'slot_123', 'confirmed', NULL),
-('33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111',
- 'solana', 'canary', 'entry',
- 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
- 'rpc_arm_2',
- now64(3) - INTERVAL 15 SECOND,
- NULL, NULL, NULL,
- 0, 'RPC_TIMEOUT', NULL, 'suspect', NULL, NULL, NULL, NULL);
+INSERT INTO rpc_events (attempt_id, trade_id, trace_id, chain, env, stage, idempotency_token, rpc_arm, sent_ts, first_seen_ts, first_confirm_ts, finalized_ts, ok_bool, err_code, latency_ms, confirm_quality, tx_sig, block_ref, finality_level, reorg_depth) VALUES ('33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'solana', 'canary', 'entry', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'rpc_arm_1', now64(3) - INTERVAL 15 SECOND, now64(3) - INTERVAL 14 SECOND, now64(3) - INTERVAL 13 SECOND, NULL, 1, 'OK', 120, 'ok', 'tx_sig_abc', 'slot_123', 'confirmed', NULL), ('33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'solana', 'canary', 'entry', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'rpc_arm_2', now64(3) - INTERVAL 15 SECOND, NULL, NULL, NULL, 0, 'RPC_TIMEOUT', NULL, 'suspect', NULL, NULL, NULL, NULL);
 
 -- latency snapshot so routing_query compiles with a row
-INSERT INTO latency_arm_state
-(chain, rpc_arm, snapshot_ts, q90_latency_ms, ewma_mean_ms, ewma_var_ms2, epsilon_ms,
- a_success, b_success, degraded, cooldown_until, reason, config_hash)
-VALUES
-('solana', 'rpc_arm_1', now64(3), 150, 120.0, 25.0, 100, 10.0, 2.0, 0, NULL, 'canary_seed',
- 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
+INSERT INTO latency_arm_state (chain, rpc_arm, snapshot_ts, q90_latency_ms, ewma_mean_ms, ewma_var_ms2, epsilon_ms, a_success, b_success, degraded, cooldown_until, reason, config_hash) VALUES ('solana', 'rpc_arm_1', now64(3), 150, 120.0, 25.0, 100, 10.0, 2.0, 0, NULL, 'canary_seed', 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
 
 -- trades lifecycle row (minimal P0, consistent monotonic times)
-INSERT INTO trades (
-  trade_id, trace_id, experiment_id, config_hash, env, chain, source,
-  traced_wallet, our_wallet, token_mint, pool_id,
-  signal_time, entry_local_send_time, entry_first_confirm_time, entry_finalized_time, buy_time,
-  entry_attempt_id, entry_idempotency_token, entry_nonce_u64, entry_rpc_sent_list, entry_rpc_winner, entry_tx_sig, entry_latency_ms, entry_confirm_quality, entry_block_ref,
-  buy_price_usd, amount_usd, liquidity_at_entry_usd, fee_paid_entry_usd, slippage_pct,
-  mode, planned_hold_sec, epsilon_ms, margin_mult, trailing_pct, aggr_flag, planned_exit_ts,
-  exit_attempt_id, exit_idempotency_token, exit_nonce_u64, exit_rpc_sent_list, exit_rpc_winner, exit_tx_sig, exit_local_send_time, exit_first_confirm_time, exit_finalized_time, exit_confirm_quality,
-  sell_time, sell_price_usd, fee_paid_exit_usd, hold_seconds, roi, success_bool, failure_mode,
-  vet_pass, vet_flags, mev_risk_prob, front_run_flag,
-  tx_size_bytes, dex_route, broadcast_spread_ms, mempool_size_at_send,
-  model_version, build_sha
-) VALUES (
-  '22222222-2222-2222-2222-222222222222',
-  '11111111-1111-1111-1111-111111111111',
-  '44444444-4444-4444-4444-444444444444',
-  'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
-  'canary', 'solana', 'synthetic',
-  'wallet_X', 'our_wallet_A', 'token_Y', 'pool_Z',
-  now64(3) - INTERVAL 20 SECOND,
-  now64(3) - INTERVAL 15 SECOND,
-  now64(3) - INTERVAL 13 SECOND,
-  NULL,
-  now64(3) - INTERVAL 13 SECOND,
-  '33333333-3333-3333-3333-333333333333',
-  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-  0,
-  ['rpc_arm_1','rpc_arm_2'],
-  'rpc_arm_1',
-  'tx_sig_abc',
-  120,
-  'ok',
-  'slot_123',
-  1.0,
-  100.0,
-  100000.0,
-  0.1,
-  0.01,
-  'U',
-  20,
-  250,
-  1.0,
-  0.0,
-  1,
-  addMilliseconds(addSeconds(now64(3) - INTERVAL 13 SECOND, 20), -250),
-  NULL, NULL, NULL,
-  [],
-  NULL, NULL, NULL, NULL, NULL, NULL,
-  NULL, NULL, NULL,
-  20,
-  0.1,
-  1,
-  'none',
-  1,
-  ['canary'],
-  NULL,
-  0,
-  NULL, NULL, NULL, NULL,
-  'gmee-v0.4',
-  'deadbeef'
-);
+INSERT INTO trades ( trade_id, trace_id, experiment_id, config_hash, env, chain, source, traced_wallet, our_wallet, token_mint, pool_id, signal_time, entry_local_send_time, entry_first_confirm_time, entry_finalized_time, buy_time, entry_attempt_id, entry_idempotency_token, entry_nonce_u64, entry_rpc_sent_list, entry_rpc_winner, entry_tx_sig, entry_latency_ms, entry_confirm_quality, entry_block_ref, buy_price_usd, amount_usd, liquidity_at_entry_usd, fee_paid_entry_usd, slippage_pct, mode, planned_hold_sec, epsilon_ms, margin_mult, trailing_pct, aggr_flag, planned_exit_ts, exit_attempt_id, exit_idempotency_token, exit_nonce_u64, exit_rpc_sent_list, exit_rpc_winner, exit_tx_sig, exit_local_send_time, exit_first_confirm_time, exit_finalized_time, exit_confirm_quality, sell_time, sell_price_usd, fee_paid_exit_usd, hold_seconds, roi, success_bool, failure_mode, vet_pass, vet_flags, mev_risk_prob, front_run_flag, tx_size_bytes, dex_route, broadcast_spread_ms, mempool_size_at_send, model_version, build_sha ) VALUES ( '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', '44444444-4444-4444-4444-444444444444', 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', 'canary', 'solana', 'synthetic', 'wallet_X', 'our_wallet_A', 'token_Y', 'pool_Z', now64(3) - INTERVAL 20 SECOND, now64(3) - INTERVAL 15 SECOND, now64(3) - INTERVAL 13 SECOND, NULL, now64(3) - INTERVAL 13 SECOND, '33333333-3333-3333-3333-333333333333', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 0, ['rpc_arm_1','rpc_arm_2'], 'rpc_arm_1', 'tx_sig_abc', 120, 'ok', 'slot_123', 1.0, 100.0, 100000.0, 0.1, 0.01, 'U', 20, 250, 1.0, 0.0, 1, addMilliseconds(addSeconds(now64(3) - INTERVAL 13 SECOND, 20), -250), NULL, NULL, NULL, [], NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 20, 0.1, 1, 'none', 1, ['canary'], NULL, 0, NULL, NULL, NULL, NULL, 'gmee-v0.4', 'deadbeef' );
 
 -- microticks in post-entry window
-INSERT INTO microticks_1s
-(trade_id, chain, t_offset_s, ts, price_usd, liquidity_usd, volume_usd)
-VALUES
-('22222222-2222-2222-2222-222222222222', 'solana', 0,  now64(3) - INTERVAL 13 SECOND, 1.00, 100000.0, 1000.0),
-('22222222-2222-2222-2222-222222222222', 'solana', 10, now64(3) - INTERVAL 3 SECOND,  1.04, 100000.0, 2000.0);
+INSERT INTO microticks_1s (trade_id, chain, t_offset_s, ts, price_usd, liquidity_usd, volume_usd) VALUES ('22222222-2222-2222-2222-222222222222', 'solana', 0, now64(3) - INTERVAL 13 SECOND, 1.00, 100000.0, 1000.0), ('22222222-2222-2222-2222-222222222222', 'solana', 10, now64(3) - INTERVAL 3 SECOND, 1.04, 100000.0, 2000.0);
