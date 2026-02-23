@@ -145,7 +145,6 @@ assert sell_position.is_tp_hit(tp_hit_price, side="SELL") == True
 assert sell_position.is_sl_hit(102.0, side="SELL") == True
 assert sell_position.is_sl_hit(sl_hit_price, side="SELL") == True
 print("[order_manager_smoke] Test 6 passed: SELL side TP/SL check works", file=sys.stderr)
-
 # Test 7: OrderManager with position registration
 print("[order_manager_smoke] Test 7: OrderManager with position registration...", file=sys.stderr)
 manager = OrderManager(dry_run=True)
@@ -162,51 +161,35 @@ position = manager.on_fill(
     sl_price=97.0,
 )
 
-# Verify position is registered
+# Verify position is registered (do NOT rely on object identity/equality)
 assert position.signal_id == "sig_reg_001"
 assert position.status == "ACTIVE"
-# get_position() may return a copy / a different object (or even a dict).
-# Compare fields instead of object identity/equality.
+
 pos2 = manager.get_position("sig_reg_001")
+print(f"[order_manager_smoke] get_position type={type(pos2)} value={pos2}", file=sys.stderr)
 assert pos2 is not None
 
+# get_position() may return Position, dataclass, or dict depending on env/impl
 if isinstance(pos2, dict):
-    assert pos2.get("signal_id") == position.signal_id
-    assert pos2.get("status") == position.status
+    assert pos2.get("signal_id") == "sig_reg_001"
+    assert pos2.get("status") == "ACTIVE"
     assert pos2.get("mint") == position.mint
     assert abs(float(pos2.get("entry_price")) - float(position.entry_price)) < 1e-9
     assert abs(float(pos2.get("tp_price")) - float(position.tp_price)) < 1e-9
     assert abs(float(pos2.get("sl_price")) - float(position.sl_price)) < 1e-9
     assert abs(float(pos2.get("size_usd")) - float(position.size_usd)) < 1e-9
 else:
-    assert pos2.signal_id == position.signal_id
-    assert pos2.status == position.status
-    assert pos2.mint == position.mint
-    assert abs(pos2.entry_price - position.entry_price) < 1e-9
-    assert abs(pos2.tp_price - position.tp_price) < 1e-9
-    assert abs(pos2.sl_price - position.sl_price) < 1e-9
-    assert abs(pos2.size_usd - position.size_usd) < 1e-9
+    # fallback to attribute access
+    assert getattr(pos2, "signal_id") == "sig_reg_001"
+    assert getattr(pos2, "status") == "ACTIVE"
+    assert getattr(pos2, "mint") == position.mint
+    assert abs(float(getattr(pos2, "entry_price")) - float(position.entry_price)) < 1e-9
+    assert abs(float(getattr(pos2, "tp_price")) - float(position.tp_price)) < 1e-9
+    assert abs(float(getattr(pos2, "sl_price")) - float(position.sl_price)) < 1e-9
+    assert abs(float(getattr(pos2, "size_usd")) - float(position.size_usd)) < 1e-9
 
-p2 = manager.get_position("sig_reg_001")
-p2 = manager.get_position("sig_reg_001")
-print("[order_manager_smoke] Debug: get_position type=", type(p2), file=sys.stderr)
-try:
-    print("[order_manager_smoke] Debug: get_position dict=", getattr(p2, "__dict__", None), file=sys.stderr)
-except Exception as e:
-    print("[order_manager_smoke] Debug: get_position dict err=", e, file=sys.stderr)
-assert p2 is not None
-assert p2.signal_id == position.signal_id
-assert p2.mint == position.mint
-assert p2.status == position.status
-assert p2.entry_price == position.entry_price
-assert p2.size_usd == position.size_usd
-assert p2 is not None
-assert p2.signal_id == position.signal_id
-assert p2.mint == position.mint
-assert p2.status == position.status
-assert p2.entry_price == position.entry_price
-assert p2.size_usd == position.size_usd
 print("[order_manager_smoke] Test 7 passed: OrderManager position registration works", file=sys.stderr)
+
 
 # Test 8: Force close by TTL
 print("[order_manager_smoke] Test 8: Force close by TTL...", file=sys.stderr)
