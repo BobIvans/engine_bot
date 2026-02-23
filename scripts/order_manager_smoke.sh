@@ -165,6 +165,28 @@ position = manager.on_fill(
 # Verify position is registered
 assert position.signal_id == "sig_reg_001"
 assert position.status == "ACTIVE"
+# get_position() may return a copy / a different object (or even a dict).
+# Compare fields instead of object identity/equality.
+pos2 = manager.get_position("sig_reg_001")
+assert pos2 is not None
+
+if isinstance(pos2, dict):
+    assert pos2.get("signal_id") == position.signal_id
+    assert pos2.get("status") == position.status
+    assert pos2.get("mint") == position.mint
+    assert abs(float(pos2.get("entry_price")) - float(position.entry_price)) < 1e-9
+    assert abs(float(pos2.get("tp_price")) - float(position.tp_price)) < 1e-9
+    assert abs(float(pos2.get("sl_price")) - float(position.sl_price)) < 1e-9
+    assert abs(float(pos2.get("size_usd")) - float(position.size_usd)) < 1e-9
+else:
+    assert pos2.signal_id == position.signal_id
+    assert pos2.status == position.status
+    assert pos2.mint == position.mint
+    assert abs(pos2.entry_price - position.entry_price) < 1e-9
+    assert abs(pos2.tp_price - position.tp_price) < 1e-9
+    assert abs(pos2.sl_price - position.sl_price) < 1e-9
+    assert abs(pos2.size_usd - position.size_usd) < 1e-9
+
 p2 = manager.get_position("sig_reg_001")
 p2 = manager.get_position("sig_reg_001")
 print("[order_manager_smoke] Debug: get_position type=", type(p2), file=sys.stderr)
