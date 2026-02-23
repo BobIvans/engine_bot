@@ -7,10 +7,7 @@
 
 INSERT INTO signals_raw
 (trace_id, chain, env, source, signal_id, signal_time, traced_wallet, token_mint, pool_id, confidence, payload_json, ingested_at)
-VALUES
-('11111111-1111-1111-1111-111111111111', 'solana', 'canary', 'synthetic', 'sig_canary_1',
- now64(3) - INTERVAL 20 SECOND,
- 'wallet_X', 'token_Y', 'pool_Z', 0.5, '{"kind":"synthetic"}', now64(3));
+VALUES ('11111111-1111-1111-1111-111111111111', 'solana', 'canary', 'synthetic', 'sig_canary_1', now64(3) - INTERVAL 20 SECOND, 'wallet_X', 'token_Y', 'pool_Z', 0.5, '{"kind":"synthetic"}', now64(3));
 
 INSERT INTO trade_attempts
 (attempt_id, trade_id, trace_id, chain, env, stage, our_wallet, idempotency_token, attempt_no, retry_count,
