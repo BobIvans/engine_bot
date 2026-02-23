@@ -64,6 +64,13 @@ from ingestion.dex.meteora.math import BIN_ID_OFFSET
 def create_synthetic_data(bin_step=20, active_id=8391115, decimals_x=9, decimals_y=6):
     data = bytearray(216)
     offset = 0
+
+    def fixed_pubkey(seed_hex: str) -> bytes:
+        """Return exactly 32 bytes for synthetic pubkey fields."""
+        raw = bytes.fromhex(seed_hex)
+        repeated = (raw * ((32 + len(raw) - 1) // len(raw)))[:32]
+        assert len(repeated) == 32
+        return repeated
     
     # discriminator (8 bytes)
     struct.pack_into('<Q', data, offset, 0x5b5ab4a32f859487)
@@ -90,27 +97,27 @@ def create_synthetic_data(bin_step=20, active_id=8391115, decimals_x=9, decimals
     offset += 8
     
     # token_x_mint (32 bytes) - SOL address
-    token_x = bytes.fromhex('0123456789abcdef' * 2)
+    token_x = fixed_pubkey('0123456789abcdef')
     data[offset:offset+32] = token_x
     offset += 32
     
     # token_y_mint (32 bytes) - USDC address
-    token_y = bytes.fromhex('fedcba9876543210' * 2)
+    token_y = fixed_pubkey('fedcba9876543210')
     data[offset:offset+32] = token_y
     offset += 32
     
     # token_x_vault (32 bytes)
-    vault_x = bytes.fromhex('abcdef0123456789' * 2)
+    vault_x = fixed_pubkey('abcdef0123456789')
     data[offset:offset+32] = vault_x
     offset += 32
     
     # token_y_vault (32 bytes)
-    vault_y = bytes.fromhex('56789abcdef01234' * 2)
+    vault_y = fixed_pubkey('56789abcdef01234')
     data[offset:offset+32] = vault_y
     offset += 32
     
     # oracle (32 bytes)
-    oracle = bytes.fromhex('3456789abcdef0123' * 2)
+    oracle = fixed_pubkey('3456789abcdef012')
     data[offset:offset+32] = oracle
     offset += 32
     
@@ -136,10 +143,10 @@ def create_synthetic_data(bin_step=20, active_id=8391115, decimals_x=9, decimals
 
 synthetic_data = create_synthetic_data()
 decoded = decode_lb_pair(synthetic_data)
-assert decoded['bin_step'] == 20, f'bin_step mismatch: {decoded[\"bin_step\"]}'
-assert decoded['active_id'] == 8391115, f'active_id mismatch: {decoded[\"active_id\"]}'
-assert decoded['token_x_decimals'] == 9, f'token_x_decimals mismatch: {decoded[\"token_x_decimals\"]}'
-assert decoded['token_y_decimals'] == 6, f'token_y_decimals mismatch: {decoded[\"token_y_decimals\"]}'
+assert decoded.bin_step == 20, f'bin_step mismatch: {decoded[\"bin_step\"]}'
+assert decoded.active_id == 8391115, f'active_id mismatch: {decoded[\"active_id\"]}'
+assert decoded.token_x_decimals == 9, f'token_x_decimals mismatch: {decoded[\"token_x_decimals\"]}'
+assert decoded.token_y_decimals == 6, f'token_y_decimals mismatch: {decoded[\"token_y_decimals\"]}'
 print('  Synthetic data decode: OK')
 print(f'  Active bin: {decoded[\"active_id\"]} (OK)')
 print(f'  Bin step: {decoded[\"bin_step\"]} (OK)')
@@ -166,25 +173,24 @@ print(f'  BIN_ID_OFFSET: {BIN_ID_OFFSET} (OK)')
 # Let's recalculate: log_1.002(150) = ln(150)/ln(1.002) = 5.01/0.002 = 2505
 # So active_id = 8388608 + 2505 = 8391113
 
-# Test: $150 price with bin_step=20
-bin_id = MeteoraMath.get_id_from_price(150.0, 20)
-expected_id = BIN_ID_OFFSET + int(round(2505.15))  # ~8391113
-print(f'  Price 150 -> BinID: {bin_id} (expected ~{expected_id})')
+# Test: $150 price with bin_step=20 (SOL=9 decimals, USDC=6 decimals)
+bin_id = MeteoraMath.get_id_from_price(150.0, 20, 9, 6)
+print(f'  Price 150 -> BinID: {bin_id}')
 
 # Verify reverse
-price = MeteoraMath.get_price_from_id(bin_id, 20)
+price = MeteoraMath.get_price_from_id(bin_id, 20, 9, 6)
 assert abs(price - 150.0) < 1.0, f'Round-trip failed: {price}'
 print(f'  BinID {bin_id} -> Price: {price:.2f} USD (OK)')
 
 # Test lower price range
-bin_id_low = MeteoraMath.get_id_from_price(0.5, 20)
-price_low = MeteoraMath.get_price_from_id(bin_id_low, 20)
+bin_id_low = MeteoraMath.get_id_from_price(0.5, 20, 9, 6)
+price_low = MeteoraMath.get_price_from_id(bin_id_low, 20, 9, 6)
 assert abs(price_low - 0.5) < 0.1, f'Low price round-trip failed: {price_low}'
 print(f'  Price 0.5 -> BinID: {bin_id_low}, back to {price_low:.4f} (OK)')
 
 # Test higher price range
-bin_id_high = MeteoraMath.get_id_from_price(10000.0, 20)
-price_high = MeteoraMath.get_price_from_id(bin_id_high, 20)
+bin_id_high = MeteoraMath.get_id_from_price(10000.0, 20, 9, 6)
+price_high = MeteoraMath.get_price_from_id(bin_id_high, 20, 9, 6)
 assert abs(price_high - 10000.0) < 100.0, f'High price round-trip failed: {price_high}'
 print(f'  Price 10000 -> BinID: {bin_id_high}, back to {price_high:.2f} (OK)')
 
@@ -197,7 +203,8 @@ echo ""
 # Test 3: Decoder module
 log_info "Testing decoder module..."
 $PYTHON_BIN -c "
-from ingestion.dex.meteora.decoder import MeteoraDecoder, decode_lb_pair, get_pool_info
+from ingestion.dex.meteora.decoder import MeteoraDecoder
+from ingestion.dex.meteora.layouts import decode_lb_pair
 from ingestion.dex.meteora.math import BIN_ID_OFFSET
 import struct
 
@@ -241,14 +248,16 @@ def create_lb_pair_data(bin_step=20, active_id=8391113, decimals_x=9, decimals_y
 # Test decode_lb_pair function
 raw_data = create_lb_pair_data()
 result = decode_lb_pair(raw_data)
-assert result['bin_step'] == 20
-assert result['active_id'] == 8391113
-assert result['token_x_decimals'] == 9
-assert result['token_y_decimals'] == 6
-print(f'  decode_lb_pair: active_id={result[\"active_id\"]}, bin_step={result[\"bin_step\"]} (OK)')
+assert result.bin_step == 20
+assert result.active_id == 8391113
+assert result.token_x_decimals == 9
+assert result.token_y_decimals == 6
+print(f'  decode_lb_pair: active_id={result.active_id}, bin_step={result.bin_step} (OK)')
 
-# Test get_pool_info
-info = get_pool_info(raw_data)
+# Test get_pool_info via decoder instance
+decoder = MeteoraDecoder()
+pool = decoder.decode_lb_pair(raw_data)
+info = decoder.get_pool_info(pool)
 assert 'price' in info
 assert info['bin_step'] == 20
 print(f'  get_pool_info: price={info[\"price\"]:.2f} USD (OK)')
