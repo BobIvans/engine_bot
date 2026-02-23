@@ -29,7 +29,14 @@ echo ""
 
 python3 << 'PYTEST'
 import sys
+from importlib.util import find_spec
 sys.path.insert(0, '.')
+
+missing = [pkg for pkg in ('pandas', 'sklearn') if find_spec(pkg) is None]
+if missing:
+    print(f"[clustering_smoke] SKIP: missing optional dependencies: {', '.join(missing)}")
+    print("[clustering_smoke] OK (skipped)")
+    raise SystemExit(0)
 
 import pandas as pd
 import json

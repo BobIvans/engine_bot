@@ -37,33 +37,32 @@ STDOUT_OUTPUT=$(python3 -m "$MODULE_PATH" \
 STDOUT_JSON=$(echo "$STDOUT_OUTPUT" | grep -v '^\[jupiter_quote\]' | head -1)
 STDERR_OUTPUT=$(echo "$STDOUT_OUTPUT" | grep '^\[jupiter_quote\]')
 
-# Verify quote success
-if ! echo "$STDOUT_JSON" | grep -q '"quote_success":[[:space:]]*true'; then
-    echo "[jupiter_quote_smoke] ERROR: quote_success not true" >&2
-    echo "$STDOUT_JSON" >&2
-    exit 1
-fi
+# Verify summary JSON fields (robust to whitespace formatting)
+python3 - <<'PYJSON' "$STDOUT_JSON"
+import json
+import sys
 
-# Verify out_amount
-if ! echo "$STDOUT_JSON" | grep -q '"out_amount":"42857142857"'; then
-    echo "[jupiter_quote_smoke] ERROR: out_amount mismatch" >&2
-    echo "$STDOUT_JSON" >&2
-    exit 1
-fi
+raw = sys.argv[1].strip()
+try:
+    payload = json.loads(raw)
+except json.JSONDecodeError as e:
+    print(f"[jupiter_quote_smoke] ERROR: invalid summary JSON: {e}", file=sys.stderr)
+    print(raw, file=sys.stderr)
+    raise SystemExit(1)
 
-# Verify price_impact_pct
-if ! echo "$STDOUT_JSON" | grep -q '"price_impact_pct":1.25'; then
-    echo "[jupiter_quote_smoke] ERROR: price_impact_pct mismatch" >&2
-    echo "$STDOUT_JSON" >&2
-    exit 1
-fi
+checks = [
+    (payload.get("quote_success") is True, "quote_success not true"),
+    (payload.get("out_amount") == "42857142857", "out_amount mismatch"),
+    (payload.get("price_impact_pct") == 1.25, "price_impact_pct mismatch"),
+    (payload.get("route_hops") == 1, "route_hops mismatch"),
+]
 
-# Verify route_hops
-if ! echo "$STDOUT_JSON" | grep -q '"route_hops":1'; then
-    echo "[jupiter_quote_smoke] ERROR: route_hops mismatch" >&2
-    echo "$STDOUT_JSON" >&2
-    exit 1
-fi
+for ok, msg in checks:
+    if not ok:
+        print(f"[jupiter_quote_smoke] ERROR: {msg}", file=sys.stderr)
+        print(raw, file=sys.stderr)
+        raise SystemExit(1)
+PYJSON
 
 # Verify stderr contains expected markers
 if ! echo "$STDERR_OUTPUT" | grep -q 'Loaded fixture'; then
@@ -86,7 +85,7 @@ FULL_OUTPUT=$(python3 -m "$MODULE_PATH" \
     --amount "1000000000" \
     --dry-run 2>&1)
 
-if ! echo "$FULL_OUTPUT" | grep -q '"label":"Raydium"'; then
+if ! echo "$FULL_OUTPUT" | grep -q '"label":[[:space:]]*"Raydium"'; then
     echo "[jupiter_quote_smoke] ERROR: Missing Raydium label in route plan" >&2
     exit 1
 fi

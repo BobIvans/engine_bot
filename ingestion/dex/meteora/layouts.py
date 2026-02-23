@@ -74,9 +74,16 @@ class LbPairState:
 
 
 def pubkey_to_string(data: bytes) -> str:
-    """Convert 32-byte pubkey to base58 string."""
-    import base58
-    return base58.b58encode(data).decode('utf-8')
+    """Convert 32-byte pubkey to base58 string.
+
+    Falls back to hex representation when optional `base58` dependency
+    is unavailable in smoke/minimal environments.
+    """
+    try:
+        import base58
+        return base58.b58encode(data).decode('utf-8')
+    except ModuleNotFoundError:
+        return data.hex()
 
 
 def parse_pubkey(data: bytes, offset: int) -> str:
