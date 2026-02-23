@@ -69,7 +69,7 @@ print('[raydium_smoke] Decoder module OK')
 # Test 4: Pool fixture exists and is valid hex
 echo "[raydium_smoke] Checking pool fixture..."
 if [ -f "$FIXTURE_DIR/pool_v4_data.hex" ]; then
-    hex_content=$(cat "$FIXTURE_DIR/pool_v4_data.hex" | tr -d '\n\r\t ')
+    hex_content=$(tr -d '\n\r\t ' < "$FIXTURE_DIR/pool_v4_data.hex")
     hex_length=${#hex_content}
     echo "[raydium_smoke] Pool fixture: $hex_length chars (OK)"
 else

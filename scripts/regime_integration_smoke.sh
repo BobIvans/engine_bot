@@ -13,8 +13,6 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-
 fail() {
   echo -e "${RED}[regime_integration_smoke] FAIL: $*${NC}" >&2
   exit 1
