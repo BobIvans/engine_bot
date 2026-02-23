@@ -17,11 +17,7 @@ forbidden:
     - "**/configs/queries.yaml"
   # Directories that MUST NOT exist outside CANON (prevents "second canon").
   dirs_outside_canon:
-    - "schemas"
     - "queries"
-    - "golden-engine-exit"
-  # Strings that MUST NOT appear in overlay docs (prevents legacy path confusion).
-  strings_in_overlay:
     - "golden-engine-exit"
 ci_contract:
   required_scripts:

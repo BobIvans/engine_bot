@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Smoke test for PR-WD.2 Flipside Wallet Fetcher
 # Tests: fixture loading, schema validation, normalization logic
 
