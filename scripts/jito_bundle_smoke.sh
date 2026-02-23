@@ -59,7 +59,6 @@ def test_jito_structs():
         JitoTipAccount,
         JitoConfig,
     )
-    from solders.pubkey import Pubkey
     
     # Test JitoConfig
     config = JitoConfig(
@@ -108,8 +107,7 @@ def test_bundle_construction():
         JitoClient,
         JitoBundleRequest,
     )
-    from execution.jito_structs import JitoConfig
-    from solders.pubkey import Pubkey
+    from execution.jito_structs import JitoConfig, Pubkey
     
     # Create mock swap instruction
     class MockIx:
@@ -118,7 +116,7 @@ def test_bundle_construction():
     
     swap_ix = MockIx()
     payer = Pubkey.from_string("11111111111111111111111111111111")
-    tip_account = Pubkey.from_string("22222222222222222222222222222222")
+    tip_account = Pubkey.from_string("Vote111111111111111111111111111111111111111")
     
     bundle = build_buy_bundle(
         swap_instruction=swap_ix,
@@ -160,8 +158,7 @@ async def test_jito_client_mock():
     log("[jito_bundle_smoke] Testing JitoClient mock mode...")
     
     from execution.jito_bundle_executor import JitoClient
-    from execution.jito_structs import JitoConfig, JitoTipAccount
-    from solders.pubkey import Pubkey
+    from execution.jito_structs import JitoConfig, JitoTipAccount, Pubkey
     
     config = JitoConfig(
         enabled=True,
@@ -177,7 +174,7 @@ async def test_jito_client_mock():
     async def mock_get_tip_accounts():
         return [
             JitoTipAccount(
-                account=Pubkey.from_string("tipYkqE4PLqPjV5SqB5Q4b2rT1VJvGpV7Zk7xrYx"),
+                account=Pubkey.from_string("Vote111111111111111111111111111111111111111"),
                 lamports_per_signature=10000,
             )
         ]

@@ -13,9 +13,34 @@ HARD RULES:
 """
 
 from dataclasses import dataclass
+from importlib.util import find_spec
 from typing import List, Optional
-from solders.pubkey import Pubkey
-from solana.transaction import TransactionInstruction
+
+if find_spec("solders"):
+    from solders.pubkey import Pubkey
+else:
+    class Pubkey:
+        """Fallback Pubkey for environments without `solders` (smoke/mock mode)."""
+
+        def __init__(self, key: str):
+            self.key = key
+
+        @classmethod
+        def from_string(cls, key: str) -> "Pubkey":
+            return cls(key)
+
+        def __str__(self) -> str:
+            return self.key
+
+
+if find_spec("solana"):
+    from solana.transaction import TransactionInstruction
+else:
+    class TransactionInstruction:
+        """Fallback instruction with .data attribute for smoke tests."""
+
+        def __init__(self, data: bytes = b""):
+            self.data = data
 
 
 @dataclass

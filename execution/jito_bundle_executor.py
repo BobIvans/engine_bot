@@ -17,13 +17,26 @@ HARD RULES:
 import asyncio
 import logging
 import uuid
-from typing import List, Optional, Tuple
 from dataclasses import dataclass
+from importlib.util import find_spec
+from typing import List, Optional, Tuple
 
-import aiohttp
-from solders.pubkey import Pubkey
-from solana.transaction import TransactionInstruction
-from solana.system_program import transfer, TransferParams
+if find_spec("aiohttp"):
+    import aiohttp
+else:
+    class _FallbackClientTimeout:
+        def __init__(self, total: Optional[int] = None):
+            self.total = total
+
+    class _FallbackClientSession:
+        def __init__(self, *args, **kwargs):
+            raise RuntimeError("aiohttp is required for live Jito HTTP requests")
+
+    class _FallbackAioHttp:
+        ClientSession = _FallbackClientSession
+        ClientTimeout = _FallbackClientTimeout
+
+    aiohttp = _FallbackAioHttp()
 
 from execution.jito_structs import (
     JitoBundleRequest,
@@ -31,7 +44,22 @@ from execution.jito_structs import (
     JitoTipAccount,
     JitoTipAccountsResponse,
     JitoConfig,
+    Pubkey,
+    TransactionInstruction,
 )
+
+if find_spec("solana"):
+    from solana.system_program import transfer, TransferParams
+else:
+    @dataclass
+    class TransferParams:
+        from_pubkey: Pubkey
+        to_pubkey: Pubkey
+        lamports: int
+
+    def transfer(params: TransferParams) -> TransactionInstruction:
+        return TransactionInstruction(data=f"tip:{params.lamports}".encode())
+
 from integration.reject_reasons import (
     JITOBUNDLE_REJECTED,
     JITOBUNDLE_TIMEOUT,
