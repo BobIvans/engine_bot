@@ -6,7 +6,6 @@ set -e
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
 NC='\033[0m'
 
 fail() {
@@ -179,7 +178,7 @@ echo "[ml_trigger_smoke] Cadence output: ${CADENCE_OUTPUT}" >&2
 CADENCE_TRIGGER=$(echo "${CADENCE_OUTPUT}" | python3 -c "import sys, json; print(json.load(sys.stdin)['trigger'])")
 CADENCE_REASONS=$(echo "${CADENCE_OUTPUT}" | python3 -c "import sys, json; print(json.load(sys.stdin)['reasons'])")
 
-if echo "${CADENCE_REASONS}" | grep -q "cadence_expired"; then
+if [[ "${CADENCE_TRIGGER}" == "True" ]] && echo "${CADENCE_REASONS}" | grep -q "cadence_expired"; then
     pass "Cadence trigger triggered correctly"
 else
     fail "Cadence trigger should have triggered for expired cadence"
