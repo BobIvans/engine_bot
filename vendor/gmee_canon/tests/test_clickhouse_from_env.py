@@ -63,3 +63,19 @@ def test_from_env_uses_url_credentials_even_when_host_port_set(monkeypatch):
     assert r.port == 9000
     assert r.user == "url_user"
     assert r.password == "url_pass"
+
+
+def test_from_env_parses_url_in_clickhouse_host(monkeypatch):
+    monkeypatch.setenv("CLICKHOUSE_HOST", "http://h_user:h_pass@host-in-var:18123/?user=ignored")
+    monkeypatch.delenv("CLICKHOUSE_PORT", raising=False)
+    monkeypatch.delenv("CLICKHOUSE_USER", raising=False)
+    monkeypatch.delenv("CLICKHOUSE_PASSWORD", raising=False)
+    monkeypatch.delenv("CLICKHOUSE_URL", raising=False)
+    monkeypatch.delenv("CLICKHOUSE_HTTP_URL", raising=False)
+
+    r = ClickHouseQueryRunner.from_env()
+
+    assert r.host == "host-in-var"
+    assert r.port == 18123
+    assert r.user == "h_user"
+    assert r.password == "h_pass"

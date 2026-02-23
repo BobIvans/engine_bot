@@ -109,33 +109,41 @@ class ClickHouseQueryRunner:
         Precedence:
         - Host/port prefer CLICKHOUSE_HOST/PORT (or CH_HOST/CH_PORT); URL host/port are fallback only.
         - URL credentials (userinfo/query) are always considered as fallback when explicit user/password env vars are unset.
+        - If CLICKHOUSE_HOST itself is a URL, parse it with the same fallback rules.
         """
 
-        host = os.getenv("CLICKHOUSE_HOST") or os.getenv("CH_HOST")
+        host_raw = os.getenv("CLICKHOUSE_HOST") or os.getenv("CH_HOST")
         port_s = os.getenv("CLICKHOUSE_PORT") or os.getenv("CH_PORT")
         user = os.getenv("CLICKHOUSE_USER") or os.getenv("CLICKHOUSE_USERNAME") or os.getenv("CH_USER")
         password = os.getenv("CLICKHOUSE_PASSWORD") or os.getenv("CLICKHOUSE_PASS") or os.getenv("CH_PASSWORD")
         database = os.getenv("CLICKHOUSE_DATABASE") or os.getenv("CH_DATABASE") or "default"
 
+        host = host_raw
+
+        # Parse URL-like host env first when provided as full DSN in CLICKHOUSE_HOST.
+        url_candidates: list[str] = []
+        if host_raw and "://" in host_raw:
+            url_candidates.append(host_raw)
+            host = None
         http_url = os.getenv("CLICKHOUSE_HTTP_URL") or os.getenv("CLICKHOUSE_URL")
         if http_url:
+            url_candidates.append(http_url)
+
+        for url_s in url_candidates:
             try:
                 from urllib.parse import parse_qs, urlparse
 
-                u = urlparse(http_url)
-                # Host/port from URL are fallback if dedicated vars were not set.
+                u = urlparse(url_s)
                 if u.hostname:
                     host = host or u.hostname
                 if u.port:
                     port_s = port_s or str(u.port)
 
-                # Credentials from URL are fallback unless explicit env vars are present.
                 if not user:
                     user = u.username
                 if not password:
                     password = u.password
 
-                # Also support URL query auth style, e.g. ?user=...&password=...
                 q = parse_qs(u.query)
                 if not user:
                     user = (q.get("user", [None])[0] or q.get("username", [None])[0])
