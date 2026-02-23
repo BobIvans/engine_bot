@@ -27,6 +27,13 @@ echo ""
 log_info "Starting Wallet Clustering smoke tests..."
 echo ""
 
+# Skip gracefully in minimal environments where optional ML deps are absent.
+if ! python3 -c "import pandas" >/dev/null 2>&1; then
+    echo "[clustering_smoke] WARNING: pandas not installed; skipping ML clustering smoke in minimal environment" >&2
+    echo "[clustering_smoke] OK (skipped: missing optional dependency pandas)" >&2
+    exit 0
+fi
+
 python3 << 'PYTEST'
 import sys
 sys.path.insert(0, '.')
