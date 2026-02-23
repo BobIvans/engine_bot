@@ -165,7 +165,13 @@ position = manager.on_fill(
 # Verify position is registered
 assert position.signal_id == "sig_reg_001"
 assert position.status == "ACTIVE"
-assert manager.get_position("sig_reg_001") == position
+p2 = manager.get_position("sig_reg_001")
+assert p2 is not None
+assert p2.signal_id == position.signal_id
+assert p2.mint == position.mint
+assert p2.status == position.status
+assert p2.entry_price == position.entry_price
+assert p2.size_usd == position.size_usd
 print("[order_manager_smoke] Test 7 passed: OrderManager position registration works", file=sys.stderr)
 
 # Test 8: Force close by TTL
