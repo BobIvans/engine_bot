@@ -48,3 +48,18 @@ def test_from_env_supports_username_pass_aliases(monkeypatch):
 
     assert r.user == "alias_user"
     assert r.password == "alias_pass"
+
+
+def test_from_env_uses_url_credentials_even_when_host_port_set(monkeypatch):
+    monkeypatch.setenv("CLICKHOUSE_HOST", "host-from-env")
+    monkeypatch.setenv("CLICKHOUSE_PORT", "9000")
+    monkeypatch.delenv("CLICKHOUSE_USER", raising=False)
+    monkeypatch.delenv("CLICKHOUSE_PASSWORD", raising=False)
+    monkeypatch.setenv("CLICKHOUSE_URL", "http://url_user:url_pass@ch.example:8123")
+
+    r = ClickHouseQueryRunner.from_env()
+
+    assert r.host == "host-from-env"
+    assert r.port == 9000
+    assert r.user == "url_user"
+    assert r.password == "url_pass"

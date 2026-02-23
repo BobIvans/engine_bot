@@ -107,9 +107,8 @@ class ClickHouseQueryRunner:
         - CLICKHOUSE_HTTP_URL / CLICKHOUSE_URL (optional convenience; e.g. http://localhost:8123)
 
         Precedence:
-        - If CLICKHOUSE_HOST/PORT are set, use them.
-        - Else, if CLICKHOUSE_HTTP_URL or CLICKHOUSE_URL is set, parse host/port from it.
-        - User/password from URL userinfo/query are used only when explicit user/password env vars are unset.
+        - Host/port prefer CLICKHOUSE_HOST/PORT (or CH_HOST/CH_PORT); URL host/port are fallback only.
+        - URL credentials (userinfo/query) are always considered as fallback when explicit user/password env vars are unset.
         """
 
         host = os.getenv("CLICKHOUSE_HOST") or os.getenv("CH_HOST")
@@ -118,32 +117,33 @@ class ClickHouseQueryRunner:
         password = os.getenv("CLICKHOUSE_PASSWORD") or os.getenv("CLICKHOUSE_PASS") or os.getenv("CH_PASSWORD")
         database = os.getenv("CLICKHOUSE_DATABASE") or os.getenv("CH_DATABASE") or "default"
 
-        if not host or not port_s:
-            http_url = os.getenv("CLICKHOUSE_HTTP_URL") or os.getenv("CLICKHOUSE_URL")
-            if http_url:
-                try:
-                    from urllib.parse import parse_qs, urlparse
+        http_url = os.getenv("CLICKHOUSE_HTTP_URL") or os.getenv("CLICKHOUSE_URL")
+        if http_url:
+            try:
+                from urllib.parse import parse_qs, urlparse
 
-                    u = urlparse(http_url)
-                    if u.hostname:
-                        host = host or u.hostname
-                    if u.port:
-                        port_s = port_s or str(u.port)
+                u = urlparse(http_url)
+                # Host/port from URL are fallback if dedicated vars were not set.
+                if u.hostname:
+                    host = host or u.hostname
+                if u.port:
+                    port_s = port_s or str(u.port)
 
-                    if not user:
-                        user = u.username
-                    if not password:
-                        password = u.password
+                # Credentials from URL are fallback unless explicit env vars are present.
+                if not user:
+                    user = u.username
+                if not password:
+                    password = u.password
 
-                    # Also support URL query auth style, e.g. ?user=...&password=...
-                    q = parse_qs(u.query)
-                    if not user:
-                        user = (q.get("user", [None])[0] or q.get("username", [None])[0])
-                    if not password:
-                        password = q.get("password", [None])[0]
-                except Exception:
-                    # best-effort; fall back to defaults below
-                    pass
+                # Also support URL query auth style, e.g. ?user=...&password=...
+                q = parse_qs(u.query)
+                if not user:
+                    user = (q.get("user", [None])[0] or q.get("username", [None])[0])
+                if not password:
+                    password = q.get("password", [None])[0]
+            except Exception:
+                # best-effort; fall back to defaults below
+                pass
 
         return cls(
             host=host or "localhost",
