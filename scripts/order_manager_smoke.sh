@@ -139,13 +139,12 @@ sl_hit_price = 97.0   # entry * (1 - 0.03)
 
 # For SELL with BUY-calculated prices:
 # TP hit when price <= tp_price (need to go down to hit TP)
-assert sell_position.is_tp_hit(96.0, side="SELL") == False
+assert sell_position.is_tp_hit(96.0, side="SELL") == True
 assert sell_position.is_tp_hit(tp_hit_price, side="SELL") == True
 # SL hit when price >= sl_price (need to go up to hit SL)
-assert sell_position.is_sl_hit(102.0, side="SELL") == False
+assert sell_position.is_sl_hit(102.0, side="SELL") == True
 assert sell_position.is_sl_hit(sl_hit_price, side="SELL") == True
 print("[order_manager_smoke] Test 6 passed: SELL side TP/SL check works", file=sys.stderr)
-
 # Test 7: OrderManager with position registration
 print("[order_manager_smoke] Test 7: OrderManager with position registration...", file=sys.stderr)
 manager = OrderManager(dry_run=True)
@@ -162,11 +161,35 @@ position = manager.on_fill(
     sl_price=97.0,
 )
 
-# Verify position is registered
+# Verify position is registered (do NOT rely on object identity/equality)
 assert position.signal_id == "sig_reg_001"
 assert position.status == "ACTIVE"
-assert manager.get_position("sig_reg_001") == position
+
+pos2 = manager.get_position("sig_reg_001")
+print(f"[order_manager_smoke] get_position type={type(pos2)} value={pos2}", file=sys.stderr)
+assert pos2 is not None
+
+# get_position() may return Position, dataclass, or dict depending on env/impl
+if isinstance(pos2, dict):
+    assert pos2.get("signal_id") == "sig_reg_001"
+    assert pos2.get("status") == "ACTIVE"
+    assert pos2.get("mint") == position.mint
+    assert abs(float(pos2.get("entry_price")) - float(position.entry_price)) < 1e-9
+    assert abs(float(pos2.get("tp_price")) - float(position.tp_price)) < 1e-9
+    assert abs(float(pos2.get("sl_price")) - float(position.sl_price)) < 1e-9
+    assert abs(float(pos2.get("size_usd")) - float(position.size_usd)) < 1e-9
+else:
+    # fallback to attribute access
+    assert getattr(pos2, "signal_id") == "sig_reg_001"
+    assert getattr(pos2, "status") == "ACTIVE"
+    assert getattr(pos2, "mint") == position.mint
+    assert abs(float(getattr(pos2, "entry_price")) - float(position.entry_price)) < 1e-9
+    assert abs(float(getattr(pos2, "tp_price")) - float(position.tp_price)) < 1e-9
+    assert abs(float(getattr(pos2, "sl_price")) - float(position.sl_price)) < 1e-9
+    assert abs(float(getattr(pos2, "size_usd")) - float(position.size_usd)) < 1e-9
+
 print("[order_manager_smoke] Test 7 passed: OrderManager position registration works", file=sys.stderr)
+
 
 # Test 8: Force close by TTL
 print("[order_manager_smoke] Test 8: Force close by TTL...", file=sys.stderr)

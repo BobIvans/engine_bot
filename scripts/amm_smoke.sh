@@ -3,8 +3,8 @@
 # AMM Math Smoke Test
 # Validates constant product calculations against fixtures
 #
-
 set -e
+set -o pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -19,13 +19,17 @@ if [ ! -f "$FIXTURES_DIR/scenarios.jsonl" ]; then
     exit 1
 fi
 
-# Add project root to PYTHONPATH
-export PYTHONPATH="$PYTHON_PATH:$PYTHONPATH"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+: "${PYTHONPATH:=}"
+# Add project root to PYTHONPATH (portable)
+export PYTHONPATH="${ROOT_DIR}:${PYTHONPATH}"
 
 PASS_COUNT=0
 FAIL_COUNT=0
 
-while IFS= read -r line; do
+while IFS= read -r line || [ -n "$line" ]; do
+    # strip CR (windows line endings)
+    line=${line%$'\r'}
     # Skip empty lines
     [ -z "$line" ] && continue
     
@@ -65,10 +69,10 @@ except ValueError:
     print('OK')
 " 2>/dev/null; then
             echo "[amm_smoke] Case $case_name ($description): OK"
-            ((PASS_COUNT++))
+            PASS_COUNT=$((PASS_COUNT+1))
         else
             echo "[amm_smoke] Case $case_name ($description): FAIL - Expected ValueError"
-            ((FAIL_COUNT++))
+            FAIL_COUNT=$((FAIL_COUNT+1))
         fi
     else
         # Normal case - compare with tolerance
@@ -92,10 +96,11 @@ else:
     sys.exit(1)
 " 2>/dev/null; then
             echo "[amm_smoke] Case $case_name ($description): OK"
-            ((PASS_COUNT++))
+            PASS_COUNT=$((PASS_COUNT+1))
         else
             echo "[amm_smoke] Case $case_name ($description): FAIL"
-            ((FAIL_COUNT++))
+            echo "[amm_smoke]   actual_out=${actual_out} expected_out=${expected_out} fee_bps=${fee_bps} amount_in=${amount_in} reserve_in=${reserve_in} reserve_out=${reserve_out}"
+            FAIL_COUNT=$((FAIL_COUNT+1))
         fi
     fi
     

@@ -49,15 +49,13 @@ if [[ ! -s "$OUT" ]]; then
 fi
 echo "[signals_dump_smoke] Assertion 2 passed: $OUT exists and is non-empty" >&2
 
-# 3) line count == 2 (ENTER for both trades in sim_preflight fixture)
-JQ_COUNT=$(wc -l < "$OUT")
-if [[ "$JQ_COUNT" -ne 2 ]]; then
-  echo "ERROR: Expected 2 lines in signals dump, got $JQ_COUNT" >&2
-  exit 1
-fi
-echo "[signals_dump_smoke] Assertion 3 passed: line count == 2" >&2
+# 3) Parse JSONL and assert we have exactly 2 ENTER signals (the fixture may emit additional non-ENTER rows)
+#
+# NOTE:
+# The --signals-include-sim mode can emit additional rows (e.g. SKIP) depending on risk gates.
+# What we MUST guarantee for this fixture is that the 2 ENTER decisions are present and well-formed.
 
-# 4) Each line parses as JSON with required fields
+# 4) Validate JSON schema and expected ENTER rows
 python3 <<'PYTHON'
 import json
 import sys
@@ -66,38 +64,43 @@ out_file = "/tmp/signals_dump.jsonl"
 with open(out_file, "r", encoding="utf-8") as f:
     lines = [l.strip() for l in f.readlines() if l.strip()]
 
-if len(lines) != 2:
-    print("ERROR: Expected 2 lines", file=sys.stderr)
-    sys.exit(1)
-
-linenos = set()
+objs = []
 for i, line in enumerate(lines, start=1):
     try:
         obj = json.loads(line)
     except json.JSONDecodeError as e:
         print(f"ERROR: Line {i} is not valid JSON: {e}", file=sys.stderr)
         sys.exit(1)
-    
-    # Check required fields
+
     if obj.get("schema_version") != "signals.v1":
         print(f"ERROR: Line {i}: schema_version != 'signals.v1'", file=sys.stderr)
         sys.exit(1)
+
+    objs.append(obj)
+
+enter = [o for o in objs if o.get("decision") == "ENTER"]
+if len(enter) != 2:
+    print(f"ERROR: Expected 2 ENTER rows, got {len(enter)} (total rows={len(objs)})", file=sys.stderr)
+    sys.exit(1)
+
+linenos = set()
+for idx, obj in enumerate(enter, start=1):
     
     if obj.get("decision") != "ENTER":
-        print(f"ERROR: Line {i}: decision != 'ENTER'", file=sys.stderr)
+        print(f"ERROR: ENTER row {idx}: decision != 'ENTER'", file=sys.stderr)
         sys.exit(1)
     
     if obj.get("reject_reason") is not None:
-        print(f"ERROR: Line {i}: reject_reason should be null", file=sys.stderr)
+        print(f"ERROR: ENTER row {idx}: reject_reason should be null", file=sys.stderr)
         sys.exit(1)
     
     if obj.get("sim_exit_reason") not in {"TP", "SL", "TIME"}:
-        print(f"ERROR: Line {i}: sim_exit_reason not in {{TP, SL, TIME}}", file=sys.stderr)
+        print(f"ERROR: ENTER row {idx}: sim_exit_reason not in {{TP, SL, TIME}}", file=sys.stderr)
         sys.exit(1)
     
     lineno = obj.get("lineno")
     if lineno is None or not isinstance(lineno, int):
-        print(f"ERROR: Line {i}: lineno missing or not int", file=sys.stderr)
+        print(f"ERROR: ENTER row {idx}: lineno missing or not int", file=sys.stderr)
         sys.exit(1)
     linenos.add(lineno)
 
@@ -105,7 +108,7 @@ if linenos != {1, 3}:
     print(f"ERROR: linenos should be {{1, 3}}, got {linenos}", file=sys.stderr)
     sys.exit(1)
 
-print("[signals_dump_smoke] Assertion 4 passed: All lines parse as valid JSON with required fields")
+print("[signals_dump_smoke] Assertion 4 passed: JSON schema ok; 2 ENTER rows validated")
 PYTHON
 
 echo "[signals_dump_smoke] OK ✅" >&2

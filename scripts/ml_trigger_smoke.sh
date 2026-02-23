@@ -119,15 +119,22 @@ DRIFTED_MAX_PSI=$(echo "${DRIFTED_OUTPUT}" | python3 -c "import sys, json; print
 echo "[ml_trigger_smoke] Drifted: trigger=${DRIFTED_TRIGGER}, reasons=${DRIFTED_REASONS}, max_psi=${DRIFTED_MAX_PSI}" >&2
 
 # Verify results
-python3 << 'PYEOF'
-import json
-import sys
+TMPDIR="$(mktemp -d)"
+trap 'rm -rf "$TMPDIR"' EXIT
 
-# Parse outputs
-stable_output = """${STABLE_OUTPUT}"""
-drifted_output = """${DRIFTED_OUTPUT}"""
+# write exact CLI outputs to files (no heredoc variable expansion issues)
+printf '%s' "${STABLE_OUTPUT}"  > "$TMPDIR/stable.json"
+printf '%s' "${DRIFTED_OUTPUT}" > "$TMPDIR/drifted.json"
 
-# Verify JSON is valid
+python3 - "$TMPDIR/stable.json" "$TMPDIR/drifted.json" <<'PY'
+import json, sys
+
+stable_path = sys.argv[1]
+drifted_path = sys.argv[2]
+
+stable_output = open(stable_path, "r", encoding="utf-8").read()
+drifted_output = open(drifted_path, "r", encoding="utf-8").read()
+
 try:
     stable_result = json.loads(stable_output)
     drifted_result = json.loads(drifted_output)
@@ -136,7 +143,6 @@ except json.JSONDecodeError as e:
     print(f"Invalid JSON: {e}")
     sys.exit(1)
 
-# Verify required fields
 for result, name in [(stable_result, "stable"), (drifted_result, "drifted")]:
     assert "trigger" in result, f"Missing 'trigger' in {name} output"
     assert "reasons" in result, f"Missing 'reasons' in {name} output"
@@ -145,7 +151,7 @@ for result, name in [(stable_result, "stable"), (drifted_result, "drifted")]:
     print(f"Required fields present in {name}: PASS")
 
 print("Output Schema Validation: PASS")
-PYEOF
+PY
 
 # Verify drift detection
 if echo "${DRIFTED_REASONS}" | grep -q "drift_detected"; then

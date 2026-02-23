@@ -25,20 +25,38 @@ OUTPUT_PARQUET="/tmp/polymarket_token_mapping.parquet"
 echo "[overlay_lint] running token_mapping smoke..."
 
 # Test 1: Run the pipeline
+echo "[token_mapping] Python:"
+python3 -V || true
+echo "[token_mapping] pip:"
+python3 -m pip -V || true
+echo "[token_mapping] duckdb import test:"
+python3 -c "import duckdb; print('duckdb OK', duckdb.__version__)" || true
+echo "[token_mapping] pip show duckdb:"
+python3 -m pip show duckdb || true
+
 echo "[token_mapping] Testing pipeline execution..."
 
+
+TMP_ERR="${OUTPUT_PARQUET}.stderr"
+set +e
 result=$(cd "$ROOT_DIR" && python3 -m ingestion.pipelines.token_mapping_pipeline \
   --input-polymarket "$POLYMARKET_JSON" \
   --input-tokens "$TOKENS_CSV" \
   --output "$OUTPUT_PARQUET" \
   --dry-run \
-  --summary-json 2>&1)
-
+  --summary-json 2> "${TMP_ERR}" )
 exit_code=$?
 
+set -e
+
 if [ $exit_code -ne 0 ]; then
-    echo "[token_mapping_smoke] ERROR: Pipeline failed"
-    echo "$result"
+    echo "[token_mapping_smoke] ERROR: token_mapping_pipeline failed (exit=$exit_code)" >&2
+    echo "[token_mapping_smoke] --- stderr (first 200 lines) ---" >&2
+    sed -n '1,200p' "${TMP_ERR}" >&2 || true
+    echo "[token_mapping_smoke] --- end stderr ---" >&2
+    echo "[token_mapping_smoke] --- captured stdout/stderr (fallback) ---" >&2
+    echo "$result" >&2 || true
+    echo "[token_mapping_smoke] --- end fallback ---" >&2
     exit 1
 fi
 
@@ -60,13 +78,13 @@ if [ "$markets_covered" -lt 3 ]; then
     errors=$((errors + 1))
 fi
 
-if [ "$(echo "$top_relevance" | python3 -c 'import sys; print(1.0 if float(sys.stdin.read()) >= 1.0 else 0)')" -ne 1 ]; then
+if [ "$(echo "$top_relevance" | python3 -c 'import sys; print(1 if float(sys.stdin.read()) >= 1.0 else 0)')" -ne 1 ]; then
     echo "[token_mapping_smoke] ERROR: Expected top_relevance >= 1.0, got $top_relevance"
     errors=$((errors + 1))
 fi
 
 if [ $errors -gt 0 ]; then
-    echo "[token_mapping_smoke] ERRgt 0 ];ORS: $errors validation failures"
+    echo "[token_mapping_smoke] ERRORS: $errors validation failures"
     exit 1
 fi
 

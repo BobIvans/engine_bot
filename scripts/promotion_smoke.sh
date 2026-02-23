@@ -63,10 +63,10 @@ def test_basic_pruning():
         prune_winrate_7d_min=0.55,
         prune_trades_7d_min=8,
         prune_roi_7d_min=-0.10,
-        promote_winrate_30d_min=0.62,
-        promote_roi_30d_min=0.18,
-        promote_trades_30d_min=45,
-        max_candidates_to_promote=30,
+        promote_min_winrate_30d=0.62,
+        promote_min_roi_30d=0.18,
+        promote_min_trades_30d=45,
+        promote_max_candidates=30,
     )
     
     active_wallets = [
@@ -81,7 +81,6 @@ def test_basic_pruning():
         ),
         WalletProfileInput(
             wallet="wallet_good",
-            winrate_7d=0.65,
             trades_7d=15,
             roi_7d=0.12,
             winrate_30d=0.70,
@@ -128,16 +127,15 @@ def test_all_prune_conditions():
         prune_winrate_7d_min=0.55,
         prune_trades_7d_min=8,
         prune_roi_7d_min=-0.10,
-        promote_winrate_30d_min=0.62,
-        promote_roi_30d_min=0.18,
-        promote_trades_30d_min=45,
-        max_candidates_to_promote=30,
+        promote_min_winrate_30d=0.62,
+        promote_min_roi_30d=0.18,
+        promote_min_trades_30d=45,
+        promote_max_candidates=30,
     )
     
     active_wallets = [
         WalletProfileInput(
             wallet="low_winrate",
-            winrate_7d=0.40,
             winrate_7d=0.40,
             trades_7d=10,
             roi_7d=0.05,
@@ -210,10 +208,10 @@ def test_promotion():
         prune_winrate_7d_min=0.55,
         prune_trades_7d_min=8,
         prune_roi_7d_min=-0.10,
-        promote_winrate_30d_min=0.62,
-        promote_roi_30d_min=0.18,
-        promote_trades_30d_min=45,
-        max_candidates_to_promote=30,
+        promote_min_winrate_30d=0.62,
+        promote_min_roi_30d=0.18,
+        promote_min_trades_30d=45,
+        promote_max_candidates=30,
     )
     
     active_wallets = [

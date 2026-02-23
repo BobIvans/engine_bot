@@ -44,7 +44,7 @@ verdict = estimator.get_verdict(hazard)
 print(f'{hazard:.2f}:{verdict}')
 " 2>&1) || {
     echo "[survival_smoke] Case Safe: ERROR - $safe_result" >&2
-    ((FAIL_COUNT++))
+    ((++FAIL_COUNT))
     exit 1
 }
 
@@ -53,10 +53,10 @@ safe_verdict=$(echo "$safe_result" | cut -d':' -f2)
 
 if (( $(echo "$safe_hazard < 0.2" | bc -l) )) && [ "$safe_verdict" = "HOLD" ]; then
     echo "[survival_smoke] Case Safe: Hazard=$safe_hazard -> $safe_verdict"
-    ((PASS_COUNT++))
+    ((++PASS_COUNT))
 else
     echo "[survival_smoke] Case Safe: FAIL - Hazard=$safe_hazard (expected < 0.2), Verdict=$safe_verdict (expected HOLD)" >&2
-    ((FAIL_COUNT++))
+    ((++FAIL_COUNT))
 fi
 
 # Test Case 2: Danger scenario
@@ -78,7 +78,7 @@ verdict = estimator.get_verdict(hazard)
 print(f'{hazard:.2f}:{verdict}')
 " 2>&1) || {
     echo "[survival_smoke] Case Danger: ERROR - $danger_result" >&2
-    ((FAIL_COUNT++))
+    ((++FAIL_COUNT))
     exit 1
 }
 
@@ -87,10 +87,10 @@ danger_verdict=$(echo "$danger_result" | cut -d':' -f2)
 
 if (( $(echo "$danger_hazard > 0.8" | bc -l) )) && [ "$danger_verdict" = "EXIT" ]; then
     echo "[survival_smoke] Case Danger: Hazard=$danger_hazard -> $danger_verdict"
-    ((PASS_COUNT++))
+    ((++PASS_COUNT))
 else
     echo "[survival_smoke] Case Danger: FAIL - Hazard=$danger_hazard (expected > 0.8), Verdict=$danger_verdict (expected EXIT)" >&2
-    ((FAIL_COUNT++))
+    ((++FAIL_COUNT))
 fi
 
 # Test Case 3: Weights loading from fixture
@@ -106,7 +106,7 @@ w = estimator.weights['weights']
 print(f'{w[\"smart_money_exit_count\"]}:{w[\"volatility_z_score\"]}')
 " 2>&1) || {
     echo "[survival_smoke] Case Weights Loading: ERROR - $weights_test" >&2
-    ((FAIL_COUNT++))
+    ((++FAIL_COUNT))
     exit 1
 }
 
@@ -115,10 +115,10 @@ vol_w=$(echo "$weights_test" | cut -d':' -f2)
 
 if [ "$sm_exit_w" = "0.5" ] && [ "$vol_w" = "0.2" ]; then
     echo "[survival_smoke] Case Weights Loading: PASS"
-    ((PASS_COUNT++))
+    ((++PASS_COUNT))
 else
     echo "[survival_smoke] Case Weights Loading: FAIL - weights=$weights_test (expected smart_money_exit=0.5, volatility=0.2)" >&2
-    ((FAIL_COUNT++))
+    ((++FAIL_COUNT))
 fi
 
 # Test Case 4: should_exit function
@@ -138,7 +138,7 @@ low_exit = estimator.should_exit(low_hazard, 0.7)
 print(f'{high_exit}:{low_exit}')
 " 2>&1) || {
     echo "[survival_smoke] Case Should Exit: ERROR - $exit_test" >&2
-    ((FAIL_COUNT++))
+    ((++FAIL_COUNT))
     exit 1
 }
 
@@ -147,10 +147,10 @@ low_exit=$(echo "$exit_test" | cut -d':' -f2)
 
 if [ "$high_exit" = "True" ] && [ "$low_exit" = "False" ]; then
     echo "[survival_smoke] Case Should Exit: PASS"
-    ((PASS_COUNT++))
+    ((++PASS_COUNT))
 else
     echo "[survival_smoke] Case Should Exit: FAIL - high_exit=$high_exit (expected True), low_exit=$low_exit (expected False)" >&2
-    ((FAIL_COUNT++))
+    ((++FAIL_COUNT))
 fi
 
 # Summary

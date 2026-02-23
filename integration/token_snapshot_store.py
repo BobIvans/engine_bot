@@ -48,7 +48,11 @@ class TokenSnapshot:
 class TokenSnapshotStore:
     """Loads token snapshots from a local file into an in-memory map."""
 
-    def __init__(self, path: str):
+    def __init__(self, path: str = None, csv_path: str = None):
+        # Compatibility: allow csv_path=... (used by tools/tune_strategy.py)
+        if path is None and csv_path is not None:
+            path = csv_path
+
         self.path = str(path)
         self._by_mint: Dict[str, TokenSnapshot] = {}
 
@@ -117,6 +121,10 @@ class TokenSnapshotStore:
                 extra=extra,
             )
 
+
+    def count(self) -> int:
+        """Return number of snapshots loaded in memory."""
+        return len(self._by_mint)
     def get(self, mint: str) -> Optional[TokenSnapshot]:
         return self._by_mint.get(mint)
 

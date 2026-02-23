@@ -188,3 +188,42 @@ if __name__ == "__main__":
     }
     danger_hazard = estimator.predict_hazard(danger_features, 300.0)
     print(f"Danger case: Hazard={danger_hazard:.2f} -> {estimator.get_verdict(danger_hazard)}")
+
+
+import math
+from typing import Optional
+
+def estimate_exit_probability_simple(
+    median_hold_sec: Optional[float],
+    window_sec: float = 60.0,
+    *,
+    default_prob: float = 0.50,
+    cap_prob: float = 0.99,
+) -> float:
+    """
+    Simple exit probability estimate used by feature engineering.
+
+    P(exit within window) = 1 - exp(-ln(2) * window / median)
+
+    Fallback:
+        - If median_hold_sec is invalid -> default_prob
+    Clamped to [0, cap_prob]
+    """
+    try:
+        m = float(median_hold_sec) if median_hold_sec is not None else None
+        w = float(window_sec)
+    except (TypeError, ValueError):
+        return float(default_prob)
+
+    if m is None or not (m > 0.0) or not (w >= 0.0):
+        return float(default_prob)
+
+    lam = math.log(2.0) / m
+    p = 1.0 - math.exp(-lam * w)
+
+    if p < 0.0:
+        p = 0.0
+    if p > cap_prob:
+        p = float(cap_prob)
+
+    return float(p)

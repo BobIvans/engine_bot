@@ -81,32 +81,43 @@ class MeteoraDecoder:
             "bin_step": pool.bin_step,
             "base_factor": pool.base_factor,
             "active_id": pool.active_id,
+            "price": price,
             "current_price": price,
             "token_x_decimals": pool.token_x_decimals,
             "token_y_decimals": pool.token_y_decimals,
             "is_initialized": pool.is_initialized,
         }
     
-    def validate_pool(self, pool: LbPairState) -> bool:
-        """
-        Validate pool state.
-        
-        Args:
-            pool: Decoded LbPairState
-            
+    @staticmethod
+    def validate_pool(pool: Any) -> tuple[bool, str]:
+        """Validate pool state.
+
+        Accepts either:
+          - LbPairState
+          - raw bytes (account data), which will be decoded first.
+
         Returns:
-            True if pool is valid
+          (is_valid, message)
         """
-        if pool.active_id == 0:
+        try:
+            from .layouts import LbPairState, decode_lb_pair
+            if isinstance(pool, (bytes, bytearray)):
+                pool = decode_lb_pair(bytes(pool))
+            if not isinstance(pool, LbPairState):
+                return (False, "invalid pool type")
+        except Exception as e:
+            return (False, f"decode_failed: {e}")
+
+        if getattr(pool, "active_id", 0) == 0:
             logger.warning("[meteora] Pool active_id is 0 (uninitialized)")
-            return False
-        
-        if pool.bin_step <= 0:
+            return (False, "active_id is 0 (uninitialized)")
+
+        if getattr(pool, "bin_step", 0) <= 0:
             logger.warning("[meteora] Invalid bin_step")
-            return False
-        
-        return True
-    
+            return (False, "invalid bin_step")
+
+        return (True, "ok")
+
     def _calc_price(self, pool: LbPairState) -> float:
         """
         Calculate current price from pool state.

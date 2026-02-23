@@ -242,6 +242,11 @@ def passes_honeypot_gate(snapshot: Optional[TokenSnapshot], cfg: Dict[str, Any])
     if not require_honeypot_safe:
         return True, "honeypot_check_skipped"
 
+    # STRICT: require_honeypot_safe -> reject when snapshot/security data missing
+    if snapshot is None:
+        return False, HONEYPOT_DETECTED
+
+
     # Extract simulation data
     sim_success = True
     buy_tax_bps = None
@@ -261,6 +266,30 @@ def passes_honeypot_gate(snapshot: Optional[TokenSnapshot], cfg: Dict[str, Any])
             security = snapshot_extra.get("security")
             if security is not None:
                 is_freezable = security.get("freeze_authority", False)
+
+                # EARLY REJECT: explicit honeypot flag in snapshot.extra (matches honeypot_gate_smoke expectations)
+                # Some fixtures mark honeypots via boolean flags instead of taxes; treat any explicit flag as unsafe.
+                hp_flag = False
+                # allow flags either at snapshot_extra level or inside snapshot_extra["security"]
+                if snapshot_extra.get("honeypot") is True:
+                    hp_flag = True
+                if snapshot_extra.get("honeypot_detected") is True:
+                    hp_flag = True
+                if snapshot_extra.get("is_honeypot") is True:
+                    hp_flag = True
+
+                if security is not None:
+                    if security.get("honeypot") is True:
+                        hp_flag = True
+                    if security.get("honeypot_detected") is True:
+                        hp_flag = True
+                    if security.get("is_honeypot") is True:
+                        hp_flag = True
+                    if security.get("scam") is True:
+                        hp_flag = True
+
+                if hp_flag:
+                    return False, HONEYPOT_DETECTED
 
     # Use honeypot_filter to check safety
     is_safe = is_honeypot_safe(

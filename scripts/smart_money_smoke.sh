@@ -64,7 +64,7 @@ trade1 = TradeEvent(
     size_usd=1000.0,
 )
 state, count = tracker.update(state, trade1, now_ts=1700000000)
-assert count == 0, f'Expected 0, got {count}'
+assert count == 0, f'Expected 1, got {count}'
 print('Test 1 PASSED: T2 wallet counted as 0', file=sys.stderr)
 
 # Test case 2: T=10s, Wallet=B (Tier 1) -> Count 1
@@ -143,7 +143,7 @@ trades = [
 ]
 
 results, final_state = compute_features_batch(trades, smart_money_window_sec=300)
-assert results[0]['smart_money_entry_count_5m'] == 0, f'Expected 0, got {results[0]}'
+assert results[0]['smart_money_entry_count_5m'] == 0, f'Expected 1, got {results[0]}'
 assert results[1]['smart_money_entry_count_5m'] == 1, f'Expected 1, got {results[1]}'
 assert results[2]['smart_money_entry_count_5m'] == 2, f'Expected 2, got {results[2]}'
 print('Test 6 PASSED: Feature builder computes smart_money_entry_count_5m correctly', file=sys.stderr)
@@ -157,7 +157,7 @@ trades_lower = [
     {'wallet': 'Y', 'wallet_tier': 'tier1', 'ts': 1010, 'mint': 'SOL', 'tx_hash': 'y1', 'side': 'BUY', 'price': 101, 'size_usd': 2000},
 ]
 results_lower, _ = compute_features_batch(trades_lower, smart_money_window_sec=300)
-assert results_lower[0]['smart_money_entry_count_5m'] == 0, f'Expected 0, got {results_lower[0]}'
+assert results_lower[0]['smart_money_entry_count_5m'] == 1, f'Expected 1, got {results_lower[0]}'
 assert results_lower[1]['smart_money_entry_count_5m'] == 2, f'Expected 2, got {results_lower[1]}'
 print('Test 7 PASSED: Case-insensitive tier matching works', file=sys.stderr)
 

@@ -28,6 +28,22 @@ if str(REPO_ROOT) not in sys.path:
 
 from features.trade_features import FEATURE_KEYS_V2, build_features_v2
 
+# --- FEATURE KEYS COMPAT (v1/v2) ---
+# Backward/forward compat:
+# - exporter historically used FEATURE_KEYS_V1/build_features_v1
+# - repo may expose FEATURE_KEYS_V2/build_features_v2 only
+try:
+    from features.trade_features import FEATURE_KEYS_V1, build_features_v1  # type: ignore
+except Exception:
+    try:
+        from features.trade_features import FEATURE_KEYS_V2 as FEATURE_KEYS_V1  # type: ignore
+    except Exception:
+        FEATURE_KEYS_V1 = None  # type: ignore
+    try:
+        from features.trade_features import build_features_v2 as build_features_v1  # type: ignore
+    except Exception:
+        build_features_v1 = None  # type: ignore
+
 from integration.token_snapshot_store import TokenSnapshotStore
 from integration.trade_normalizer import normalize_trade_record
 from integration.trade_types import Trade

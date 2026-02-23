@@ -320,3 +320,34 @@ def create_polymarket_snapshot(
         PolymarketSnapshot instance
     """
     return normalize_polymarket_state(markets, params)
+
+
+# ------------------------------
+# BEGIN: create_sentiment_engine disabled wrapper
+# ------------------------------
+# Smoke expectation: when cfg.sentiment.enabled == False -> analyze() must return []
+try:
+    _orig_create_sentiment_engine = create_sentiment_engine  # type: ignore[name-defined]
+except Exception:
+    _orig_create_sentiment_engine = None
+
+class DisabledSentimentEngine:
+    """Sentiment engine used when sentiment is disabled. Always returns empty tags."""
+    def analyze(self, mint: str) -> list:
+        return []
+
+def create_sentiment_engine(cfg):  # noqa: F811  (intentional override)
+    sent_cfg = (cfg or {}).get("sentiment") or {}
+    if not sent_cfg.get("enabled", False):
+        return DisabledSentimentEngine()
+    if _orig_create_sentiment_engine is None:
+        # Fallback: preserve previous behavior if original factory wasn't found for any reason
+        try:
+            return StubSentimentEngine()
+        except Exception:
+            return DisabledSentimentEngine()
+    return _orig_create_sentiment_engine(cfg)
+
+# ------------------------------
+# END: create_sentiment_engine disabled wrapper
+# ------------------------------

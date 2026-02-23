@@ -38,7 +38,7 @@ STDOUT_JSON=$(echo "$STDOUT_OUTPUT" | grep -v '^\[jupiter_quote\]' | head -1)
 STDERR_OUTPUT=$(echo "$STDOUT_OUTPUT" | grep '^\[jupiter_quote\]')
 
 # Verify quote success
-if ! echo "$STDOUT_JSON" | grep -q '"quote_success":true'; then
+if ! echo "$STDOUT_JSON" | grep -q '"quote_success":[[:space:]]*true'; then
     echo "[jupiter_quote_smoke] ERROR: quote_success not true" >&2
     echo "$STDOUT_JSON" >&2
     exit 1

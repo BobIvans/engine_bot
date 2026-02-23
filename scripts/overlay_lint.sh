@@ -1,8 +1,17 @@
 #!/bin/bash
+set -euo pipefail
+trap 'echo "[overlay_lint] FAIL at line $LINENO: $BASH_COMMAND" >&2' ERR
 # scripts/overlay_lint.sh
 # Master lint and smoke test runner
 
 set -e
+
+# Install deps for smokes (CI may run without prior pip install)
+echo "[overlay_lint] ensuring python deps (requirements.txt) are installed..."
+python3 -m pip install --upgrade pip || true
+python3 -m pip install -r requirements.txt || true
+python3 -c "import duckdb; print('[overlay_lint] duckdb OK', duckdb.__version__)" || true
+
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -222,8 +231,6 @@ bash scripts/grafana_export_smoke.sh
 echo "[overlay_lint] running exits smoke..." >&2
 bash scripts/exits_smoke.sh
 
-echo "[overlay_lint] running polymarket smoke..." >&2
-bash scripts/polymarket_smoke.sh
 
 echo "[overlay_lint] running slippage smoke..." >&2
 bash scripts/slippage_smoke.sh

@@ -235,3 +235,199 @@ def enrich_with_kolscan(profile: WalletProfile, kolscan_data: Dict[str, Any]) ->
 
     # Return as dict ( caller can merge with WalletProfile)
     return enriched_dict  # type: ignore
+
+# --- CI compatibility shim ---
+def aggregate_wallet_stats(records):
+    """
+    Aggregate a list of profiling records into wallet-level stats.
+
+    This function is used by integration.build_wallet_profiles in smoke tests.
+    It is intentionally defensive: accepts dicts or lightweight objects.
+
+    Returns:
+        dict with basic counters and a few optional aggregates.
+    """
+    if records is None:
+        records = []
+    # If caller passes a dict mapping -> values
+    if isinstance(records, dict):
+        records = list(records.values())
+
+    total = 0
+    wins = 0
+    losses = 0
+    pnl_sum = 0.0
+    pnl_count = 0
+    buy_count = 0
+    sell_count = 0
+
+    def get(r, key, default=None):
+        if isinstance(r, dict):
+            return r.get(key, default)
+        return getattr(r, key, default)
+
+    for r in records:
+        total += 1
+
+        side = get(r, "side", None)
+        if isinstance(side, str):
+            if side.upper() == "BUY":
+                buy_count += 1
+            elif side.upper() == "SELL":
+                sell_count += 1
+
+        # win / loss signals can be stored variously
+        is_win = get(r, "is_win", None)
+        outcome = get(r, "outcome", None)
+        if isinstance(is_win, bool):
+            if is_win:
+                wins += 1
+            else:
+                losses += 1
+        elif isinstance(outcome, str):
+            o = outcome.lower()
+            if o in ("win", "won", "tp", "take_profit"):
+                wins += 1
+            elif o in ("loss", "lost", "sl", "stop_loss"):
+                losses += 1
+
+        pnl = get(r, "pnl", None)
+        if pnl is None:
+            pnl = get(r, "pnl_usd", None)
+        if pnl is None:
+            pnl = get(r, "pnl_bps", None)
+        if pnl is not None:
+            try:
+                pnl_sum += float(pnl)
+                pnl_count += 1
+            except Exception:
+                pass
+
+    win_rate = (wins / (wins + losses)) if (wins + losses) > 0 else 0.0
+    avg_pnl = (pnl_sum / pnl_count) if pnl_count > 0 else 0.0
+
+    return {
+        "n_records": total,
+        "n_wins": wins,
+        "n_losses": losses,
+        "win_rate": win_rate,
+        "avg_pnl": avg_pnl,
+        "n_buy": buy_count,
+        "n_sell": sell_count,
+    }
+
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
+
+@dataclass
+class WalletProfileLike:
+    wallet: str
+    n_records: int = 0
+    n_wins: int = 0
+    n_losses: int = 0
+    win_rate: float = 0.0
+    avg_pnl: float = 0.0
+    n_buy: int = 0
+    n_sell: int = 0
+
+
+def _get(rec, key, default=None):
+    if isinstance(rec, dict):
+        return rec.get(key, default)
+    return getattr(rec, key, default)
+
+
+def _agg_one(records: List[Any]) -> Dict[str, Any]:
+    total = 0
+    wins = 0
+    losses = 0
+    pnl_sum = 0.0
+    pnl_count = 0
+    buy_count = 0
+    sell_count = 0
+
+    for r in (records or []):
+        total += 1
+
+        side = _get(r, "side", None)
+        if isinstance(side, str):
+            s = side.upper()
+            if s == "BUY":
+                buy_count += 1
+            elif s == "SELL":
+                sell_count += 1
+
+        is_win = _get(r, "is_win", None)
+        outcome = _get(r, "outcome", None)
+        if isinstance(is_win, bool):
+            wins += 1 if is_win else 0
+            losses += 0 if is_win else 1
+        elif isinstance(outcome, str):
+            o = outcome.lower()
+            if o in ("win", "won", "tp", "take_profit"):
+                wins += 1
+            elif o in ("loss", "lost", "sl", "stop_loss"):
+                losses += 1
+
+        pnl = _get(r, "pnl", None)
+        if pnl is None:
+            pnl = _get(r, "pnl_usd", None)
+        if pnl is None:
+            pnl = _get(r, "pnl_bps", None)
+        if pnl is not None:
+            try:
+                pnl_sum += float(pnl)
+                pnl_count += 1
+            except Exception:
+                pass
+
+    win_rate = (wins / (wins + losses)) if (wins + losses) > 0 else 0.0
+    avg_pnl = (pnl_sum / pnl_count) if pnl_count > 0 else 0.0
+
+    return {
+        "n_records": total,
+        "n_wins": wins,
+        "n_losses": losses,
+        "win_rate": win_rate,
+        "avg_pnl": avg_pnl,
+        "n_buy": buy_count,
+        "n_sell": sell_count,
+    }
+
+
+def aggregate_wallet_stats(records):
+    """
+    Dual-mode:
+    - If `records` is dict-like {wallet: [records]} -> returns List[WalletProfileLike]
+      (what integration.build_wallet_profiles expects for CSV writing).
+    - Else -> returns aggregated stats dict for a flat list of records.
+    """
+    if records is None:
+        return []
+
+    # Mode 1: dict keyed by wallet -> list of WalletProfileLike
+    if isinstance(records, dict):
+        out: List[WalletProfileLike] = []
+        for wallet, recs in records.items():
+            stats = _agg_one(recs if isinstance(recs, list) else list(recs))
+            out.append(
+                WalletProfileLike(
+                    wallet=str(wallet),
+                    n_records=int(stats["n_records"]),
+                    n_wins=int(stats["n_wins"]),
+                    n_losses=int(stats["n_losses"]),
+                    win_rate=float(stats["win_rate"]),
+                    avg_pnl=float(stats["avg_pnl"]),
+                    n_buy=int(stats["n_buy"]),
+                    n_sell=int(stats["n_sell"]),
+                )
+            )
+        return out
+
+    # Mode 2: flat iterable -> stats dict
+    if not isinstance(records, list):
+        try:
+            records = list(records)
+        except Exception:
+            records = []
+    return _agg_one(records)
