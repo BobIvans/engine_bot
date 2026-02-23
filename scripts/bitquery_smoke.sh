@@ -7,7 +7,6 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 FIXTURE_PATH="$PROJECT_ROOT/integration/fixtures/bitquery/graphql_response_sample.json"
-REJECTS_FILE="/tmp/bitquery_rejects.jsonl" # Not directly configurable in pipeline args easily for rejects only, but pipeline writes to clickhouse/files if configured.
 # Pipeline writes rejects to --signals-out if we want? No, pipeline writes rejects mostly to logs or DB.
 # But we can check summary JSON.
 

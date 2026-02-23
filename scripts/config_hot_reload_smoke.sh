@@ -137,4 +137,3 @@ kill $PID
 rm -rf /tmp/hot_reload_test
 exit 0
 
-EOF

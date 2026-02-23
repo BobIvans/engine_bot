@@ -90,13 +90,13 @@ if [[ "${FILE_SIZE}" == "0" ]]; then
 fi
 
 # Assertion 3: JSON parses
-python3 - <<PY
+if ! python3 - <<PY
 import json
 with open("${OUT_TMP}", "r", encoding="utf-8") as f:
     data = json.load(f)
 print("JSON_OK")
 PY
-if [[ $? -ne 0 ]]; then
+then
   echo "ERROR: ev_sweep_failed: invalid JSON" >&2
   exit 1
 fi

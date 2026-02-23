@@ -10,7 +10,7 @@ echo "[overlay_lint] running das smoke..." >&2
 
 # Create temp directory for test
 TEMP_DIR=$(mktemp -d)
-trap "rm -rf $TEMP_DIR" EXIT
+trap 'rm -rf "$TEMP_DIR"' EXIT
 
 # Create Python test script
 cat > "$TEMP_DIR/test_das.py" << 'PYEOF'

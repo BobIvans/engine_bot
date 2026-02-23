@@ -53,10 +53,10 @@ c = decompose_trade(trade)
 print(f'{c.theoretical_pnl},{c.execution_drag},{c.fee_drag},{c.net_pnl}')
 ")
 
-THEO=$(echo $THEORETICAL | cut -d',' -f1)
-DRAG=$(echo $THEORETICAL | cut -d',' -f2)
-FEES=$(echo $THEORETICAL | cut -d',' -f3)
-NET=$(echo $THEORETICAL | cut -d',' -f4)
+THEO=$(echo "$THEORETICAL" | cut -d',' -f1)
+DRAG=$(echo "$THEORETICAL" | cut -d',' -f2)
+FEES=$(echo "$THEORETICAL" | cut -d',' -f3)
+NET=$(echo "$THEORETICAL" | cut -d',' -f4)
 
 if [ "$THEO" != "10.0" ]; then
     echo "[attribution_smoke] FAIL: Expected theoretical_pnl=10.0, got $THEO" >&2
