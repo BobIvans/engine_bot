@@ -14,6 +14,15 @@ echo "[smoke] running CANON local smoke (single-path gates)..."
 #
 # We intentionally do NOT start our own ClickHouse here to avoid
 # docker-compose conflicts with vendor/gmee_canon/docker-compose.yml.
-bash "$ROOT_DIR/vendor/gmee_canon/scripts/local_smoke.sh"
+# Normalize CH auth env to avoid inheriting unrelated CI secrets/vars
+# that can force HTTP auth against the local unauthenticated container.
+env \
+  -u CLICKHOUSE_PASSWORD \
+  -u CLICKHOUSE_PASS \
+  -u CH_PASSWORD \
+  -u CH_USER \
+  CLICKHOUSE_USER=default \
+  CLICKHOUSE_URL="${CLICKHOUSE_URL:-http://localhost:8123}" \
+  bash "$ROOT_DIR/vendor/gmee_canon/scripts/local_smoke.sh"
 
 echo "[smoke] OK"
