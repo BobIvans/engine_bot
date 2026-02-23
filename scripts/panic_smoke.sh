@@ -1,71 +1,61 @@
-#!/usr/bin/env python3
-"""scripts/panic_smoke.sh
+#!/usr/bin/env bash
+#
+# Smoke test for ops/panic.py module.
+# Tests the kill-switch mechanism by creating/removing the sentinel file.
+#
+set -euo pipefail
 
-Smoke test for ops/panic.py module.
-Tests the kill-switch mechanism by creating/removing the sentinel file.
-"""
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$PROJECT_ROOT"
+
+echo "[overlay_lint] running panic smoke..."
+
+python3 - <<'PY'
 import os
-import sys
+import tempfile
+from pathlib import Path
 
-# Ensure we can import from the project root
-project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, project_root)
+from ops.panic import (
+    is_panic_active,
+    create_panic_flag,
+    clear_panic_flag,
+    require_no_panic,
+    PanicShutdown,
+)
 
-from ops.panic import check_panic, create_panic, clear_panic, STOP_STRATEGY
+tmpdir = Path(tempfile.mkdtemp(prefix="panic_smoke_"))
+sentinel = tmpdir / "PANIC"
 
-def main() -> int:
-    errors = []
-    
-    # Ensure clean state
-    if os.path.exists(STOP_STRATEGY):
-        os.remove(STOP_STRATEGY)
-    
-    # Test 1: No panic file -> False
-    result = check_panic()
-    if result:
-        errors.append(f"Test 1 FAILED: Expected False, got {result}")
-        print("[panic_smoke] Test 1 FAILED: Expected False without panic file", file=sys.stderr)
-    else:
-        print("[panic_smoke] Test 1 PASSED: check_panic() == False", file=sys.stderr)
-    
-    # Test 2: Create panic file -> True
-    create_panic()
-    result = check_panic()
-    if not result:
-        errors.append(f"Test 2 FAILED: Expected True, got {result}")
-        print("[panic_smoke] Test 2 FAILED: Expected True with panic file", file=sys.stderr)
-    else:
-        print("[panic_smoke] Test 2 PASSED: check_panic() == True", file=sys.stderr)
-    
-    # Test 3: Remove panic file -> False
-    clear_panic()
-    result = check_panic()
-    if result:
-        errors.append(f"Test 3 FAILED: Expected False, got {result}")
-        print("[panic_smoke] Test 3 FAILED: Expected False after clearing panic", file=sys.stderr)
-    else:
-        print("[panic_smoke] Test 3 PASSED: check_panic() == False", file=sys.stderr)
-    
-    # Test 4: Check file path constant
-    if STOP_STRATEGY != "STOP_STRATEGY":
-        errors.append(f"Test 4 FAILED: STOP_STRATEGY != 'STOP_STRATEGY', got '{STOP_STRATEGY}'")
-        print(f"[panic_smoke] Test 4 FAILED: STOP_STRATEGY = '{STOP_STRATEGY}'", file=sys.stderr)
-    else:
-        print("[panic_smoke] Test 4 PASSED: STOP_STRATEGY constant correct", file=sys.stderr)
-    
-    # Clean up
-    if os.path.exists(STOP_STRATEGY):
-        os.remove(STOP_STRATEGY)
-    
-    if errors:
-        print("\n[panic_smoke] ERRORS:", file=sys.stderr)
-        for e in errors:
-            print(f"  - {e}", file=sys.stderr)
-        print("\n[panic_smoke] FAILED", file=sys.stderr)
-        return 1
-    
-    print("[panic_smoke] OK", file=sys.stderr)
-    return 0
+# 1) default: not active
+assert is_panic_active(str(sentinel)) is False
+print("[panic_smoke] Test 1 PASS: default not active")
 
-if __name__ == "__main__":
-    sys.exit(main())
+# 2) create flag -> active
+create_panic_flag(str(sentinel))
+assert sentinel.exists()
+assert is_panic_active(str(sentinel)) is True
+print("[panic_smoke] Test 2 PASS: create -> active")
+
+# 3) require_no_panic should raise when active
+raised = False
+try:
+    require_no_panic(str(sentinel))
+except PanicShutdown:
+    raised = True
+assert raised, "require_no_panic did not raise PanicShutdown"
+print("[panic_smoke] Test 3 PASS: require_no_panic raises when active")
+
+# 4) clear flag -> inactive
+clear_panic_flag(str(sentinel))
+assert sentinel.exists() is False
+assert is_panic_active(str(sentinel)) is False
+print("[panic_smoke] Test 4 PASS: clear -> inactive")
+
+# 5) require_no_panic should pass when inactive
+require_no_panic(str(sentinel))
+print("[panic_smoke] Test 5 PASS: require_no_panic passes when inactive")
+
+print("[panic_smoke] OK ✅")
+PY
+
+echo "[panic_smoke] Smoke test completed."
