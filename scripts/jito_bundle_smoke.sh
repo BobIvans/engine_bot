@@ -59,7 +59,7 @@ def test_jito_structs():
         JitoTipAccount,
         JitoConfig,
     )
-    from solders.pubkey import Pubkey
+    from execution.jito_structs import Pubkey
     
     # Test JitoConfig
     config = JitoConfig(
@@ -109,7 +109,7 @@ def test_bundle_construction():
         JitoBundleRequest,
     )
     from execution.jito_structs import JitoConfig
-    from solders.pubkey import Pubkey
+    from execution.jito_structs import Pubkey
     
     # Create mock swap instruction
     class MockIx:
@@ -161,7 +161,7 @@ async def test_jito_client_mock():
     
     from execution.jito_bundle_executor import JitoClient
     from execution.jito_structs import JitoConfig, JitoTipAccount
-    from solders.pubkey import Pubkey
+    from execution.jito_structs import Pubkey
     
     config = JitoConfig(
         enabled=True,

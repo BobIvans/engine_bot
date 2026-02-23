@@ -19,7 +19,6 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
-import aiohttp
 
 from strategy.schemas.solanafm_enrichment_schema import (
     validate_solanafm_enrichment,
@@ -68,7 +67,7 @@ class SolanaFMEnricher:
     
     def __post_init__(self):
         """Initialize session and load fixtures if needed."""
-        self._session: Optional[aiohttp.ClientSession] = None
+        self._session = None
         self._fixtures: dict[str, SolanaFMEnrichment] = {}
         
         if self.use_fixtures and self.fixture_path:
@@ -85,12 +84,13 @@ class SolanaFMEnricher:
             except (json.JSONDecodeError, KeyError, TypeError) as e:
                 print(f"[solanafm] Warning: Failed to load fixtures: {e}")
     
-    async def _get_session(self) -> aiohttp.ClientSession:
+    async def _get_session(self):
         """Get or create aiohttp session."""
         if self._session is None or self._session.closed:
             headers = {}
             if self.api_key:
                 headers["x-api-key"] = self.api_key
+            import aiohttp
             self._session = aiohttp.ClientSession(
                 headers=headers,
                 timeout=aiohttp.ClientTimeout(total=self.timeout)
@@ -203,11 +203,11 @@ class SolanaFMEnricher:
         except asyncio.TimeoutError:
             print(f"[solanafm] Timeout fetching {mint}")
             return None
-        except aiohttp.ClientError as e:
-            print(f"[solanafm] Client error for {mint}: {e}")
-            return None
         except Exception as e:
-            print(f"[solanafm] Unexpected error for {mint}: {e}")
+            if e.__class__.__name__ == "ClientError":
+                print(f"[solanafm] Client error for {mint}: {e}")
+            else:
+                print(f"[solanafm] Unexpected error for {mint}: {e}")
             return None
     
     async def get_enrichment(self, mint: str) -> SolanaFMEnrichment:

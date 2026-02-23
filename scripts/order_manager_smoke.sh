@@ -62,7 +62,7 @@ assert position.signal_id == "sig_test_001"
 assert position.entry_price == 100.0
 assert position.tp_price == 105.0  # 100 * (1 + 0.05)
 assert position.sl_price == 97.0   # 100 * (1 - 0.03)
-assert position.status == "ACTIVE"
+assert getattr(position.status, "value", position.status) == "ACTIVE"
 print("[order_manager_smoke] Test 2 passed: Position created from signal", file=sys.stderr)
 
 # Test 3: TTL expiration check
@@ -163,16 +163,19 @@ position = manager.on_fill(
 
 # Verify position is registered (do NOT rely on object identity/equality)
 assert position.signal_id == "sig_reg_001"
-assert position.status == "ACTIVE"
+assert getattr(position.status, "value", position.status) == "ACTIVE"
 
 pos2 = manager.get_position("sig_reg_001")
 print(f"[order_manager_smoke] get_position type={type(pos2)} value={pos2}", file=sys.stderr)
 assert pos2 is not None
 
 # get_position() may return Position, dataclass, or dict depending on env/impl
+def status_text(v):
+    return getattr(v, "value", v)
+
 if isinstance(pos2, dict):
     assert pos2.get("signal_id") == "sig_reg_001"
-    assert pos2.get("status") == "ACTIVE"
+    assert status_text(pos2.get("status")) == "ACTIVE"
     assert pos2.get("mint") == position.mint
     assert abs(float(pos2.get("entry_price")) - float(position.entry_price)) < 1e-9
     assert abs(float(pos2.get("tp_price")) - float(position.tp_price)) < 1e-9
@@ -181,7 +184,7 @@ if isinstance(pos2, dict):
 else:
     # fallback to attribute access
     assert getattr(pos2, "signal_id") == "sig_reg_001"
-    assert getattr(pos2, "status") == "ACTIVE"
+    assert status_text(getattr(pos2, "status")) == "ACTIVE"
     assert getattr(pos2, "mint") == position.mint
     assert abs(float(getattr(pos2, "entry_price")) - float(position.entry_price)) < 1e-9
     assert abs(float(getattr(pos2, "tp_price")) - float(position.tp_price)) < 1e-9
@@ -212,7 +215,7 @@ action = manager2.force_close("sig_ttl_001", TTL_EXPIRED, price=100.0)
 assert action is not None
 assert action.signal_id == "sig_ttl_001"
 assert action.reason == TTL_EXPIRED
-assert expired_pos.status == "CLOSED"
+assert getattr(expired_pos.status, "value", expired_pos.status) == "CLOSED"
 assert expired_pos.close_reason == TTL_EXPIRED
 print("[order_manager_smoke] Test 8 passed: Force close by TTL works", file=sys.stderr)
 
@@ -234,7 +237,7 @@ tp_pos = manager3.on_fill(
 action = manager3.force_close("sig_tp_001", TP_HIT, price=105.0)
 assert action is not None
 assert action.reason == TP_HIT
-assert tp_pos.status == "CLOSED"
+assert getattr(tp_pos.status, "value", tp_pos.status) == "CLOSED"
 assert tp_pos.close_reason == TP_HIT
 print("[order_manager_smoke] Test 9 passed: Force close by TP works", file=sys.stderr)
 
@@ -256,7 +259,7 @@ sl_pos = manager4.on_fill(
 action = manager4.force_close("sig_sl_001", SL_HIT, price=97.0)
 assert action is not None
 assert action.reason == SL_HIT
-assert sl_pos.status == "CLOSED"
+assert getattr(sl_pos.status, "value", sl_pos.status) == "CLOSED"
 assert sl_pos.close_reason == SL_HIT
 print("[order_manager_smoke] Test 10 passed: Force close by SL works", file=sys.stderr)
 
@@ -280,7 +283,7 @@ action1 = manager5.force_close("sig_idem_001", TP_HIT, price=105.0)
 # Try to close again - should return None or same action
 action2 = manager5.force_close("sig_idem_001", SL_HIT, price=97.0)
 # Position is already closed, so force_close should return None or not change status
-assert pos.status == "CLOSED"
+assert getattr(pos.status, "value", pos.status) == "CLOSED"
 print("[order_manager_smoke] Test 11 passed: Close is idempotent", file=sys.stderr)
 
 # Test 12: Load fixture data

@@ -45,21 +45,21 @@ if ! echo "$STDOUT_JSON" | grep -q '"quote_success":[[:space:]]*true'; then
 fi
 
 # Verify out_amount
-if ! echo "$STDOUT_JSON" | grep -q '"out_amount":"42857142857"'; then
+if ! echo "$STDOUT_JSON" | grep -Eq '"out_amount"[[:space:]]*:[[:space:]]*"42857142857"'; then
     echo "[jupiter_quote_smoke] ERROR: out_amount mismatch" >&2
     echo "$STDOUT_JSON" >&2
     exit 1
 fi
 
 # Verify price_impact_pct
-if ! echo "$STDOUT_JSON" | grep -q '"price_impact_pct":1.25'; then
+if ! echo "$STDOUT_JSON" | grep -Eq '"price_impact_pct"[[:space:]]*:[[:space:]]*1.25'; then
     echo "[jupiter_quote_smoke] ERROR: price_impact_pct mismatch" >&2
     echo "$STDOUT_JSON" >&2
     exit 1
 fi
 
 # Verify route_hops
-if ! echo "$STDOUT_JSON" | grep -q '"route_hops":1'; then
+if ! echo "$STDOUT_JSON" | grep -Eq '"route_hops"[[:space:]]*:[[:space:]]*1'; then
     echo "[jupiter_quote_smoke] ERROR: route_hops mismatch" >&2
     echo "$STDOUT_JSON" >&2
     exit 1
@@ -86,7 +86,7 @@ FULL_OUTPUT=$(python3 -m "$MODULE_PATH" \
     --amount "1000000000" \
     --dry-run 2>&1)
 
-if ! echo "$FULL_OUTPUT" | grep -q '"label":"Raydium"'; then
+if ! echo "$FULL_OUTPUT" | grep -Eq '"label"[[:space:]]*:[[:space:]]*"Raydium"'; then
     echo "[jupiter_quote_smoke] ERROR: Missing Raydium label in route plan" >&2
     exit 1
 fi
