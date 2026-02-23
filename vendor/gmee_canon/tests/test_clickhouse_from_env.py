@@ -79,3 +79,18 @@ def test_from_env_parses_url_in_clickhouse_host(monkeypatch):
     assert r.port == 18123
     assert r.user == "h_user"
     assert r.password == "h_pass"
+
+
+def test_from_env_parses_schemeless_clickhouse_url(monkeypatch):
+    monkeypatch.delenv("CLICKHOUSE_HOST", raising=False)
+    monkeypatch.delenv("CLICKHOUSE_PORT", raising=False)
+    monkeypatch.delenv("CLICKHOUSE_USER", raising=False)
+    monkeypatch.delenv("CLICKHOUSE_PASSWORD", raising=False)
+    monkeypatch.setenv("CLICKHOUSE_URL", "ch.example:18123?ch_user=s_user&ch_password=s_pass")
+
+    r = ClickHouseQueryRunner.from_env()
+
+    assert r.host == "ch.example"
+    assert r.port == 18123
+    assert r.user == "s_user"
+    assert r.password == "s_pass"
