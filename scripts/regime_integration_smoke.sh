@@ -38,7 +38,7 @@ echo "[regime_integration_smoke] Testing adjust_edge_for_regime() pure function.
 
 python3 << 'EOF'
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
+sys.path.insert(0, '.')
 
 from strategy.logic import adjust_edge_for_regime
 
@@ -71,14 +71,14 @@ echo "[regime_integration_smoke] Testing bounds checking..." >&2
 
 python3 << 'EOF'
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
+sys.path.insert(0, '.')
 
 from strategy.logic import adjust_edge_for_regime
 
 # Test invalid alpha
 try:
     adjust_edge_for_regime(0.06, 0.75, 0.6)  # alpha > 0.5
-    print("FAIL: Expected assertion0.6", error for alpha= file=sys.stderr)
+    print("FAIL: Expected assertion error for alpha=0.6", file=sys.stderr)
     exit(1)
 except AssertionError as e:
     print(f"  OK: Caught invalid alpha: {e}")
@@ -109,16 +109,16 @@ EOF
 # Run decision stage with regime input
 echo "[regime_integration_smoke] Running decision stage with regime input..." >&2
 
-OUTPUT=$(python3 -m integration.decision_stage 2>&1 << 'EOF' || echo "ERROR"
+OUTPUT=$(python3 - 2>&1 << 'EOF' || echo "ERROR"
 import json
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
+sys.path.insert(0, '.')
 
 from integration.decision_stage import DecisionStage, run_stage
 
 # Create a simple test scenario
 stage = DecisionStage(
-    regime_timeline_path="/Users/ivansbobrovs/Downloads/strategy pack/integration/fixtures/sentiment/regime_timeline_sample.parquet",
+    regime_timeline_path="integration/fixtures/sentiment/regime_timeline_sample.parquet",
     skip_regime_adjustment=False
 )
 
@@ -162,15 +162,15 @@ fi
 # Test 4: Test skip_regime_adjustment flag
 echo "[regime_integration_smoke] Testing --skip-regime-adjustment flag..." >&2
 
-OUTPUT_SKIP=$(python3 -m integration.decision_stage 2>&1 << 'EOF' || echo "ERROR"
+OUTPUT_SKIP=$(python3 - 2>&1 << 'EOF' || echo "ERROR"
 import json
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
+sys.path.insert(0, '.')
 
 from integration.decision_stage import DecisionStage
 
 stage = DecisionStage(
-    regime_timeline_path="/Users/ivansbobrovs/Downloads/strategy pack/integration/fixtures/sentiment/regime_timeline_sample.parquet",
+    regime_timeline_path="integration/fixtures/sentiment/regime_timeline_sample.parquet",
     skip_regime_adjustment=True
 )
 
@@ -203,10 +203,10 @@ EOF
 
 echo "$OUTPUT_SKIP" >&2
 
-if echo "$OUTPUT_SKIP" | grep -q '"risk_regime":0.0'; then
-    pass "skip_regime_adjustment sets risk_regime to 0.0"
+if echo "$OUTPUT_SKIP" | python3 -c 'import json,sys; lines=[l for l in sys.stdin.read().splitlines() if l.strip().startswith("{")]; obj=json.loads(lines[-1]); sys.exit(0 if abs(float(obj["edge_final"]) - float(obj["edge_raw"])) < 1e-9 else 1)'; then
+    pass "skip_regime_adjustment leaves edge_final equal to edge_raw"
 else
-    fail "skip_regime_adjustment should set risk_regime to 0.0"
+    fail "skip_regime_adjustment should leave edge_final equal to edge_raw"
 fi
 
 # Test 5: Calculate expected metrics
@@ -214,7 +214,7 @@ echo "[regime_integration_smoke] Verifying edge correction formula..." >&2
 
 python3 << 'EOF'
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
+sys.path.insert(0, '.')
 
 from strategy.logic import adjust_edge_for_regime
 
