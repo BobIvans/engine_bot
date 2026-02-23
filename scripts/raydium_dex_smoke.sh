@@ -7,7 +7,7 @@
 # 2. Liquidity filtering (min_liquidity_usd >= $2000)
 # 3. Fixture processing and normalization
 
-set -e
+set -euo pipefail
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -16,6 +16,7 @@ NC='\033[0m'
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
 FIXTURES_DIR="${ROOT_DIR}/integration/fixtures"
 
 fail() {
@@ -38,8 +39,6 @@ echo "[raydium_dex_smoke] Testing decode_raydium_cpmm_log() pure function..." >&
 
 python3 << 'EOF'
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
-
 from ingestion.sources.raydium_dex import decode_raydium_cpmm_log
 
 # Test cases
@@ -108,8 +107,6 @@ echo "[raydium_dex_smoke] Testing non-Raydium log filtering..." >&2
 
 python3 << 'EOF'
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
-
 from ingestion.sources.raydium_dex import decode_raydium_cpmm_log
 
 # Non-Raydium logs should return None
@@ -151,10 +148,8 @@ fi
 # Test 4: Count trades by platform
 echo "[raydium_dex_smoke] Counting trades by platform..." >&2
 
-TRADES=$(python3 -m ingestion.sources.raydium_dex \
-  --input-file "${ROOT_DIR}/integration/fixtures/execution/raydium_swaps_sample.json" \
-  --min-liquidity-usd 2000 \
-  --dry-run 2>/dev/null | grep -c '"platform":"raydium_cpmm"' || echo "0")
+TRADES=$(echo "$OUTPUT" | awk -F'"trades_ingested"[[:space:]]*:[[:space:]]*' 'NF>1{split($2,a,/[ ,}]/); print a[1]; exit}')
+TRADES=${TRADES:-0}
 
 echo "[raydium_dex_smoke] Found $TRADES trades with platform=raydium_cpmm" >&2
 
@@ -167,10 +162,8 @@ fi
 # Test 5: Count buys
 echo "[raydium_dex_smoke] Counting BUY trades..." >&2
 
-BUYS=$(python3 -m ingestion.sources.raydium_dex \
-  --input-file "${ROOT_DIR}/integration/fixtures/execution/raydium_swaps_sample.json" \
-  --min-liquidity-usd 2000 \
-  --dry-run 2>/dev/null | grep -c '"side":"BUY"' || echo "0")
+BUYS=$(echo "$OUTPUT" | grep -c 'Trade: BUY' || true)
+BUYS=${BUYS:-0}
 
 echo "[raydium_dex_smoke] Found $BUYS BUY trades" >&2
 
@@ -186,12 +179,10 @@ echo "[raydium_dex_smoke] Validating trade schema compliance..." >&2
 python3 << 'EOF'
 import json
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
-
 from ingestion.sources.raydium_dex import RaydiumDexSource
 
 source = RaydiumDexSource(min_liquidity_usd=2000, dry_run=True)
-trades = source.load_from_file('/Users/ivansbobrovs/Downloads/strategy pack/integration/fixtures/execution/raydium_swaps_sample.json')
+trades = source.load_from_file('integration/fixtures/execution/raydium_swaps_sample.json')
 
 required_fields = ["ts", "wallet", "mint", "side", "size_usd", "price", "platform", "tx_hash"]
 
