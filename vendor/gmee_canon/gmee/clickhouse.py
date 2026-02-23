@@ -102,36 +102,45 @@ class ClickHouseQueryRunner:
         Supported env vars:
         - CLICKHOUSE_HOST, CLICKHOUSE_PORT, CLICKHOUSE_USER, CLICKHOUSE_PASSWORD, CLICKHOUSE_DATABASE
         - CH_HOST, CH_PORT, CH_USER, CH_PASSWORD, CH_DATABASE (fallback aliases)
+        - CLICKHOUSE_USERNAME, CLICKHOUSE_PASS (fallback aliases)
         - CLICKHOUSE_TIMEOUT_S
         - CLICKHOUSE_HTTP_URL / CLICKHOUSE_URL (optional convenience; e.g. http://localhost:8123)
 
         Precedence:
         - If CLICKHOUSE_HOST/PORT are set, use them.
         - Else, if CLICKHOUSE_HTTP_URL or CLICKHOUSE_URL is set, parse host/port from it.
-        - User/password from URL are used only when CLICKHOUSE_USER/CLICKHOUSE_PASSWORD are unset.
+        - User/password from URL userinfo/query are used only when explicit user/password env vars are unset.
         """
 
         host = os.getenv("CLICKHOUSE_HOST") or os.getenv("CH_HOST")
         port_s = os.getenv("CLICKHOUSE_PORT") or os.getenv("CH_PORT")
-        user = os.getenv("CLICKHOUSE_USER") or os.getenv("CH_USER")
-        password = os.getenv("CLICKHOUSE_PASSWORD") or os.getenv("CH_PASSWORD")
+        user = os.getenv("CLICKHOUSE_USER") or os.getenv("CLICKHOUSE_USERNAME") or os.getenv("CH_USER")
+        password = os.getenv("CLICKHOUSE_PASSWORD") or os.getenv("CLICKHOUSE_PASS") or os.getenv("CH_PASSWORD")
         database = os.getenv("CLICKHOUSE_DATABASE") or os.getenv("CH_DATABASE") or "default"
 
         if not host or not port_s:
             http_url = os.getenv("CLICKHOUSE_HTTP_URL") or os.getenv("CLICKHOUSE_URL")
             if http_url:
                 try:
-                    from urllib.parse import urlparse
+                    from urllib.parse import parse_qs, urlparse
 
                     u = urlparse(http_url)
                     if u.hostname:
                         host = host or u.hostname
                     if u.port:
                         port_s = port_s or str(u.port)
-                    if u.username:
-                        user = user or u.username
-                    if u.password is not None:
-                        password = password if password is not None else u.password
+
+                    if not user:
+                        user = u.username
+                    if not password:
+                        password = u.password
+
+                    # Also support URL query auth style, e.g. ?user=...&password=...
+                    q = parse_qs(u.query)
+                    if not user:
+                        user = (q.get("user", [None])[0] or q.get("username", [None])[0])
+                    if not password:
+                        password = q.get("password", [None])[0]
                 except Exception:
                     # best-effort; fall back to defaults below
                     pass

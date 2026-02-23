@@ -27,3 +27,24 @@ def test_from_env_prefers_explicit_user_password_over_url(monkeypatch):
 
     assert r.user == "explicit_user"
     assert r.password == "explicit_pass"
+
+
+def test_from_env_supports_clickhouse_url_query_credentials(monkeypatch):
+    monkeypatch.delenv("CLICKHOUSE_USER", raising=False)
+    monkeypatch.delenv("CLICKHOUSE_PASSWORD", raising=False)
+    monkeypatch.setenv("CLICKHOUSE_URL", "http://ch.example:8123/?user=q_user&password=q_pass")
+
+    r = ClickHouseQueryRunner.from_env()
+
+    assert r.user == "q_user"
+    assert r.password == "q_pass"
+
+
+def test_from_env_supports_username_pass_aliases(monkeypatch):
+    monkeypatch.setenv("CLICKHOUSE_USERNAME", "alias_user")
+    monkeypatch.setenv("CLICKHOUSE_PASS", "alias_pass")
+
+    r = ClickHouseQueryRunner.from_env()
+
+    assert r.user == "alias_user"
+    assert r.password == "alias_pass"
