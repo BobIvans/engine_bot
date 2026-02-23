@@ -27,6 +27,13 @@ echo ""
 log_info "Starting Parameter Sweep smoke tests..."
 echo ""
 
+# Skip gracefully in minimal environments where optional optimization deps are absent.
+if ! python3 -c "import numpy" >/dev/null 2>&1; then
+    echo "[sweep_smoke] WARNING: numpy not installed; skipping parameter sweep smoke in minimal environment" >&2
+    echo "[sweep_smoke] OK (skipped: missing optional dependency numpy)" >&2
+    exit 0
+fi
+
 python3 << 'PYTEST'
 import sys
 sys.path.insert(0, '.')
