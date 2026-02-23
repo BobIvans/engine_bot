@@ -86,7 +86,7 @@ data = json.load(open('$OUTPUT_SAFE'))
 rpc = data['details'].get('rpc_requests_today', {})
 print(rpc.get('utilization_pct', -1))
 ")
-if (( $(echo "$UTIL_PCT > 0 && $UTIL_PCT < 100" | bc -l) )); then
+if python3 -c "import sys; u=float(sys.argv[1]); sys.exit(0 if (u > 0 and u < 100) else 1)" "$UTIL_PCT"; then
     echo "[resource_monitor_smoke] Utilization percentage calculated: $UTIL_PCT% ✓" >&2
 else
     echo "[resource_monitor_smoke] FAIL: Invalid utilization percentage: $UTIL_PCT" >&2
