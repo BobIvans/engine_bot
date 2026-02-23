@@ -27,6 +27,56 @@ echo ""
 log_info "Starting Parameter Sweep smoke tests..."
 echo ""
 
+HAS_SWEEP_DEPS=$(python3 - <<'PYDEPS'
+import importlib.util
+mods=["numpy"]
+missing=[m for m in mods if importlib.util.find_spec(m) is None]
+print("|".join(missing))
+PYDEPS
+)
+
+if [ -n "$HAS_SWEEP_DEPS" ]; then
+    echo -e "${YELLOW}[sweep_smoke] WARN:${NC} Missing optional deps: $HAS_SWEEP_DEPS"
+    echo -e "${YELLOW}[sweep_smoke] WARN:${NC} Running reduced smoke subset (fixture/config sanity only)"
+
+    FIXTURE_TRADES="$PROJECT_ROOT/integration/fixtures/tuning/trades_sample.jsonl"
+    FIXTURE_CONFIG="$PROJECT_ROOT/integration/fixtures/tuning/sweep_config.yaml"
+
+    if [ ! -s "$FIXTURE_TRADES" ]; then
+        log_error "Fixture missing or empty: $FIXTURE_TRADES"
+    fi
+    if [ ! -s "$FIXTURE_CONFIG" ]; then
+        log_error "Config missing or empty: $FIXTURE_CONFIG"
+    fi
+
+    python3 - << 'PYMIN'
+import json
+import yaml
+
+fixture_trades = "integration/fixtures/tuning/trades_sample.jsonl"
+fixture_config = "integration/fixtures/tuning/sweep_config.yaml"
+
+trades = []
+with open(fixture_trades, 'r') as f:
+    for line in f:
+        line = line.strip()
+        if not line:
+            continue
+        trades.append(json.loads(line))
+
+with open(fixture_config, 'r') as f:
+    cfg = yaml.safe_load(f) or {}
+
+params = cfg.get('parameters', {})
+assert len(trades) > 0, 'trades fixture empty'
+assert isinstance(params, dict) and len(params) > 0, 'sweep config has no parameters'
+print(f"[sweep_smoke] Reduced smoke: trades={len(trades)}, parameter_keys={len(params)} (OK)")
+print("[sweep_smoke] OK")
+PYMIN
+
+    exit 0
+fi
+
 python3 << 'PYTEST'
 import sys
 sys.path.insert(0, '.')

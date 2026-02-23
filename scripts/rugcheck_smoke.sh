@@ -28,7 +28,7 @@ print(json.dumps(output, indent=2))
 
 GOOD_SCORE=$(python3 -c "import json; print(json.loads('''$GOOD_OUTPUT''').get('score', -1))")
 
-if (( $(echo "$GOOD_SCORE >= 0.0 && $GOOD_SCORE < 0.3" | bc -l) )); then
+if python3 -c "import sys; s=float(sys.argv[1]); sys.exit(0 if (s >= 0.0 and s < 0.3) else 1)" "$GOOD_SCORE"; then
     echo "[rugcheck_smoke] Good token score: $GOOD_SCORE (expected < 0.3) ✅"
 else
     echo "[rugcheck_smoke] FAIL: Good token score should be < 0.3, got $GOOD_SCORE"
@@ -54,7 +54,7 @@ print(json.dumps(output, indent=2))
 BAD_SCORE=$(python3 -c "import json; print(json.loads('''$BAD_OUTPUT''').get('score', -1))")
 BAD_FLAGS=$(python3 -c "import json; print(' '.join(json.loads('''$BAD_OUTPUT''').get('flags', [])))")
 
-if (( $(echo "$BAD_SCORE > 0.7" | bc -l) )); then
+if python3 -c "import sys; s=float(sys.argv[1]); sys.exit(0 if s > 0.7 else 1)" "$BAD_SCORE"; then
     echo "[rugcheck_smoke] Bad token score: $BAD_SCORE (expected > 0.7) ✅"
 else
     echo "[rugcheck_smoke] FAIL: Bad token score should be > 0.7, got $BAD_SCORE"

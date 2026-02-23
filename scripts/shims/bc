@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+import math
+import sys
+
+expr = sys.stdin.read().strip()
+if not expr:
+    sys.exit(0)
+
+safe_globals = {"__builtins__": {}}
+safe_locals = {
+    "sqrt": math.sqrt,
+    "abs": abs,
+    "pow": pow,
+}
+
+normalized = expr.replace("^", "**")
+
+try:
+    value = eval(normalized, safe_globals, safe_locals)
+except Exception:
+    sys.stderr.write("0\n")
+    sys.exit(0)
+
+if isinstance(value, bool):
+    sys.stdout.write("1\n" if value else "0\n")
+else:
+    sys.stdout.write(f"{value}\n")

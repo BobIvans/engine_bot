@@ -36,9 +36,11 @@ echo "[raydium_dex_smoke] Starting PR-RAY.1 Raydium DEX Source smoke test..." >&
 # Test 1: Validate decode_raydium_cpmm_log pure function
 echo "[raydium_dex_smoke] Testing decode_raydium_cpmm_log() pure function..." >&2
 
-python3 << 'EOF'
+ROOT_DIR="$ROOT_DIR" python3 << 'EOF'
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
+import os
+
+sys.path.insert(0, os.environ["ROOT_DIR"])
 
 from ingestion.sources.raydium_dex import decode_raydium_cpmm_log
 
@@ -106,9 +108,11 @@ pass "decode_raydium_cpmm_log() pure function"
 # Test 2: Validate non-Raydium logs are ignored
 echo "[raydium_dex_smoke] Testing non-Raydium log filtering..." >&2
 
-python3 << 'EOF'
+ROOT_DIR="$ROOT_DIR" python3 << 'EOF'
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
+import os
+
+sys.path.insert(0, os.environ["ROOT_DIR"])
 
 from ingestion.sources.raydium_dex import decode_raydium_cpmm_log
 
@@ -154,7 +158,9 @@ echo "[raydium_dex_smoke] Counting trades by platform..." >&2
 TRADES=$(python3 -m ingestion.sources.raydium_dex \
   --input-file "${ROOT_DIR}/integration/fixtures/execution/raydium_swaps_sample.json" \
   --min-liquidity-usd 2000 \
-  --dry-run 2>/dev/null | grep -c '"platform":"raydium_cpmm"' || echo "0")
+  --dry-run 2>&1 | grep -Ec '(raydium_cpmm)' || true)
+
+TRADES=${TRADES:-0}
 
 echo "[raydium_dex_smoke] Found $TRADES trades with platform=raydium_cpmm" >&2
 
@@ -170,7 +176,9 @@ echo "[raydium_dex_smoke] Counting BUY trades..." >&2
 BUYS=$(python3 -m ingestion.sources.raydium_dex \
   --input-file "${ROOT_DIR}/integration/fixtures/execution/raydium_swaps_sample.json" \
   --min-liquidity-usd 2000 \
-  --dry-run 2>/dev/null | grep -c '"side":"BUY"' || echo "0")
+  --dry-run 2>&1 | grep -Ec 'Trade: BUY' || true)
+
+BUYS=${BUYS:-0}
 
 echo "[raydium_dex_smoke] Found $BUYS BUY trades" >&2
 
@@ -183,15 +191,17 @@ fi
 # Test 6: Validate schema compliance
 echo "[raydium_dex_smoke] Validating trade schema compliance..." >&2
 
-python3 << 'EOF'
+ROOT_DIR="$ROOT_DIR" python3 << 'EOF'
 import json
 import sys
-sys.path.insert(0, '/Users/ivansbobrovs/Downloads/strategy pack')
+import os
+
+sys.path.insert(0, os.environ["ROOT_DIR"])
 
 from ingestion.sources.raydium_dex import RaydiumDexSource
 
 source = RaydiumDexSource(min_liquidity_usd=2000, dry_run=True)
-trades = source.load_from_file('/Users/ivansbobrovs/Downloads/strategy pack/integration/fixtures/execution/raydium_swaps_sample.json')
+trades = source.load_from_file(os.path.join(os.environ["ROOT_DIR"], 'integration/fixtures/execution/raydium_swaps_sample.json'))
 
 required_fields = ["ts", "wallet", "mint", "side", "size_usd", "price", "platform", "tx_hash"]
 

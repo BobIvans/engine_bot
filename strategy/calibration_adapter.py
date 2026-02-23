@@ -189,7 +189,7 @@ if __name__ == "__main__":
     print("\nTest 2: No calibrator (identity)", file=sys.stderr)
     predictor_no_cal = CalibratedPredictor(MockModel(), None)
     result = predictor_no_cal.predict_proba({"raw_score": 0.75})
-    print(f"  raw(0.75) = {result:.4f} (expected 0.75)", file=sys.stderr)
+    print(f"  raw(0.75) = {result:.4f} (expected 0.7500)", file=sys.stderr)
     assert result == 0.75, f"Expected 0.75, got {result}"
 
     # Test 3: Monotonicity check

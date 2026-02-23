@@ -151,7 +151,7 @@ if __name__ == "__main__":
     cal2 = load_calibrator(config2)
     
     assert cal2(0.75) == 0.75, "identity should return same value"
-    print(f"  cal(0.75) = {cal2(0.75):.4f} (expected 0.75)", file=sys.stderr)
+    print(f"  cal(0.75) = {cal2(0.75):.4f} (expected 0.7500)", file=sys.stderr)
     
     # Test 3: None config (fail-safe)
     print("\nTest 3: None config (fail-safe)", file=sys.stderr)
