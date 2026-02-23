@@ -54,7 +54,7 @@ SELECT throwIf(
    FROM trades
    WHERE trade_id = toUUID('22222222-2222-2222-2222-222222222222')
      AND trace_id = toUUID('11111111-1111-1111-1111-111111111111')
-     AND length(experiment_id) > 0
+     AND experiment_id != toUUID('00000000-0000-0000-0000-000000000000')
      AND length(config_hash) > 0
      AND entry_attempt_id = toUUID('33333333-3333-3333-3333-333333333333')
      AND length(entry_idempotency_token) > 0) = 0,
@@ -68,8 +68,7 @@ SELECT throwIf(
      AND trace_id = toUUID('11111111-1111-1111-1111-111111111111')
      AND attempt_id = toUUID('33333333-3333-3333-3333-333333333333')
      AND length(idempotency_token) > 0
-     AND length(config_hash) > 0
-     AND length(experiment_id) > 0) = 0,
+     AND length(payload_hash) > 0) = 0,
   'canary: must-log ids missing/empty in trade_attempts'
 );
 
