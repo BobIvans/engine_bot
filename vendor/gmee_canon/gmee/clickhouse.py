@@ -101,38 +101,77 @@ class ClickHouseQueryRunner:
 
         Supported env vars:
         - CLICKHOUSE_HOST, CLICKHOUSE_PORT, CLICKHOUSE_USER, CLICKHOUSE_PASSWORD, CLICKHOUSE_DATABASE
+        - CH_HOST, CH_PORT, CH_USER, CH_PASSWORD, CH_DATABASE (fallback aliases)
+        - CLICKHOUSE_USERNAME, CLICKHOUSE_PASS (fallback aliases)
         - CLICKHOUSE_TIMEOUT_S
-        - CLICKHOUSE_HTTP_URL (optional convenience; e.g. http://localhost:8123)
+        - CLICKHOUSE_HTTP_URL / CLICKHOUSE_URL (optional convenience; e.g. http://localhost:8123)
 
         Precedence:
-        - If CLICKHOUSE_HOST/PORT are set, use them.
-        - Else, if CLICKHOUSE_HTTP_URL is set, parse host/port from it.
+        - Host/port prefer CLICKHOUSE_HOST/PORT (or CH_HOST/CH_PORT); URL host/port are fallback only.
+        - URL credentials (userinfo/query) are always considered as fallback when explicit user/password env vars are unset.
+        - If CLICKHOUSE_HOST is URL-like (or scheme-less host:port?query), parse it with the same fallback rules.
         """
 
-        host = os.getenv("CLICKHOUSE_HOST")
-        port_s = os.getenv("CLICKHOUSE_PORT")
+        host_raw = os.getenv("CLICKHOUSE_HOST") or os.getenv("CH_HOST")
+        port_s = os.getenv("CLICKHOUSE_PORT") or os.getenv("CH_PORT")
+        user = os.getenv("CLICKHOUSE_USER") or os.getenv("CLICKHOUSE_USERNAME") or os.getenv("CH_USER")
+        password = os.getenv("CLICKHOUSE_PASSWORD") or os.getenv("CLICKHOUSE_PASS") or os.getenv("CH_PASSWORD")
+        database = os.getenv("CLICKHOUSE_DATABASE") or os.getenv("CH_DATABASE") or "default"
 
-        if not host or not port_s:
-            http_url = os.getenv("CLICKHOUSE_HTTP_URL")
-            if http_url:
-                try:
-                    from urllib.parse import urlparse
+        host = host_raw
 
-                    u = urlparse(http_url)
-                    if u.hostname:
-                        host = host or u.hostname
-                    if u.port:
-                        port_s = port_s or str(u.port)
-                except Exception:
-                    # best-effort; fall back to defaults below
-                    pass
+        # Parse URL-like host env first when provided as full DSN in CLICKHOUSE_HOST.
+        # Also accept scheme-less forms like host:8123?user=...&password=...
+        url_candidates: list[str] = []
+        if host_raw and ("://" in host_raw or "?" in host_raw):
+            url_candidates.append(host_raw)
+            if "://" in host_raw:
+                host = None
+        http_url = os.getenv("CLICKHOUSE_HTTP_URL") or os.getenv("CLICKHOUSE_URL")
+        if http_url:
+            url_candidates.append(http_url)
+
+        for url_s in url_candidates:
+            try:
+                from urllib.parse import parse_qs, urlparse
+
+                parse_target = url_s if "://" in url_s else f"http://{url_s}"
+                u = urlparse(parse_target)
+                if u.hostname:
+                    host = host or u.hostname
+                if u.port:
+                    port_s = port_s or str(u.port)
+
+                if not user:
+                    user = u.username
+                if not password:
+                    password = u.password
+
+                q = parse_qs(u.query)
+                if not user:
+                    user = (
+                        q.get("user", [None])[0]
+                        or q.get("username", [None])[0]
+                        or q.get("ch_user", [None])[0]
+                    )
+                if not password:
+                    password = (
+                        q.get("password", [None])[0]
+                        or q.get("pass", [None])[0]
+                        or q.get("pwd", [None])[0]
+                        or q.get("ch_password", [None])[0]
+                    )
+            except Exception:
+                # best-effort; fall back to defaults below
+                pass
+
 
         return cls(
             host=host or "localhost",
             port=int(port_s or "8123"),
-            user=os.getenv("CLICKHOUSE_USER", "default"),
-            password=os.getenv("CLICKHOUSE_PASSWORD", ""),
-            database=os.getenv("CLICKHOUSE_DATABASE", "default"),
+            user=user or "default",
+            password=password or "",
+            database=database,
             timeout_s=int(os.getenv("CLICKHOUSE_TIMEOUT_S", "30")),
             queries_registry_path=queries_registry_path,
         )
