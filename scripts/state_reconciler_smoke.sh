@@ -172,8 +172,10 @@ def test_no_adjustment_below_threshold():
     
     # Mock portfolio state
     class MockPortfolioState:
-        def __init__(self, balance):
-            self.bankroll_lamports = balance
+        def __init__(self, bankroll_lamports=0, **kwargs):
+            self.bankroll_lamports = bankroll_lamports
+            for k, v in kwargs.items():
+                setattr(self, k, v)
     
     # Create reconciler with small discrepancy (500K lamports = 0.0005 SOL)
     portfolio = MockPortfolioState(bankroll_lamports=1000000000)
@@ -294,10 +296,10 @@ def test_adjustment_export():
     from datetime import datetime
     
     adj1 = type('Adj', (), {
-        'to_dict': lambda: {"id": 1, "delta": 1000},
+        'to_dict': lambda self: {"id": 1, "delta": 1000},
     })()
     adj2 = type('Adj', (), {
-        'to_dict': lambda: {"id": 2, "delta": 2000},
+        'to_dict': lambda self: {"id": 2, "delta": 2000},
     })()
     
     reconciler._adjustments = [adj1, adj2]
