@@ -11,13 +11,10 @@ set -euo pipefail
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
 NC='\033[0m'
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
-FIXTURES_DIR="${ROOT_DIR}/integration/fixtures"
 
 fail() {
   echo -e "${RED}[raydium_dex_smoke] FAIL: $*${NC}" >&2
@@ -26,10 +23,6 @@ fail() {
 
 pass() {
   echo -e "${GREEN}[raydium_dex_smoke] PASS: $*${NC}" >&2
-}
-
-info() {
-  echo -e "[raydium_dex_smoke] INFO: $*" >&2
 }
 
 echo "[raydium_dex_smoke] Starting PR-RAY.1 Raydium DEX Source smoke test..." >&2

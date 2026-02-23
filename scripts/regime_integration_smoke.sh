@@ -11,12 +11,7 @@ set -e
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
 NC='\033[0m'
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-FIXTURES_DIR="${ROOT_DIR}/integration/fixtures"
 
 fail() {
   echo -e "${RED}[regime_integration_smoke] FAIL: $*${NC}" >&2
@@ -25,10 +20,6 @@ fail() {
 
 pass() {
   echo -e "${GREEN}[regime_integration_smoke] PASS: $*${NC}" >&2
-}
-
-info() {
-  echo -e "[regime_integration_smoke] INFO: $*" >&2
 }
 
 echo "[regime_integration_smoke] Starting PR-PM.5 Risk Regime Integration smoke test..." >&2

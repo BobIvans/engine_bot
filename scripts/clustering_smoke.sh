@@ -11,7 +11,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="${SCRIPT_DIR}/.."
 FIXTURE_FILE="${PROJECT_ROOT}/integration/fixtures/trades.clustering.jsonl"
 OUTPUT_FILE="/tmp/wallet_graph_test.json"
-SCHEMA_FILE="${PROJECT_ROOT}/integration/schemas/wallet_graph_schema.json"
 
 echo "[overlay_lint] running clustering smoke..." >&2
 

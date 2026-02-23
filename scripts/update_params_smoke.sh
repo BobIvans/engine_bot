@@ -50,7 +50,7 @@ fi
 # Compare with expected output
 echo "[update_params_smoke] Comparing output with expected..." >&2
 
-python3 - "$EXPECTED_FILE" "$OUT_FILE" << 'PYTHON_SCRIPT'
+if ! python3 - "$EXPECTED_FILE" "$OUT_FILE" << 'PYTHON_SCRIPT'
 import sys
 import yaml
 
@@ -95,8 +95,7 @@ for mode in ["U", "S", "M", "L"]:
 
 print("[update_params_smoke] All values match expected output", file=sys.stderr)
 PYTHON_SCRIPT
-
-if [ $? -ne 0 ]; then
+then
     exit 1
 fi
 

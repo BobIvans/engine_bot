@@ -32,7 +32,8 @@ cleanup() {
 trap cleanup EXIT
 
 # Create temporary directory
-export TMPDIR=$(mktemp -d)
+TMPDIR=$(mktemp -d)
+export TMPDIR
 log_info "Using temp dir: $TMPDIR"
 
 # Change to project root

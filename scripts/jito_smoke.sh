@@ -4,21 +4,12 @@
 
 set -e
 
-RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
 NC='\033[0m'
-
-fail() {
-  echo -e "${RED}[jito_smoke] FAIL: $*${NC}" >&2
-  exit 1
-}
 
 pass() {
   echo -e "${GREEN}[jito_smoke] OK: $*${NC}" >&2
 }
-
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 echo "[jito_smoke] Testing Jito bundle structures..." >&2
 
@@ -27,7 +18,7 @@ echo "[jito_smoke] Testing pure logic..." >&2
 
 python3 << 'PYEOF'
 import sys
-sys.path.insert(0, "${ROOT_DIR}")
+sys.path.insert(0, ".")
 
 from strategy.jito_structs import (
     JitoBundle,
@@ -96,7 +87,7 @@ echo "[jito_smoke] Testing execution stub..." >&2
 
 python3 << 'PYEOF'
 import sys
-sys.path.insert(0, "${ROOT_DIR}")
+sys.path.insert(0, ".")
 
 from execution.jito_stub import JitoExecutionStub, JitoSimulator
 
@@ -161,7 +152,7 @@ echo "[jito_smoke] Verifying fee accounting..." >&2
 
 python3 << 'PYEOF'
 import sys
-sys.path.insert(0, "${ROOT_DIR}")
+sys.path.insert(0, ".")
 
 from strategy.jito_structs import JitoBundle, calculate_bundle_cost
 from execution.jito_stub import JitoExecutionStub

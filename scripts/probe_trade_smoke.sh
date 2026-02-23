@@ -7,9 +7,6 @@
 #
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="${SCRIPT_DIR}/../"
-
 echo "[overlay_lint] running probe trade smoke..." >&2
 
 # Run the smoke test using Python

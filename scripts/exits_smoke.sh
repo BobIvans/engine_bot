@@ -4,15 +4,8 @@
 
 set -e
 
-RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
 NC='\033[0m'
-
-fail() {
-  echo -e "${RED}[exits_smoke] FAIL: $*${NC}" >&2
-  exit 1
-}
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export ROOT_DIR

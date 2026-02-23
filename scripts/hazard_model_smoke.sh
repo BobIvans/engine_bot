@@ -62,7 +62,7 @@ fi
 
 # Test 5: Run hazard scoring on sample data
 echo -e "[${YELLOW}hazard_model_smoke${NC}] Test 5: Running hazard scoring on sample data..."
-python3 - <<'PY' 2>/dev/null
+if ! python3 - <<'PY' 2>/dev/null
 import json
 from analysis.survival_model import compute_hazard_score, is_emergency_exit
 
@@ -144,14 +144,14 @@ else:
     print(f'[hazard_model_smoke] FAIL: Training samples not well separated')
     exit(1)
 PY
-if [[ $? -ne 0 ]]; then
+then
     echo -e "[${RED}FAIL${NC}] Hazard scoring test failed"
     exit 1
 fi
 
 # Test 6: Verify calibration
 echo -e "[${YELLOW}hazard_model_smoke${NC}] Test 6: Testing calibration curve..."
-python3 - <<'PY' 2>/dev/null
+if ! python3 - <<'PY' 2>/dev/null
 from analysis.survival_model import calibrate_hazard_score
 
 # Test calibration points
@@ -176,14 +176,14 @@ else:
     print('[hazard_model_smoke] FAIL: Calibration not monotonic')
     exit(1)
 PY
-if [[ $? -ne 0 ]]; then
+then
     echo -e "[${RED}FAIL${NC}] Calibration test failed"
     exit 1
 fi
 
 # Test 7: Validate JSON schema (basic check)
 echo -e "[${YELLOW}hazard_model_smoke${NC}] Test 7: Validating JSON schema..."
-python3 - <<'PY' 2>/dev/null
+if ! python3 - <<'PY' 2>/dev/null
 import json
 
 with open('strategy/schemas/hazard_score_schema.json') as f:
@@ -198,7 +198,7 @@ for field in required_fields:
 
 print('[hazard_model_smoke] JSON schema validation OK')
 PY
-if [[ $? -ne 0 ]]; then
+then
     echo -e "[${RED}FAIL${NC}] JSON schema validation failed"
     exit 1
 fi
