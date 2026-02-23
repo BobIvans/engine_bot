@@ -101,19 +101,24 @@ class ClickHouseQueryRunner:
 
         Supported env vars:
         - CLICKHOUSE_HOST, CLICKHOUSE_PORT, CLICKHOUSE_USER, CLICKHOUSE_PASSWORD, CLICKHOUSE_DATABASE
+        - CH_HOST, CH_PORT, CH_USER, CH_PASSWORD, CH_DATABASE (fallback aliases)
         - CLICKHOUSE_TIMEOUT_S
-        - CLICKHOUSE_HTTP_URL (optional convenience; e.g. http://localhost:8123)
+        - CLICKHOUSE_HTTP_URL / CLICKHOUSE_URL (optional convenience; e.g. http://localhost:8123)
 
         Precedence:
         - If CLICKHOUSE_HOST/PORT are set, use them.
-        - Else, if CLICKHOUSE_HTTP_URL is set, parse host/port from it.
+        - Else, if CLICKHOUSE_HTTP_URL or CLICKHOUSE_URL is set, parse host/port from it.
+        - User/password from URL are used only when CLICKHOUSE_USER/CLICKHOUSE_PASSWORD are unset.
         """
 
-        host = os.getenv("CLICKHOUSE_HOST")
-        port_s = os.getenv("CLICKHOUSE_PORT")
+        host = os.getenv("CLICKHOUSE_HOST") or os.getenv("CH_HOST")
+        port_s = os.getenv("CLICKHOUSE_PORT") or os.getenv("CH_PORT")
+        user = os.getenv("CLICKHOUSE_USER") or os.getenv("CH_USER")
+        password = os.getenv("CLICKHOUSE_PASSWORD") or os.getenv("CH_PASSWORD")
+        database = os.getenv("CLICKHOUSE_DATABASE") or os.getenv("CH_DATABASE") or "default"
 
         if not host or not port_s:
-            http_url = os.getenv("CLICKHOUSE_HTTP_URL")
+            http_url = os.getenv("CLICKHOUSE_HTTP_URL") or os.getenv("CLICKHOUSE_URL")
             if http_url:
                 try:
                     from urllib.parse import urlparse
@@ -123,6 +128,10 @@ class ClickHouseQueryRunner:
                         host = host or u.hostname
                     if u.port:
                         port_s = port_s or str(u.port)
+                    if u.username:
+                        user = user or u.username
+                    if u.password is not None:
+                        password = password if password is not None else u.password
                 except Exception:
                     # best-effort; fall back to defaults below
                     pass
@@ -130,9 +139,9 @@ class ClickHouseQueryRunner:
         return cls(
             host=host or "localhost",
             port=int(port_s or "8123"),
-            user=os.getenv("CLICKHOUSE_USER", "default"),
-            password=os.getenv("CLICKHOUSE_PASSWORD", ""),
-            database=os.getenv("CLICKHOUSE_DATABASE", "default"),
+            user=user or "default",
+            password=password or "",
+            database=database,
             timeout_s=int(os.getenv("CLICKHOUSE_TIMEOUT_S", "30")),
             queries_registry_path=queries_registry_path,
         )
