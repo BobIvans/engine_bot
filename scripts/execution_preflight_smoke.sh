@@ -59,7 +59,7 @@ fi
 
 # 6) fill_rate == 0.5
 FILL_RATE=$(echo "$OUTPUT" | python3 -c "import sys, json; print(json.load(sys.stdin)['execution_metrics']['fill_rate'])")
-if [[ "$(echo "$FILL_RATE == 0.5" | bc -l)" -ne 1 ]]; then
+if ! python3 -c "import sys; fr=float(sys.argv[1]); sys.exit(0 if abs(fr-0.5) < 1e-9 else 1)" "$FILL_RATE"; then
   echo "ERROR: execution_preflight_smoke: expected fill_rate=0.5, got $FILL_RATE" >&2
   exit 1
 fi
