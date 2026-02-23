@@ -62,7 +62,7 @@ fi
 
 # Test 5: Run hazard scoring on sample data
 echo -e "[${YELLOW}hazard_model_smoke${NC}] Test 5: Running hazard scoring on sample data..."
-python3 -c "
+python3 - <<'PY' 2>/dev/null
 import json
 from analysis.survival_model import compute_hazard_score, is_emergency_exit
 
@@ -95,27 +95,24 @@ crash_score = compute_hazard_score(crash_features)
 survivor_score = compute_hazard_score(survivor_features)
 
 # Verify crash score is higher
-if python3 -c \"import sys; sys.exit(0 if $crash_score > $survivor_score else 1)\" 2>/dev/null; then
+if crash_score > survivor_score:
     print(f'[hazard_model_smoke] Crash score ({crash_score:.3f}) > Survivor score ({survivor_score:.3f}): OK')
-else
+else:
     print(f'[hazard_model_smoke] FAIL: Crash score ({crash_score:.3f}) should be > Survivor score ({survivor_score:.3f})')
-    exit 1
-fi
+    exit(1)
 
 # Test emergency exit trigger
 if is_emergency_exit(crash_score, hazard_threshold=0.65):
     print(f'[hazard_model_smoke] Emergency exit triggered for crash (score={crash_score:.3f}): OK')
-else
+else:
     print(f'[hazard_model_smoke] FAIL: Emergency exit should trigger for crash (score={crash_score:.3f})')
-    exit 1
-fi
+    exit(1)
 
 if not is_emergency_exit(survivor_score, hazard_threshold=0.65):
     print(f'[hazard_model_smoke] No emergency exit for survivor (score={survivor_score:.3f}): OK')
-else
+else:
     print(f'[hazard_model_smoke] FAIL: No emergency exit for survivor (score={survivor_score:.3f})')
-    exit 1
-fi
+    exit(1)
 
 # Test on all training samples
 crash_scores = []
@@ -141,20 +138,20 @@ avg_survivor = sum(survivor_scores) / len(survivor_scores)
 print(f'[hazard_model_smoke] Avg crash score: {avg_crash:.3f}')
 print(f'[hazard_model_smoke] Avg survivor score: {avg_survivor:.3f}')
 
-if python3 -c \"import sys; sys.exit(0 if $avg_crash > $avg_survivor else 1)\" 2>/dev/null; then
+if avg_crash > avg_survivor:
     print(f'[hazard_model_smoke] Training sample separation OK')
-else
+else:
     print(f'[hazard_model_smoke] FAIL: Training samples not well separated')
-    exit 1
-fi
-" 2>/dev/null || {
+    exit(1)
+PY
+if [[ $? -ne 0 ]]; then
     echo -e "[${RED}FAIL${NC}] Hazard scoring test failed"
     exit 1
-}
+fi
 
 # Test 6: Verify calibration
 echo -e "[${YELLOW}hazard_model_smoke${NC}] Test 6: Testing calibration curve..."
-python3 -c "
+python3 - <<'PY' 2>/dev/null
 from analysis.survival_model import calibrate_hazard_score
 
 # Test calibration points
@@ -177,15 +174,16 @@ if monotonic:
     print('[hazard_model_smoke] Calibration monotonicity OK')
 else:
     print('[hazard_model_smoke] FAIL: Calibration not monotonic')
-    exit 1
-" 2>/dev/null || {
+    exit(1)
+PY
+if [[ $? -ne 0 ]]; then
     echo -e "[${RED}FAIL${NC}] Calibration test failed"
     exit 1
-}
+fi
 
 # Test 7: Validate JSON schema (basic check)
 echo -e "[${YELLOW}hazard_model_smoke${NC}] Test 7: Validating JSON schema..."
-python3 -c "
+python3 - <<'PY' 2>/dev/null
 import json
 
 with open('strategy/schemas/hazard_score_schema.json') as f:
@@ -196,13 +194,14 @@ required_fields = ['hazard_score_raw', 'hazard_score_calibrated', 'is_emergency_
 for field in required_fields:
     if field not in schema.get('properties', {}):
         print(f'[hazard_model_smoke] FAIL: Missing required field: {field}')
-        exit 1)
+        exit(1)
 
 print('[hazard_model_smoke] JSON schema validation OK')
-" 2>/dev/null || {
+PY
+if [[ $? -ne 0 ]]; then
     echo -e "[${RED}FAIL${NC}] JSON schema validation failed"
     exit 1
-}
+fi
 
 echo -e "[${GREEN}hazard_model_smoke${NC}] All tests passed!"
 echo -e "[${GREEN}OK${NC}] hazard_model_smoke"
