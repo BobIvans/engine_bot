@@ -19,10 +19,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Fixtures
-TRADES_CSV="$ROOT_DIR/integration/fixtures/ml/wallet_trades_behavior_sample.csv"
-PROFILES_CSV="$ROOT_DIR/integration/fixtures/ml/wallet_profiles_behavior_sample.csv"
-TRADES_PARQUET="/tmp/wallet_trades_behavior_sample.parquet"
-PROFILES_PARQUET="/tmp/wallet_profiles_behavior_sample.parquet"
 
 # Python test script
 TEST_SCRIPT=$(cat << 'PYTHON_TEST'

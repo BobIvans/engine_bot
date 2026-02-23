@@ -11,10 +11,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 run_test() {
     local test_name="$1"
     local expected_reason="$2"
-    local trade="$3"
-    local portfolio="$4"
-    local cfg="$5"
-    local python_code="$6"
+    local python_code="$3"
 
     echo "[risk_engine_smoke] Running: $test_name" >&2
 
@@ -49,9 +46,6 @@ echo "[risk_engine_smoke] Starting risk engine smoke tests..." >&2
 # Portfolio: open_positions: 1
 # Expected: risk_max_positions rejection
 run_test "Max Open Positions Test" "risk_max_positions" \
-    "trade = {'symbol': 'BTC'}" \
-    "portfolio = PortfolioStub(equity_usd=1000, peak_equity_usd=1000, open_positions=1, day_pnl_usd=0, consecutive_losses=0, cooldown_until=0.0, active_counts_by_tier={})" \
-    "cfg = {'risk': {'limits': {'max_open_positions': 1}}}" \
     "
 trade = {'symbol': 'BTC'}
 portfolio = PortfolioStub(equity_usd=1000, peak_equity_usd=1000, open_positions=1, day_pnl_usd=0, consecutive_losses=0, cooldown_until=0.0, active_counts_by_tier={})
@@ -69,9 +63,6 @@ else:
 # Portfolio: day_pnl_usd: -51
 # Expected: risk_kill_switch rejection
 run_test "Kill-Switch Test" "risk_kill_switch" \
-    "trade = {'symbol': 'BTC'}" \
-    "portfolio = PortfolioStub(equity_usd=949, peak_equity_usd=1000, open_positions=0, day_pnl_usd=-51, consecutive_losses=0, cooldown_until=0.0, active_counts_by_tier={})" \
-    "cfg = {'risk': {'limits': {'max_daily_loss_pct': 0.05}}}" \
     "
 trade = {'symbol': 'BTC'}
 portfolio = PortfolioStub(equity_usd=949, peak_equity_usd=1000, open_positions=0, day_pnl_usd=-51, consecutive_losses=0, cooldown_until=0.0, active_counts_by_tier={})
